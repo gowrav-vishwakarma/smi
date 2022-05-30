@@ -1,32 +1,61 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <!-- Start of Navigation -->
+    <nav class="mb-2 px-0">
+      <!-- Start of app toolbar -->
+      <v-toolbar app class="py-auto">
+        <v-toolbar-title class="headlines"
+          ><router-link class="no-dec" to="/">Solve My Issue</router-link></v-toolbar-title
+        >
+        <v-spacer></v-spacer>
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn class="no-dec" to="/login" exact>Login/Register</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <!-- End of app toolbar -->
+
+    </nav>
+    <!-- End of Navigation -->
+     
+    <v-content>
+      <!-- Display view pages here based on route -->
+      <router-view></router-view>
+    </v-content>
+    <v-bottom-navigation v-model="value" class="justify-space-between hidden-md-and-up px-2">
+    <v-btn to="/" value="recent">
+      <span>Home</span>
+
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+
+    <v-btn to="/login" value="nearby">
+      <span>Login</span>
+
+      <v-icon>mdi-login</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
+  </v-app>
 </template>
 
+<script>
+  export default {
+    name: "App",
+    data() {
+      return {
+        drawer: false,
+        value: 'recent' // Hide mobile side menu by default
+      };
+    }
+  };
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.no-dec{
+  text-decoration: none;
+  border-radius: 6px!important;
+  background-color: #FFFFFF!important;
 }
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.no-dec:active,.no-dec:hover{
+ background-color: white;
 }
 </style>
