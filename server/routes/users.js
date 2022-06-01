@@ -1,6 +1,7 @@
 const express = require('express');
 const req = require('express/lib/request');
 const res = require('express/lib/response');
+var bcrypt = require("bcrypt");
 const router = express.Router();
 const User = require('../models/User')
 
@@ -15,6 +16,48 @@ router.post('/register',async (req,res)=>{
         res.status(500).json(err);
     }
 });
+
+router.post('/login',async (req,res)=>{
+  console.log(req.body) 
+  User.findOne({
+    email: req.body.email
+  })
+  .exec((err, user) => {
+    if (err) {
+      res.status(500)
+        .send({
+          message: err
+        });
+      return;
+    }
+    if (!user) {
+      return res.status(404)
+        .send({
+          message: "User Not found."
+        });
+    }
+
+    var passwordIsValid = (req.body.password === user.password) ? true : false;
+    
+    if (!passwordIsValid) {
+      return res.status(401)
+        .send({
+          message: "Invalid Password!"
+        });
+    }
+    
+    res.status(200)
+      .send({
+        user: {
+          id: user._id,
+          email: user.email,
+          fullName: user.name,
+        },
+        message: "Login successfull"
+      });
+  });
+});
+
 
 router.delete('/delU/',async (req,res)=>{
     try {
