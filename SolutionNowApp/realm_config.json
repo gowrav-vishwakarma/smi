@@ -1,0 +1,7 @@
+{
+    "app_id": "solutionnowapp-trzfy",
+    "config_version": 20210101,
+    "name": "SolutionNowApp",
+    "location": "IN-MB",
+    "deployment_model": "LOCAL"
+}
