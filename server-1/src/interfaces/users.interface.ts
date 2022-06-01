@@ -9,16 +9,22 @@ export interface User {
   email: string;
   username: string;
   password: string;
+  type: 'Indivisual' | 'Organisation' | 'Agency';
   languagesSpeaks: string[];
   onlineStatus: OnlineStatusENUM;
+
   solvedQuestionCount: number;
-  totalRatingPoints: number;
   totalSolutionsAttempted: number;
+
+  totalRatingPoints: number;
   totalRatingsCount: number;
-  totalQuestionerRatingCount: number;
+
   questionerRatingPoints: number;
+  totalQuestionerRatingCount: number;
+
   orgId: string;
   agencyId: string;
+
   credits: {
     self: number;
     organisation: number;

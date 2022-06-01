@@ -5,9 +5,8 @@ export interface Bid {
   questionId: string;
   questionById: string;
   questionBy: string;
-  bidId: string;
-  bidById: string;
-  bidBy: string;
+  biderId: string;
+  bider: string;
   credit: number;
   payPer: PayPerENUM;
   lastSolutionAttemptId: string;

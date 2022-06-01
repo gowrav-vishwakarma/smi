@@ -31,7 +31,7 @@ export interface Question {
   by: string;
 
   totalBids: number;
-  languages: string[];
+  languagesSpeaks: string[];
   recording: string;
   isActive: boolean;
   solutionId: string;
