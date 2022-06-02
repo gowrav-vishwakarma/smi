@@ -5,7 +5,7 @@ class DataService {
     return http.post(`/users/register`, data);
   }
   Login(data) {
-    return http.post("/login", data);
+    return http.post(`/users/login`, data);
   }
   
 }

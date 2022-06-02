@@ -50,7 +50,6 @@
   
     <v-text-field
       v-model="regForm.Name"
-      :rules="nameRules"
       label="Name"
   prepend-icon="mdi-account"
       required
@@ -58,7 +57,6 @@
 
     <v-text-field
       v-model="regForm.username"
-      :rules="nameRules"
       label="Username"
       prepend-icon = "mdi-alpha-u-box"
       required
@@ -428,9 +426,11 @@ data() {
 	"Åland Islands"
 ],
       },
+	  user:{},
     };
 },
 methods:{
+	
   login() {
       var data = {
         email: this.logForm.emailL,
@@ -439,7 +439,9 @@ methods:{
       DataService.Login(data)
         .then((response) => {
           console.log(response.data);
-        })
+		  this.user = response.data.user;
+		  this.$store.commit("getData", this.user);
+		})
         .catch((e) => {
           console.log(e);
         });
