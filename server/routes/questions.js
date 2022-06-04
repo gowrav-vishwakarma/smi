@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const AWS = require("aws-sdk");
+
 const Question = require("../models/Question");
 
 router.post(
@@ -12,8 +14,29 @@ router.post(
             userId: req.user._id,
             by: req.user.name,
         };
-        const newQuestion = new Question(questionData);
         try {
+            if (req.files.video && process.env.AWS_ACCESS_KEY_ID) {
+                console.log("req.files", req.files);
+                const s3 = new AWS.S3({
+                    accessKeyId: process.env.AWS_ACCESS_KEY_ID, // your AWS access id
+                    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // your AWS access key
+                    region: process.env.AWS_REGION,
+                });
+
+                const params = {
+                    Bucket: process.env.AWS_BUCKET, // bucket you want to upload to
+                    Key: `questions/${req.user._id}/smi-${Date.now()}-${
+                        req.files.video.name + ".webm"
+                    }`,
+                    Body: req.files.video.data,
+                    // ACL: "public-read",
+                };
+                const data = await s3.upload(params).promise();
+                const url = data.Location;
+                questionData.media = url;
+            }
+            // console.log("questionData", questionData);
+            const newQuestion = new Question(questionData);
             const savedQuestion = await newQuestion.save();
             res.status(200).json(savedQuestion);
         } catch (err) {

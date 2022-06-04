@@ -148,7 +148,7 @@ export default {
         createQuestion() {
             var data = this.question;
 
-            DataService.CreateQuestion(data)
+            DataService.CreateQuestion(data, this.blob)
                 .then((response) => {
                     console.log(response.data);
                     this.$vToastify.success("Question added");

@@ -24,6 +24,10 @@ const questionSchema = new mongoose.Schema(
             type: Array,
             required: true,
         },
+        media: {
+            type: String,
+            trim: true,
+        },
         payment: {
             amount: { type: Number },
             currency: { type: String },

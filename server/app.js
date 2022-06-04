@@ -4,6 +4,7 @@ var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
+const upload = require("express-fileupload");
 const passport = require("passport");
 
 const connect = require("./db/connectDB");
@@ -14,6 +15,7 @@ var usersRouter = require("./routes/users");
 var questionRouter = require("./routes/questions");
 
 var app = express();
+app.use(upload());
 
 app.use(
     cors({
@@ -30,10 +32,5 @@ connect();
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/questions", questionRouter);
-
-const port = process.env.PORT;
-app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
-});
 
 module.exports = app;
