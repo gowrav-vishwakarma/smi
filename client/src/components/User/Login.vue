@@ -57,6 +57,7 @@ export default {
                     console.log(response.data);
                     this.user = response.data.user;
                     this.$store.commit("setCurrentUser", this.user);
+                    this.$router.push("/");
                 })
                 .catch((e) => {
                     console.log(e);

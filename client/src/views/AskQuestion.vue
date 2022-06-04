@@ -1,5 +1,11 @@
 <template>
-    <QuestionAsk />
+    <v-app>
+        <v-main>
+            <v-container>
+                <QuestionAsk />
+            </v-container>
+        </v-main>
+    </v-app>
 </template>
 
 <script>

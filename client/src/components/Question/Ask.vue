@@ -7,7 +7,7 @@
             <v-form ref="form" v-model="valid">
                 <v-autocomplete
                     v-model="question.topic"
-                    :items=" businessF"
+                    :items="topics"
                     label="Topic"
                     required
                     :rules="[(v) => !!v || 'Topic is required']"
@@ -23,7 +23,7 @@
                 ></v-text-field>
                 <v-subheader class="pa-0">Question Detail</v-subheader>
                 <vue-editor v-model="question.detail"></vue-editor>
-       
+
                 <v-combobox
                     v-model="question.tags"
                     :items="tags"
@@ -35,7 +35,7 @@
                     deletable-chips
                 ></v-combobox>
                 <v-row>
-                     <v-col cols="12" sm="6">
+                    <v-col cols="12" sm="6">
                         <v-card>
                             <v-card-title primary-title>
                                 How you need the solution
@@ -63,8 +63,26 @@
                             </v-card-text>
                         </v-card>
                     </v-col>
-                </v-row>
+                    <v-col cols="12" sm="6">
+                        <v-card>
+                            <v-card-title primary-title>
+                                Record your issue
+                            </v-card-title>
+                            <v-divider></v-divider>
 
+                            <v-card-text>
+                                Record your issue for better explanation
+                                <MulticorderUI
+                                    ref="MulticoderUI"
+                                    @recorderOndataavailable="
+                                        recorderOndataavailable
+                                    "
+                                    @delete-recording="deleteRecording"
+                                />
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-form>
         </v-card-text>
         <v-card-actions>
@@ -82,9 +100,17 @@
 </template>
 
 <script>
-import DataService from "../../services/DataService";
+import DataService from "@/services/DataService";
+import { topics, languages } from "@/services/staticValues";
+
+import { VueEditor } from "vue2-editor";
+import MulticorderUI from "@/components/Multicorder/MulticorderUI.vue";
 
 export default {
+    components: {
+        VueEditor,
+        MulticorderUI,
+    },
     data() {
         return {
             blob: null,
@@ -102,62 +128,27 @@ export default {
                 isPaid: false,
                 canShareScreen: true,
                 canDoVideoCall: true,
-                authUserId: '',
-                userId: '',
-                by: 'xyz',
+                authUserId: "",
+                userId: "",
+                by: "xyz",
                 createdAt: new Date(),
                 status: "open",
                 totalBids: 0,
-                languages: ['hindi','english'],
+                languages: ["hindi", "english"],
             },
             valid: false,
-            businessF : [
-                "Accounting",
-                "Advertising",
-                "Aerospace",
-                "Agriculture",
-                "Architecture",
-                "Automotive",
-                "Banking",
-                "Biotechnology",
-                "Broadcasting",
-                "Business Services",
-                "Chemical",
-                "Coding",
-                "Computer",
-                "Construction",
-                "Consulting",
-                "Designing",
-                "Education",
-                "Electronics",
-                "Energy",
-                "Entertainment",
-                "Finance",
-                "Food & Beverage",
-                "Government",
-                "Healthcare",
-                "Hospitality",
-                "Infrastructure Development",
-                "Insurance",
-                "IT Industry",
-                "Machinery",
-                "Manufacturing",
-                "Media",
-                "Not For Profit",
-                "Pharmaceutical",
-                "Programming",
-                "Real Estate",
-                "Retail",
-                "Shipping",
-                "Technology",
-                "Telecommunications",
-                "Transportation",
-                "Utilities",
-            ],
+            topics,
+            languages,
         };
     },
     methods: {
-       createQuestion() {
+        deleteRecording(index) {
+            if (index === 0) this.blob = null;
+        },
+        recorderOndataavailable(blob) {
+            this.blob = blob;
+        },
+        createQuestion() {
             var data = this.question;
 
             DataService.CreateQuestion(data)
@@ -169,8 +160,6 @@ export default {
                     console.log(e);
                 });
         },
-
-
     },
 };
 </script>

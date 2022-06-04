@@ -11,9 +11,14 @@
                 >
                 <v-spacer></v-spacer>
                 <v-toolbar-items class="hidden-sm-and-down">
-                    <v-btn class="no-dec" to="/login" exact
-                        >Login/Register</v-btn
-                    >
+                    <v-btn class="no-dec" to="/ask-question" exact>
+                        Ask Question
+                    </v-btn>
+                </v-toolbar-items>
+                <v-toolbar-items class="hidden-sm-and-down">
+                    <v-btn class="no-dec" to="/login" exact>
+                        Login/Register
+                    </v-btn>
                 </v-toolbar-items>
             </v-app-bar>
             <!-- End of app toolbar -->
@@ -30,7 +35,6 @@
         >
             <v-btn to="/" value="recent">
                 <span>Home</span>
-
                 <v-icon>mdi-home</v-icon>
             </v-btn>
 

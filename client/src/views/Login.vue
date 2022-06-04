@@ -1,10 +1,14 @@
 <template>
-    <v-container grid-list-md text-xs-center>
-        <v-layout row wrap>
-            <LoginView />
-            <RegisterView />
-        </v-layout>
-    </v-container>
+    <v-app>
+        <v-content>
+            <v-container class="fill-height" grid-list-md text-xs-center>
+                <v-layout row wrap>
+                    <LoginView />
+                    <RegisterView />
+                </v-layout>
+            </v-container>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
