@@ -1,22 +1,87 @@
 <template>
-    <v-container grid-list-md text-xs-center>
-        <v-layout row wrap>
-            <LoginView />
-            <RegisterView />
-        </v-layout>
-    </v-container>
+    <v-flex class="mx-2 py-4 px-2 card" xsauto>
+        <v-card class="px-3 py-3" color="white">
+            <v-form ref="form" v-model="valid" lazy-validation>
+                <v-text class="py-5">
+                    <h2>Register</h2>
+                </v-text>
+
+                <v-text-field
+                    v-model="regForm.Name"
+                    label="Name"
+                    prepend-icon="mdi-account"
+                    required
+                ></v-text-field>
+
+                <v-text-field
+                    v-model="regForm.username"
+                    label="Username"
+                    prepend-icon="mdi-alpha-u-box"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    v-model="regForm.email"
+                    :rules="emailRules"
+                    label="Email"
+                    prepend-icon="mdi-email"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    v-model="regForm.password"
+                    label="Password"
+                    name="password"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                    :rules="regForm.passwordRules"
+                />
+                <!-- 
+<v-text-field
+  v-model="regForm.confirmPassword"
+  label="Confirm Password"
+  name="confirmPassword"
+  prepend-icon="mdi-lock"
+  type="password"
+  :rules="regForm.confirmPasswordRules"
+/> -->
+                <v-select
+                    v-model="regForm.language"
+                    :items="regForm.languages"
+                    single-line
+                    auto
+                    prepend-icon="book"
+                    label="Language"
+                    multiple
+                ></v-select>
+
+                <v-select
+                    v-model="regForm.country"
+                    :items="regForm.countries"
+                    single-line
+                    auto
+                    prepend-icon="language"
+                    label="Country"
+                ></v-select>
+
+                <v-select
+                    v-model="regForm.Topic"
+                    :items="regForm.topics"
+                    single-line
+                    auto
+                    prepend-icon="topic"
+                    label="Topics"
+                    multiple
+                ></v-select>
+
+                <v-btn class="primary" @click="register"> Register </v-btn>
+            </v-form>
+        </v-card>
+    </v-flex>
 </template>
 
 <script>
-import DataService from "../services/DataService";
-import LoginView from "@/components/User/Login";
-import RegisterView from "@/components/User/Register";
+import DataService from "@/services/DataService";
 
 export default {
-    components: {
-        LoginView,
-        RegisterView,
-    },
     data() {
         return {
             logForm: {
