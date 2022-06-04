@@ -1,6 +1,0 @@
-2022-06-01 12:28:25 error: [GET] / >> StatusCode:: 500, Message:: Cannot set headers after they are sent to the client
-2022-06-01 12:28:26 error: [GET] / >> StatusCode:: 500, Message:: Cannot set headers after they are sent to the client
-2022-06-01 12:28:26 error: [GET] / >> StatusCode:: 500, Message:: Cannot set headers after they are sent to the client
-2022-06-01 12:28:26 error: [GET] / >> StatusCode:: 500, Message:: Cannot set headers after they are sent to the client
-2022-06-01 12:34:45 error: [GET] /users/1 >> StatusCode:: 500, Message:: Cast to ObjectId failed for value "1" (type string) at path "_id" for model "User"
-2022-06-01 18:01:29 error: [GET] /users/1 >> StatusCode:: 500, Message:: Cast to ObjectId failed for value "1" (type string) at path "_id" for model "User"
