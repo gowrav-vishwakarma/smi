@@ -1,15 +1,82 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import VuexPersistence from "vuex-persist";
+import createLogger from "vuex/dist/logger";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: { data: null },
-  mutations: {
-    getData(state, newData) {
-      state.data = newData;
+    state: {
+        currentUser: null,
+        preferredOnlineState: "online",
+        onlineState: "online",
+        actualOnlineState: "online",
+        filters: {
+            topics: [],
+            tags: [],
+            isPaid: false,
+            sortBy: "newest",
+            languages: [],
+        },
+        notifications: [],
+        currentQuestion: null,
     },
-  },
-  actions: {},
-  modules: {},
-})
+    mutations: {
+        // mutation to set current user in vuex state
+        setCurrentUser(state, user) {
+            state.currentUser = user;
+        },
+        setPreferedOnlineState(state, stateName) {
+            state.preferredOnlineState = stateName;
+        },
+        // mutation to set online state in vuex state
+        setActualOnlineState(state, onlineState) {
+            state.actualOnlineState = onlineState;
+        },
+        // mutation to update filters
+        updateFilters(state, filters) {
+            state.filters = filters;
+        },
+        // mutation to update notifications
+        showNotification(state, notification) {
+            state.notifications.push(notification);
+        },
+        // set currentQuestion
+        setCurrentQuestion(state, question) {
+            state.currentQuestion = question;
+        },
+    },
+    actions: {
+        // action to set current user in vuex state
+        setCurrentUser({ commit }, user) {
+            commit("setCurrentUser", user);
+        },
+    },
+    getters: {
+        isLoggedIn: (state) =>
+            state.currentUser !== undefined &&
+            state.currentUser !== null &&
+            (!state.currentUser.email ||
+                state.currentUser.email !== "guest@user.com"),
+        currentUser: (state) => state.currentUser,
+        onlineState: (state) => {
+            if (
+                (state.preferredOnlineState == "online" &&
+                    state.actualOnlineState == "busy") ||
+                (state.preferredOnlineState == "busy" &&
+                    state.actualOnlineState == "online")
+            ) {
+                return "busy";
+            }
+            return state.preferredOnlineState;
+        },
+        filters: (state) => state.filters,
+        notifications: (state) => state.notifications,
+        currentQuestion: (state) => state.currentQuestion,
+    },
+    modules: {},
+    plugins: [
+        new VuexPersistence({ key: "SolutionNow" }).plugin,
+        createLogger(),
+    ],
+});
