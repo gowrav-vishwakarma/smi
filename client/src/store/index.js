@@ -54,10 +54,7 @@ export default new Vuex.Store({
     },
     getters: {
         isLoggedIn: (state) =>
-            state.currentUser !== undefined &&
-            state.currentUser !== null &&
-            (!state.currentUser.email ||
-                state.currentUser.email !== "guest@user.com"),
+            state.currentUser !== undefined && state.currentUser !== null,
         currentUser: (state) => state.currentUser,
         onlineState: (state) => {
             if (

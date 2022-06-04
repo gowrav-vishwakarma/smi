@@ -56,6 +56,7 @@ export default {
                 .then((response) => {
                     console.log(response.data);
                     this.user = response.data.user;
+                    this.user.token = response.data.token;
                     this.$store.commit("setCurrentUser", this.user);
                     this.$router.push("/");
                 })

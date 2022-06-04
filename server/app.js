@@ -4,6 +4,7 @@ var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
+const passport = require("passport");
 
 const connect = require("./db/connectDB");
 require("./auth/auth");
