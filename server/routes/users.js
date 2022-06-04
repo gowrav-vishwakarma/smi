@@ -1,8 +1,9 @@
 const express = require("express");
-const req = require("express/lib/request");
-const res = require("express/lib/response");
-var bcrypt = require("bcrypt");
 const router = express.Router();
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+
+// ...
 const User = require("../models/User");
 
 router.post("/register", async (req, res) => {
@@ -17,7 +18,30 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
+    passport.authenticate("login", async (err, user, info) => {
+        try {
+            if (err || !user) {
+                const error = new Error("An error occurred.");
+
+                return next(error);
+            }
+
+            req.login(user, { session: false }, async (error) => {
+                if (error) return next(error);
+
+                const body = { _id: user._id, email: user.email };
+                const token = jwt.sign({ user: body }, "TOP_SECRET");
+
+                return res.json({ user, token });
+            });
+        } catch (error) {
+            return next(error);
+        }
+    })(req, res, next);
+});
+
+router.post("/login11", async (req, res, next) => {
     console.log(req.body);
     User.findOne({
         email: req.body.email,

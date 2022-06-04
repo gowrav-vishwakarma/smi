@@ -1,13 +1,13 @@
 <template>
     <v-app>
-        <v-content>
+        <v-main>
             <v-container class="fill-height" grid-list-md text-xs-center>
                 <v-layout row wrap>
                     <LoginView />
                     <RegisterView />
                 </v-layout>
             </v-container>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 
