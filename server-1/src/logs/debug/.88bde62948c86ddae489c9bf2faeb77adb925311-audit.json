@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/Users/gowrav/Development/Sites/frendy/xCode/smi/server-1/src/logs/debug/.88bde62948c86ddae489c9bf2faeb77adb925311-audit.json",
+    "files": [
+        {
+            "date": 1654066637896,
+            "name": "/Users/gowrav/Development/Sites/frendy/xCode/smi/server-1/src/logs/debug/2022-06-01.log",
+            "hash": "a32347cce4e52bfb7589a62654b95fca7664fd7300e312ca5ae9fdbd5dd19e59"
+        }
+    ],
+    "hashType": "sha256"
+}
