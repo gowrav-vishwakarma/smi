@@ -25,6 +25,12 @@ const routes = [
 
         component: () => import("../views/QuestionDetail.vue"),
     },
+    {
+        path: "/ask-question",
+        name: "AskQuestion",
+
+        component: () => import("../views/AskQuestion.vue"),
+    },
 ];
 
 const router = new VueRouter({
