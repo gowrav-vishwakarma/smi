@@ -1,55 +1,28 @@
 <template>
     <v-app>
-        <!-- Start of Navigation -->
-        <nav class="mb-2 px-0">
-            <!-- Start of app toolbar -->
-            <v-app-bar dense app class="py-auto">
-                <v-toolbar-title class="headlines"
-                    ><router-link class="no-dec" to="/"
-                        >Solve My Issue</router-link
-                    ></v-toolbar-title
-                >
-                <v-spacer></v-spacer>
-                <v-toolbar-items class="hidden-sm-and-down">
-                    <v-btn text class="no-dec" to="/ask-question" exact>
-                        Ask Question
-                    </v-btn>
-                </v-toolbar-items>
-                <v-toolbar-items class="hidden-sm-and-down">
-                    <v-btn text class="no-dec" to="/login" exact>
-                        Login/Register
-                    </v-btn>
-                </v-toolbar-items>
-            </v-app-bar>
-            <!-- End of app toolbar -->
-        </nav>
-        <!-- End of Navigation -->
-
+        <NavBarLoggedIn
+            class="hidden-sm-and-down"
+            v-if="$store.getters.isLoggedIn"
+        />
+        <NavBarGuest class="hidden-sm-and-down" v-else />
         <v-main>
-            <!-- Display view pages here based on route -->
             <router-view></router-view>
         </v-main>
-        <v-bottom-navigation
-            v-model="value"
-            class="justify-space-between hidden-md-and-up px-2"
-        >
-            <v-btn to="/" value="recent">
-                <span>Home</span>
-                <v-icon>mdi-home</v-icon>
-            </v-btn>
-
-            <v-btn to="/login" value="nearby">
-                <span>Login</span>
-
-                <v-icon>mdi-login</v-icon>
-            </v-btn>
-        </v-bottom-navigation>
+        <BottomNavigation class="hidden-md-and-up" />
     </v-app>
 </template>
 
 <script>
+import NavBarGuest from "@/components/UI/NavbarGuest";
+import NavBarLoggedIn from "@/components/UI/NavbarLoggedIn";
+import BottomNavigation from "@/components/UI/BottomNavigation";
 export default {
     name: "App",
+    components: {
+        NavBarGuest,
+        NavBarLoggedIn,
+        BottomNavigation,
+    },
     data() {
         return {
             drawer: false,

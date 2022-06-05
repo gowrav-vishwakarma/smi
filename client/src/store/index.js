@@ -26,6 +26,9 @@ export default new Vuex.Store({
         setCurrentUser(state, user) {
             state.currentUser = user;
         },
+        logout(state) {
+            state.currentUser = null;
+        },
         setPreferedOnlineState(state, stateName) {
             state.preferredOnlineState = stateName;
         },
