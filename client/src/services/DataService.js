@@ -48,5 +48,9 @@ class DataService {
             params: query,
         });
     }
+
+    getQuestionDetails(id) {
+        return http.get(`/questions/${id}`);
+    }
 }
 export default new DataService();

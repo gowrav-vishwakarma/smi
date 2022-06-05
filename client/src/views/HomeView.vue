@@ -1,11 +1,11 @@
 <template>
     <v-container>
         <v-layout>
-            <div>
+            <v-row>
                 <QuestionList :questions="questions" />
-            </div>
+            </v-row>
         </v-layout>
-        <v-layout>
+        <v-layout class="mt-5">
             <v-flex xs12>
                 <v-btn
                     class="primary"

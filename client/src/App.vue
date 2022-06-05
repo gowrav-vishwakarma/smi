@@ -3,7 +3,7 @@
         <!-- Start of Navigation -->
         <nav class="mb-2 px-0">
             <!-- Start of app toolbar -->
-            <v-app-bar app class="py-auto">
+            <v-app-bar dense app class="py-auto">
                 <v-toolbar-title class="headlines"
                     ><router-link class="no-dec" to="/"
                         >Solve My Issue</router-link
@@ -11,12 +11,12 @@
                 >
                 <v-spacer></v-spacer>
                 <v-toolbar-items class="hidden-sm-and-down">
-                    <v-btn class="no-dec" to="/ask-question" exact>
+                    <v-btn text class="no-dec" to="/ask-question" exact>
                         Ask Question
                     </v-btn>
                 </v-toolbar-items>
                 <v-toolbar-items class="hidden-sm-and-down">
-                    <v-btn class="no-dec" to="/login" exact>
+                    <v-btn text class="no-dec" to="/login" exact>
                         Login/Register
                     </v-btn>
                 </v-toolbar-items>

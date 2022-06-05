@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="width: 100%">
         <QuestionSingle
             v-for="(question, i) in questions"
             :question="question"

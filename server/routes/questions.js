@@ -100,6 +100,18 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const question = await Question.findById(id);
+        return res.status(200).json(question);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
 router.get("/idby", async (req, res) => {
     try {
         let user;
