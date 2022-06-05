@@ -14,6 +14,9 @@
                 <v-btn plain class="" to="/ask-question"> Ask Question </v-btn>
             </v-toolbar-items>
             <v-toolbar-items>
+                <v-btn plain class="" to="/profile"> Profile </v-btn>
+            </v-toolbar-items>
+            <v-toolbar-items>
                 <v-btn plain class="" @click="logout"> Logout </v-btn>
             </v-toolbar-items>
         </v-app-bar>
@@ -26,6 +29,7 @@ export default {
     methods: {
         logout() {
             this.$store.commit("logout");
+            this.$router.push("/");
         },
     },
 };

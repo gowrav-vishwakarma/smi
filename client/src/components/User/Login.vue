@@ -19,6 +19,7 @@
                     label="Password"
                     prepend-icon="mdi-lock"
                     required
+                    type="password"
                 ></v-text-field>
                 <v-btn class="primary" @click="login"> Login </v-btn>
             </v-form>
