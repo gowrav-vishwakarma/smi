@@ -6,6 +6,8 @@ var logger = require("morgan");
 const cors = require("cors");
 const upload = require("express-fileupload");
 const passport = require("passport");
+const mongoose = require("mongoose");
+mongoose.set("debug", true);
 
 const connect = require("./db/connectDB");
 require("./auth/auth");

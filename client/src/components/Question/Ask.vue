@@ -26,7 +26,6 @@
 
                 <v-combobox
                     v-model="question.tags"
-                    :items="tags"
                     label="Tags"
                     multiple
                     chips
@@ -114,7 +113,6 @@ export default {
     data() {
         return {
             blob: null,
-            tags: [],
             question: {
                 topic: "",
                 title: "",
@@ -131,7 +129,6 @@ export default {
                 createdAt: new Date(),
                 status: "open",
                 totalBids: 0,
-                languages: ["hindi", "english"],
             },
             valid: false,
             topics,
@@ -147,7 +144,7 @@ export default {
         },
         createQuestion() {
             var data = this.question;
-
+            data.languages = this.$store.state.currentUser.languagesSpeaks;
             DataService.CreateQuestion(data, this.blob)
                 .then((response) => {
                     console.log(response.data);

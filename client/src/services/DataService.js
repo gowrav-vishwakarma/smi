@@ -21,5 +21,32 @@ class DataService {
             },
         });
     }
+
+    getQuestions(filter, page, limit, sort) {
+        const topics = filter.topics || [];
+        const languages = filter.languages || [];
+        const tags = filter.tags || [];
+
+        const isPaid =
+            filter.isPaid === true
+                ? true
+                : filter.isPaid === false
+                ? false
+                : undefined;
+
+        const query = {
+            topics,
+            languages,
+            tags,
+            isPaid,
+            page,
+            limit,
+            sort,
+        };
+
+        return http.get(`/questions`, {
+            params: query,
+        });
+    }
 }
 export default new DataService();

@@ -14,9 +14,9 @@ export default new Vuex.Store({
         filters: {
             topics: [],
             tags: [],
-            isPaid: false,
-            sortBy: "newest",
             languages: [],
+            isPaid: undefined,
+            sortBy: "newest",
         },
         notifications: [],
         currentQuestion: null,
@@ -68,6 +68,7 @@ export default new Vuex.Store({
             return state.preferredOnlineState;
         },
         filters: (state) => state.filters,
+        sortBy: (state) => state.filters.sortBy,
         notifications: (state) => state.notifications,
         currentQuestion: (state) => state.currentQuestion,
     },

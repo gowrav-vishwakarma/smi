@@ -24,7 +24,7 @@ const questionSchema = new mongoose.Schema(
             type: Array,
             required: true,
         },
-        media: {
+        video: {
             type: String,
             trim: true,
         },

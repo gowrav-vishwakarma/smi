@@ -14,8 +14,11 @@ router.post(
             userId: req.user._id,
             by: req.user.name,
         };
+        questionData.tags = questionData.tags.split(",");
+        questionData.languages = questionData.languages.split(",");
+
         try {
-            if (req.files.video && process.env.AWS_ACCESS_KEY_ID) {
+            if (req.files && req.files.video && process.env.AWS_ACCESS_KEY_ID) {
                 console.log("req.files", req.files);
                 const s3 = new AWS.S3({
                     accessKeyId: process.env.AWS_ACCESS_KEY_ID, // your AWS access id
@@ -33,7 +36,7 @@ router.post(
                 };
                 const data = await s3.upload(params).promise();
                 const url = data.Location;
-                questionData.media = url;
+                questionData.video = url;
             }
             // console.log("questionData", questionData);
             const newQuestion = new Question(questionData);
@@ -73,29 +76,27 @@ router.put("/editQ/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-    const qNew = req.query.new;
-    const Language = req.query.language;
-    const userID = req.query.user_id;
+    const { topics, languages, tags, isPaid, page, limit, sort } = req.query;
+
     try {
-        let users;
-        if (qNew) {
-            users = await User.find().sort({ createdAt: -1 }).limit(5);
-        } else if (Language) {
-            users = await User.find({
-                languagesSpeaks: {
-                    $in: [Language],
-                },
-            });
-        } else if (userID) {
-            users = await User.find({
-                userID: userID,
-            });
-        } else {
-            users = await User.find();
-        }
-        return res.status(200).json(users);
+        const query = {
+            isPaid: isPaid === "true",
+            page: parseInt(page),
+            limit: parseInt(limit),
+        };
+
+        if (topics) query.topics = topics.split(",");
+        if (languages) query.languages = languages.split(",");
+        if (tags) query.tags = tags.split(",");
+
+        const questions = await Question.find(query)
+            .sort(sort)
+            .skip((page - 1) * limit)
+            .limit(limit);
+        return res.status(200).json(questions);
     } catch (error) {
-        return res.status(500).json(err);
+        console.log(error);
+        return res.status(500).json(error);
     }
 });
 
