@@ -5,6 +5,8 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import VueToastify from "vue-toastify";
+
+import "@/mixins/generalMixin";
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
