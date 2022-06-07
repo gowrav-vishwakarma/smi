@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import store from "../store/index"
+import store from "../store/index";
 
 Vue.use(VueRouter);
 const routes = [
@@ -10,8 +10,8 @@ const routes = [
         name: "home",
         component: HomeView,
         meta: {
-            requiresAuth: true,
-          },
+            requiresAuth: false,
+        },
     },
     {
         path: "/login",
@@ -21,9 +21,9 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () =>
             import(/* webpackChunkName: "about" */ "../views/Login.vue"),
-            meta: {
-                requiresAuth: false,
-              },
+        meta: {
+            requiresAuth: false,
+        },
     },
     {
         path: "/detail/:id",
@@ -31,8 +31,8 @@ const routes = [
 
         component: () => import("../views/QuestionDetail.vue"),
         meta: {
-            requiresAuth: true,
-          },
+            requiresAuth: false,
+        },
     },
     {
         path: "/ask-question",
@@ -41,7 +41,7 @@ const routes = [
         component: () => import("../views/AskQuestion.vue"),
         meta: {
             requiresAuth: true,
-          },
+        },
     },
     {
         path: "/profile",
@@ -50,7 +50,7 @@ const routes = [
         component: () => import("../views/Profile.vue"),
         meta: {
             requiresAuth: true,
-          },
+        },
     },
 ];
 
@@ -58,25 +58,22 @@ const router = new VueRouter({
     routes,
 });
 
-
-const isAuthenticated=()=>{
-    if(store.state.currentUser!=null)
-    return true;
+const isAuthenticated = () => {
+    if (store.state.currentUser != null) return true;
 
     return false;
 };
 
-
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-      if (isAuthenticated()) {
-        next();
-      } else {
-        next("/login");
-      }
+        if (isAuthenticated()) {
+            next();
+        } else {
+            next("/login");
+        }
     } else {
-      next();
+        next();
     }
-  });
+});
 
 export default router;
