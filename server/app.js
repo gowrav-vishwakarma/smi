@@ -15,6 +15,7 @@ require("./auth/auth");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var questionRouter = require("./routes/questions");
+var commentRouter = require("./routes/comment")
 
 var app = express();
 app.use(upload());
@@ -31,8 +32,11 @@ app.use(cookieParser());
 
 connect();
 
+
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/questions", questionRouter);
+app.use("/comment", commentRouter);
 
 module.exports = app;
