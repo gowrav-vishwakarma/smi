@@ -57,7 +57,7 @@
              col="12"
              >
            
-        <v-btn class="success">
+        <v-btn class="success btn">
             Add to Daily Goals
         </v-btn>
         <b class="ml-2" v-if="!question.isPaid">PAID $</b>
@@ -150,6 +150,9 @@
 .icon{
     color: rgb(81, 128, 11)!important;;
     margin: 0 .2rem;
+}
+.btn{
+    width: 100%;
 }
 .tag{
     border-radius: 15px;

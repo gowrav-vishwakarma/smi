@@ -2,12 +2,17 @@
     <!-- vuetify two columns with one shorter and second bigger -->
     <v-container grid-list-xs>
         <v-row>
-            <v-col cols="3"> Bidding Component here ??? </v-col>
+            <v-col cols="3">
+                 <v-card
+          class="pa-2"
+          outlined
+          tile
+        >
+        BID COMPONENT HERE?
+        </v-card>
+            </v-col>
             <v-col cols="9">
                 <QuestionDetail :question="question" />
-                <div style="padding-top: 200px">
-                    Public comment section here
-                </div>
             </v-col>
         </v-row>
     </v-container>

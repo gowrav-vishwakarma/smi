@@ -22,6 +22,10 @@ class DataService {
         });
     }
 
+    CreateCommunityAns(data){
+        return http.post('/comment/add',data);
+    }
+
     getQuestions(filter, page, limit, sort) {
         const topics = filter.topics || [];
         const languages = filter.languages || [];
