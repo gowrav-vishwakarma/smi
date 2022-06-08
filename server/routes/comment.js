@@ -34,13 +34,14 @@ router.delete("/delC/", async (req, res) => {
     }
 });
 
-router.get("/idby", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-        let user;
-        user = await User.find({
-            _id: req.query.id,
+        const { Q_id } = req.query;
+        let comment;
+        comment = await Comment.find({
+            questionId: Q_id,
         });
-        return res.status(200).json(user);
+        return res.status(200).json(comment);
     } catch (error) {
         return res.status(500).json(err);
     }
