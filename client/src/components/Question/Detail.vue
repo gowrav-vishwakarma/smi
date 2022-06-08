@@ -60,7 +60,8 @@ export default {
     data(){
         return{
             userData:this.$store.state.currentUser,
-            comment:''
+            comment:'',
+            Q_id:this.question._id
         };
     },
     components: {
@@ -70,9 +71,21 @@ export default {
     props: {
         question: Object,
     },
+    mounted(){
+      this.CommunityAns()
+    },
     methods:{
         goToLog(){
            this.$router.push(`/login`);
+        },
+        CommunityAns(){
+           DataService.GetCommunityAns(this.Q_id)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
         },
         subAns() {
            var data ={

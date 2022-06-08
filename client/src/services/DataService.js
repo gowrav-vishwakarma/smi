@@ -25,6 +25,15 @@ class DataService {
     CreateCommunityAns(data){
         return http.post('/comment/add',data);
     }
+    GetCommunityAns(idQ){
+ 
+        const query = {
+            Q_id:idQ,
+        }
+        return http.get(`/comment/`, {
+            params: query,
+        });
+    }
 
     getQuestions(filter, page, limit, sort) {
         const topics = filter.topics || [];
