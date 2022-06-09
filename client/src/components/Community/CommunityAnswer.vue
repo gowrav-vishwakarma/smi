@@ -14,8 +14,8 @@
             </v-col>
             <!-- Delete/like -->
             <v-col md="8">
-                <v-btn @click="DeleteAns(answer._id)" v-if="answer.commentById==userID">
-                <v-icon>mdi-delete</v-icon><small>delete comment</small>
+                <v-btn small class="red" @click="DeleteAns(answer._id)" v-if="userID!=null && answer.commentById==userID._id">
+                <v-icon small>mdi-delete</v-icon><small>delete comment</small>
                 </v-btn>
             </v-col>
             <v-spacer></v-spacer>
@@ -43,7 +43,7 @@ export default {
     data(){
         return{
             answers : {},
-            userID: this.$store.state.currentUser._id,
+            userID: this.$store.state.currentUser || null,
         };
     },
     props: {
@@ -56,7 +56,7 @@ export default {
         FetchAns(){
            DataService.GetCommunityAns(this.Qid)
                 .then((response) => {
-                    console.log(response.id)
+                    console.log(response.data,'comments')
                     this.answers = response.data;
                 })
                 .catch((e) => {
@@ -67,6 +67,7 @@ export default {
             DataService.DelCommunityAns(C_id)
             .then((response)=>{
                 console.log(response.data)
+                this.$vToastify.success("Comment deleted");
             })
             .catch((e)=>{
                 console.log(e)

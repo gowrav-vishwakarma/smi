@@ -44,6 +44,7 @@ export default {
                     console.log(response.data);
                     this.$vToastify.success("Comment added");
                     this.comment=""
+                    this.$router.reload()
                 })
                 .catch((e) => {
                     console.log(e);

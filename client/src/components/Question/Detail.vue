@@ -32,7 +32,7 @@
              <v-col
         cols="8"
       >
-        <video controls width="100%" v-if="Video || this.question.video" :src="Video"></video>
+        <video controls width="100%" v-if="this.question.video" :src="this.question.video"></video>
   
       </v-col>
       <v-col
@@ -79,11 +79,6 @@
 <script>
 
 export default {
-    data(){
-        return{
-            Video:this.question.video
-        }
-    },
     props: {
         question: Object,
     }
