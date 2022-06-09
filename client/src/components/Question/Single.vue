@@ -100,9 +100,10 @@
         md="10"
       >
         <v-card
-          class="pa-2"
+          class="pa-2 desc"
           outlined
           tile
+           @click="goToDetail(question)"
         >
            {{ question.detail }}
         </v-card>
@@ -146,6 +147,12 @@
 <style>
 h3:hover{
   cursor: pointer;
+}
+.desc{
+  max-height: 3.5rem!important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 .language{
     font-size: .6rem;
