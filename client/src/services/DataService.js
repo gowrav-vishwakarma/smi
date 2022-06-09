@@ -35,6 +35,16 @@ class DataService {
         });
     }
 
+    DelCommunityAns(C_id){
+
+        const query = {
+            Cd:C_id,
+        }
+        return http.delete(`/comment/delC/`, {
+            params: query,
+        });
+    }
+
     getQuestions(filter, page, limit, sort) {
         const topics = filter.topics || [];
         const languages = filter.languages || [];

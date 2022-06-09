@@ -1,0 +1,77 @@
+<template>
+   <div>
+       <b>Community Answer</b>
+       <v-row>
+           <v-col cols="12" v-for="(answer,key) in answers" :key="key">
+                  <v-card
+          class="pa-2"
+          outlined
+          tile
+        >
+        <v-row>
+            <v-col cols="12">
+                <p>{{answer.comment}}</p>
+            </v-col>
+            <!-- Delete/like -->
+            <v-col md="8">
+                <v-btn @click="DeleteAns(answer._id)" v-if="answer.commentById==userID">
+                <v-icon>mdi-delete</v-icon><small>delete comment</small>
+                </v-btn>
+            </v-col>
+            <v-spacer></v-spacer>
+            <!-- info -->
+            <v-col md="4"
+              sm="12"
+             >
+             <small>
+                 <v-icon small>mdi-circle</v-icon>
+                 <span>
+          {{answer.commentBy}} - {{answer.createdAt}}
+          </span>
+          </small>
+            </v-col>
+        </v-row>
+        </v-card>
+           </v-col>
+       </v-row>
+   </div>
+</template>
+
+<script>
+import DataService from "@/services/DataService";
+export default {
+    data(){
+        return{
+            answers : {},
+            userID: this.$store.state.currentUser._id,
+        };
+    },
+    props: {
+        Qid: String,
+    },
+    mounted(){
+      this.FetchAns()
+    },
+    methods:{
+        FetchAns(){
+           DataService.GetCommunityAns(this.Qid)
+                .then((response) => {
+                    console.log(response.id)
+                    this.answers = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+        DeleteAns(C_id){
+            DataService.DelCommunityAns(C_id)
+            .then((response)=>{
+                console.log(response.data)
+            })
+            .catch((e)=>{
+                console.log(e)
+            })
+        }
+    }
+};
+</script>

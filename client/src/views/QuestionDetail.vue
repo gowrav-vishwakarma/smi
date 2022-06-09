@@ -13,6 +13,7 @@
             </v-col>
             <v-col cols="9">
                 <QuestionDetail :question="question" />
+                <CommunityAnswer :question="question"/>
             </v-col>
         </v-row>
     </v-container>
@@ -20,10 +21,12 @@
 
 <script>
 import QuestionDetail from "@/components/Question/Detail";
+import CommunityAnswer from "@/components/Community/Answerlist"
 import DataService from "../services/DataService";
 export default {
     components: {
         QuestionDetail,
+        CommunityAnswer
     },
     data() {
         return {

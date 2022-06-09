@@ -144,6 +144,9 @@
     
 </template>
 <style>
+h3:hover{
+  cursor: pointer;
+}
 .language{
     font-size: .6rem;
 }
