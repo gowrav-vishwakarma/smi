@@ -26,11 +26,11 @@ router.post(
 
 router.delete("/delC/", async (req, res) => {
     try {
-        const id = req.query.id;
-        await Question.findByIdAndDelete(id);
-        return res.status(200).json("User has been deleted");
+        const { Cd } = req.query;
+        await Comment.findByIdAndDelete(Cd);
+        return res.status(200).json("Comment has been deleted");
     } catch (error) {
-        return res.status(500).json(err);
+        return res.status(500).json(error);
     }
 });
 
