@@ -1,19 +1,15 @@
 <template>
     <!-- vuetify two columns with one shorter and second bigger -->
-    <v-container grid-list-xs>
+    <v-container grid-list-xs v-if="question._id">
         <v-row>
             <v-col cols="3">
-                 <v-card
-          class="pa-2"
-          outlined
-          tile
-        >
-        BID COMPONENT HERE?
-        </v-card>
+                <v-card class="pa-2" outlined tile>
+                    BID COMPONENT HERE?
+                </v-card>
             </v-col>
             <v-col cols="9">
                 <QuestionDetail :question="question" />
-                <CommunityAnswer :question="question"/>
+                <CommunityAnswer :question="question" />
             </v-col>
         </v-row>
     </v-container>
@@ -21,12 +17,12 @@
 
 <script>
 import QuestionDetail from "@/components/Question/Detail";
-import CommunityAnswer from "@/components/Community/CommunityAnswer"
+import CommunityAnswer from "@/components/Community/CommunityAnswer";
 import DataService from "../services/DataService";
 export default {
     components: {
         QuestionDetail,
-        CommunityAnswer
+        CommunityAnswer,
     },
     data() {
         return {
