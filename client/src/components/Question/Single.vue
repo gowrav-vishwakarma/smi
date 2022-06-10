@@ -108,7 +108,7 @@
            {{ shortdetail }}
         </v-card>
       </v-col>
-      <v-spaceer></v-spaceer>
+      <v-spacer></v-spacer>
       <v-col
         cols="2"
       >

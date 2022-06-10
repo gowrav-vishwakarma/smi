@@ -70,7 +70,7 @@ import socket from "@/socket"
                 },
                 to: this.question.user._id,
             });
-
+                this.hide()
                }
        },
        props:{
