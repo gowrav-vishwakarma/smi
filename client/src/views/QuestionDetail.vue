@@ -21,7 +21,7 @@
 
 <script>
 import QuestionDetail from "@/components/Question/Detail";
-import CommunityAnswer from "@/components/Community/Answerlist"
+import CommunityAnswer from "@/components/Community/CommunityAnswer"
 import DataService from "../services/DataService";
 export default {
     components: {

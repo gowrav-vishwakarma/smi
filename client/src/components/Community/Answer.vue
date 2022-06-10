@@ -4,7 +4,7 @@
           outlined
           tile
         >
-           <v-text class="mx-2">Your answer/comment</v-text>
+           <v-card-text class="mx-2">Your answer/comment</v-card-text>
            <vue-editor class="mt-2" v-model="comment"></vue-editor>
            <v-btn v-if="userData" @click="subAns" class="mt-3">Submit Answer</v-btn>
            <v-btn v-if="!userData" @click="goToLog">Login to Answer</v-btn>
@@ -35,8 +35,6 @@ export default {
         subAns() {
            var data ={
                 questionId: this.question._id,
-                commentById: this.userData._id,
-                commentBy: this.userData.name,
                 comment: this.comment,
             }
             DataService.CreateCommunityAns(data)
