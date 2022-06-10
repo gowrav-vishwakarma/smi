@@ -6,7 +6,7 @@
                 <v-card class="pa-2" outlined tile>
                     <v-row>
                         <v-col cols="12">
-                            <p>{{ answer.comment }}</p>
+                            <p>{{ shortdetail }}</p>
                         </v-col>
                         <!-- Delete/like -->
                         <v-col md="8">
@@ -43,11 +43,17 @@
 
 <script>
 import DataService from "@/services/DataService";
+import S from "string"
 export default {
     data() {
         return {
             userID: this.$store.state.currentUser || null,
         };
+    },
+    computed:{
+      shortdetail() {
+            return S(this.answer.comment).stripTags().truncate(100).s;
+        }
     },
     props: {
         answer: Object,

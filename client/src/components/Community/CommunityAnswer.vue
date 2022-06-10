@@ -30,7 +30,7 @@
 <script>
 import DataService from "@/services/DataService";
 import SubmitAnswer from "@/components/Community/Answer.vue"
-import Answerlist from "@/components/Community/AnswerList.vue"
+import Answerlist from "@/components/Community/Answerlist.vue"
 export default {
     data(){
         return{

@@ -44,7 +44,7 @@
           outlined
           tile
         >
-           {{ question.detail }}
+           {{ shortdetail }}
         </v-card>
       </v-col>
       </v-row>
@@ -78,7 +78,13 @@
 
 <script>
 
+import S from "string";
 export default {
+    computed:{
+      shortdetail() {
+            return S(this.question.detail).stripTags().truncate(100).s;
+        }
+    },
     props: {
         question: Object,
     }

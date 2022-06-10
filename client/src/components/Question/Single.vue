@@ -105,7 +105,7 @@
           tile
            @click="goToDetail(question)"
         >
-           {{ question.detail }}
+           {{ shortdetail }}
         </v-card>
       </v-col>
       <v-spaceer></v-spaceer>
@@ -175,6 +175,7 @@ h3:hover{
 }
 </style>
 <script>
+import S from 'string'
 export default {
     props: {
         question: Object,
@@ -183,6 +184,11 @@ export default {
         return{
         Video:this.question.video
         };
+    },
+    computed:{
+      shortdetail() {
+            return S(this.question.detail).stripTags().truncate(100).s;
+        }
     },
     methods: {
         goToDetail(question) {
