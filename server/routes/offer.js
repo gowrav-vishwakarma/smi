@@ -2,23 +2,23 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
-const Comment = require("../models/Comment");
+const Offer = require("../models/Offer");
 
 router.post(
     "/add",
     passport.authenticate("jwt", { session: false }),
     async (req, res) => {
-        const commentData = {
+        const offerData = {
             ...req.body,
-            commentById: req.user._id,
-            commentBy: req.user.name,
+            userBy:req.user.name,
+            userById:req.user._id,
         };
  try {
             
             // console.log("questionData", questionData);
-            const newComment = new Comment(commentData);
-            const savedComment = await newComment.save();
-            res.status(200).json(savedComment);
+            const newOffer = new Offer(offerData);
+            const savedoff = await newOffer.save();
+            res.status(200).json(savedoff);
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
@@ -28,9 +28,9 @@ router.post(
 
 router.delete("/delC/", async (req, res) => {
     try {
-        const { Cd } = req.query;
-        await Comment.findByIdAndDelete(Cd);
-        return res.status(200).json("Comment has been deleted");
+        const { O_id } = req.query;
+        await Offer.findByIdAndDelete(O_id);
+        return res.status(200).json("Offer has been removed");
     } catch (error) {
         return res.status(500).json(error);
     }
@@ -39,13 +39,13 @@ router.delete("/delC/", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const { Q_id } = req.query;
-        let comment;
-        comment = await Comment.find({
+        let offer;
+        offer = await Offer.find({
             questionId: Q_id,
         });
-        return res.status(200).json(comment);
+        return res.status(200).json(offer);
     } catch (error) {
-        return res.status(500).json(err);
+        return res.status(500).json(error);
     }
 });
 
