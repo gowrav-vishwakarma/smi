@@ -4,7 +4,7 @@
         <v-row>
             <v-col cols="3">
                 <v-card class="pa-2" outlined tile>
-                    BID COMPONENT HERE?
+                    <OfferSolution :question="question"/>
                 </v-card>
             </v-col>
             <v-col cols="9">
@@ -18,11 +18,13 @@
 <script>
 import QuestionDetail from "@/components/Question/Detail";
 import CommunityAnswer from "@/components/Community/CommunityAnswer";
+import OfferSolution from "@/components/Offer/Offer.vue"
 import DataService from "../services/DataService";
 export default {
     components: {
         QuestionDetail,
         CommunityAnswer,
+        OfferSolution
     },
     data() {
         return {

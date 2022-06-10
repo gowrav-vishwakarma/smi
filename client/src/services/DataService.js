@@ -22,6 +22,28 @@ class DataService {
         });
     }
 
+    CreateOffer(data){
+        return http.post('/offer/add',data);
+    }
+
+    GetAllOffer(idQ){
+        const query = {
+            Q_id:idQ,
+        }
+        return http.get(`/offer/`, {
+            params: query,
+        });
+    }
+    
+    DelOffer(id){
+        const query = {
+            O_id:id,
+        }
+        return http.delete(`/offer/delC/`, {
+            params: query,
+        });
+    }
+
     CreateCommunityAns(data){
         return http.post('/comment/add',data);
     }

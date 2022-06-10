@@ -43,3 +43,6 @@ export default {
     background-color: white;
 }
 </style>
+
+<!-- 
+npm run build && npx http-server dist    -->
