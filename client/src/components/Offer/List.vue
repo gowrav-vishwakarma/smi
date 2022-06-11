@@ -1,47 +1,46 @@
 <template>
-<v-card
-          class="pa-2"
-          outlined
-          tile
-        >
+    <v-card class="pa-2" outlined tile>
         <v-row>
             <v-col class="text-left" cols="9">
-                <UserInfo :userInfo="offer"/>
-            </v-col>
-            <v-col v-if="this.$store.state.currentUser._id == offer.questionById" class="3">
-                <Call :user="offer"/>
-            </v-col>
-
-            <v-col v-if="this.$store.state.currentUser._id == offer.userById" class="3">
-              <v-icon @click="Delete">mdi-delete-circle</v-icon>
+                <SingleOffer
+                    v-for="(offer, i) in offers"
+                    :offer="offer"
+                    :key="i"
+                />
             </v-col>
         </v-row>
-        </v-card>
+    </v-card>
 </template>
 
 <script>
-import UserInfo from "./Single.vue"
-import DataService from "@/services/DataService"
-import Call from "./Call.vue"
-   export default{
-       components:{
-           UserInfo,
-           Call
-       },
-       props:{
-           offer:Object
-       },
-       methods:{
-           Delete(){
-               DataService.DelOffer(this.offer._id)
-               .then(response=>{
-                   console.log(response.data);
-                   this.$vToastify.success("Offer removed");
-               })
-               .catch(err=>{
-                   console.log(err)
-               })
-           }
-       }
-   }
+import SingleOffer from "./Single.vue";
+import DataService from "@/services/DataService";
+export default {
+    components: {
+        SingleOffer,
+    },
+    props: {
+        question: Object,
+    },
+    data() {
+        return {
+            offers: [],
+        };
+    },
+    mounted() {
+        this.FetchOffer();
+    },
+    methods: {
+        FetchOffer() {
+            DataService.GetAllOffer(this.question._id)
+                .then((response) => {
+                    console.log(response.data);
+                    this.offers = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+    },
+};
 </script>

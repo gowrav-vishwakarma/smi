@@ -4,12 +4,12 @@
         <v-row>
             <v-col cols="3">
                 <v-card class="pa-2" outlined tile>
-                    <OfferSolution :question="question" />
+                    <LiveOfferView :question="question" />
                 </v-card>
             </v-col>
             <v-col cols="9">
                 <QuestionDetail :question="question" />
-                <AnswerList :question="question" />
+                <CommentList :question="question" />
             </v-col>
         </v-row>
     </v-container>
@@ -17,14 +17,14 @@
 
 <script>
 import QuestionDetail from "@/components/Question/Detail";
-import AnswerList from "@/components/Answer/List";
-import OfferSolution from "@/components/Offer/Offer";
+import CommentList from "@/components/Comment/List";
+import LiveOfferView from "@/components/Offer/Section";
 import DataService from "../services/DataService";
 export default {
     components: {
         QuestionDetail,
-        AnswerList,
-        OfferSolution,
+        CommentList,
+        LiveOfferView,
     },
     data() {
         return {

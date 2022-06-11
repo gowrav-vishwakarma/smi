@@ -10,7 +10,7 @@
                     tile
                     v-if="answers.length && answers.length > 0"
                 >
-                    <SingleAnswer
+                    <SingleComment
                         v-for="(answer, key) in answers"
                         :key="key"
                         :answer="answer"
@@ -19,7 +19,7 @@
             </v-col>
 
             <v-col cols="12" md="12" sm="12">
-                <SubmitAnswer :question="question" />
+                <SubmitComment :question="question" />
             </v-col>
         </v-row>
     </v-container>
@@ -27,8 +27,8 @@
 
 <script>
 import DataService from "@/services/DataService";
-import SubmitAnswer from "@/components/Answer/Submit";
-import SingleAnswer from "@/components/Answer/Single";
+import SubmitComment from "@/components/Comment/Submit";
+import SingleComment from "@/components/Comment/Single";
 export default {
     data() {
         return {
@@ -36,8 +36,8 @@ export default {
         };
     },
     components: {
-        SubmitAnswer,
-        SingleAnswer,
+        SubmitComment,
+        SingleComment,
     },
     props: {
         question: Object,

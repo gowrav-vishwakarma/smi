@@ -10,11 +10,10 @@ router.post(
     async (req, res) => {
         const offerData = {
             ...req.body,
-            userBy:req.user.name,
-            userById:req.user._id,
+            offerBy: req.user.name,
+            offerById: req.user._id,
         };
- try {
-            
+        try {
             // console.log("questionData", questionData);
             const newOffer = new Offer(offerData);
             const savedoff = await newOffer.save();
