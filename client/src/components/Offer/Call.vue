@@ -37,7 +37,8 @@ export default {
             }
         });
         socket.on("call-accepted", ({ content }) => {
-            if (content.offerById === this.offer.offerById) {
+            console.log(content)
+            if (content.offerId === this.offer._id) {
                 this.isCalling = false;
                 this.$router.push(
                     "/solution-attempt/" + content.solutionAttemptId

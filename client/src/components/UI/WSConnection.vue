@@ -38,6 +38,7 @@ export default {
             from: null,
             caller:null,
             fromId: null,
+            offerId:null,
             offerById:null,
             questionId: null,
             soundurl:
@@ -73,6 +74,7 @@ export default {
             }
             this.from = content.callerName
             this.offerById = content.offerById
+            this.offerId = content.offerId
             this.ringing = true;
             this.caller = content.callerId;
             var audio = new Audio(this.soundurl);
@@ -130,26 +132,26 @@ export default {
                 content: {
                     offerById: this.offerById,
                 },
-                to: this.callerId,
+                to: this.caller,
             });
         },
         async acceptCall() {
             this.ringing = false;
-            const currentUser = this.$store.getters.currentUser;
-            const solutionAttempt = {
-                authUserId: currentUser._id,
-                createdAt: new Date(),
-                status: "attempted",
-            };
-            console.log(solutionAttempt);
-
+            // const currentUser = this.$store.getters.currentUser;
+            // const solutionAttempt = {
+            //     authUserId: currentUser._id,
+            //     createdAt: new Date(),
+            //     status: "attempted",
+            // };
+           
             socket.emit("call-accepted", {
                 content: {
+                    offerId:this.offerId,
                     offerById: this.offerById,
                 },
-                to: this.offerById,
+                to: this.caller,
             });
-            this.$router.push("/solution-attempt/" + solutionAttempt.authUserId);
+            this.$router.push("/solution-attempt/");
         },
         removeBidFromSnackBars(bidId) {
             this.bidsPlaced = this.bidsPlaced.filter(
