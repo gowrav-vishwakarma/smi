@@ -1,6 +1,5 @@
 <template>
     <div>
-        <b>Community Answer</b>
         <v-row>
             <v-col cols="12">
                 <v-card class="pa-2" outlined tile>
@@ -14,10 +13,7 @@
                                 small
                                 class="red"
                                 @click="DeleteAns(answer._id)"
-                                v-if="
-                                    userID != null &&
-                                    answer.commentById == userID._id
-                                "
+                                v-if="isMyCommunityAnswer(answer)"
                             >
                                 <v-icon small>mdi-delete</v-icon
                                 ><small>delete comment</small>
@@ -43,17 +39,17 @@
 
 <script>
 import DataService from "@/services/DataService";
-import S from "string"
+import S from "string";
 export default {
     data() {
         return {
             userID: this.$store.state.currentUser || null,
         };
     },
-    computed:{
-      shortdetail() {
+    computed: {
+        shortdetail() {
             return S(this.answer.comment).stripTags().truncate(100).s;
-        }
+        },
     },
     props: {
         answer: Object,

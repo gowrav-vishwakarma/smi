@@ -4,12 +4,12 @@
         <v-row>
             <v-col cols="3">
                 <v-card class="pa-2" outlined tile>
-                    <OfferSolution :question="question"/>
+                    <OfferSolution :question="question" />
                 </v-card>
             </v-col>
             <v-col cols="9">
                 <QuestionDetail :question="question" />
-                <CommunityAnswer :question="question" />
+                <AnswerList :question="question" />
             </v-col>
         </v-row>
     </v-container>
@@ -17,14 +17,14 @@
 
 <script>
 import QuestionDetail from "@/components/Question/Detail";
-import CommunityAnswer from "@/components/Community/CommunityAnswer";
-import OfferSolution from "@/components/Offer/Offer.vue"
+import AnswerList from "@/components/Answer/List";
+import OfferSolution from "@/components/Offer/Offer";
 import DataService from "../services/DataService";
 export default {
     components: {
         QuestionDetail,
-        CommunityAnswer,
-        OfferSolution
+        AnswerList,
+        OfferSolution,
     },
     data() {
         return {
