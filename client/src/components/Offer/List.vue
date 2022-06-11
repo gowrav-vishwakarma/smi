@@ -34,7 +34,6 @@ export default {
         FetchOffer() {
             DataService.GetAllOffer(this.question._id)
                 .then((response) => {
-                    console.log(response.data);
                     this.offers = response.data;
                 })
                 .catch((e) => {

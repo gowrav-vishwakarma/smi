@@ -86,39 +86,43 @@ export default {
             console.log("Call received from ", from, content);
         });
 
-        socket.on("bid-placed", ({ content }) => {
+        socket.on("offer-placed", ({ content }) => {
             let message =
-                content.bidderName +
-                " placed a bid '" +
-                content.amount +
-                " " +
-                content.currency +
-                " " +
-                content.payPer +
-                "' on your question '" +
+                content.offerUserName +
+                " placed a offer on'" +
                 content.questionTitle +
                 "'";
-            this.$snotify.confirm(message, "Bid Placed", {
-                timeout: 0,
-                showProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                buttons: [
-                    {
-                        text: "Visit Question",
-                        action: (toast) => {
-                            this.$snotify.remove(toast.id);
-                            this.$router.push(
+                const goToPage=()=>{
+                    this.$router.push(
                                 "/question/" + content.questionId
-                            );
-                        },
-                        bold: false,
-                    },
-                ],
-            });
+                            )
+                }
+            this.$vToastify.prompt({
+                                body: message,
+                                answers: { 'Go to question': goToPage , 'Close': false }
+                            })
+               
 
+            // this.$snotify.confirm(message, "Offer Placed", {
+            //     timeout: 0,
+            //     showProgressBar: false,
+            //     closeOnClick: true,
+            //     pauseOnHover: true,
+            //     buttons: [
+            //         {
+            //             text: "Visit Question",
+            //             action: (toast) => {
+            //                 this.$snotify.remove(toast.id);
+                            // this.$router.push(
+                            //     "/question/" + content.questionId
+                            // );
+            //             },
+            //             bold: false,
+            //         },
+            //     ],
+            // });
             this.bidsPlaced.push(content);
-            console.log("Bid Placed from ", content.bidderName, content);
+            console.log("Offer Placed from ", content.offerUserName, content);
         });
 
         socket.on("connect_error", (err) => {

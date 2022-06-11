@@ -60,13 +60,13 @@ export default {
                     console.log(e);
                 });
 
-            socket.emit("bid-placed", {
+            socket.emit("offer-placed", {
                 content: {
                     questionTitle: this.question.title,
                     questionId: this.question._id,
                     questionBy: this.question.userId,
-                    bidderId: this.$store.state.currentUser._id,
-                    bidderName: this.$store.state.currentUser.name,
+                    offerById: this.$store.state.currentUser._id,
+                    offerUserName: this.$store.state.currentUser.name,
                     text: this.description,
                 },
                 to: this.question.userId,
