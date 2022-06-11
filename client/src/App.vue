@@ -9,6 +9,7 @@
             <router-view></router-view>
         </v-main>
         <BottomNavigation class="hidden-md-and-up" />
+        <WSConnection />
     </v-app>
 </template>
 
@@ -16,12 +17,15 @@
 import NavBarGuest from "@/components/UI/NavbarGuest";
 import NavBarLoggedIn from "@/components/UI/NavbarLoggedIn";
 import BottomNavigation from "@/components/UI/BottomNavigation";
+import WSConnection from "@/components/UI/WSConnection";
+
 export default {
     name: "App",
     components: {
         NavBarGuest,
         NavBarLoggedIn,
         BottomNavigation,
+        WSConnection,
     },
     data() {
         return {

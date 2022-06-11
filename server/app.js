@@ -5,7 +5,6 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
 const upload = require("express-fileupload");
-const passport = require("passport");
 const mongoose = require("mongoose");
 mongoose.set("debug", true);
 
@@ -16,7 +15,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var questionRouter = require("./routes/questions");
 var commentRouter = require("./routes/comment");
-var offerRouter = require('./routes/offer');
+var offerRouter = require("./routes/offer");
 
 var app = express();
 app.use(upload());
@@ -32,8 +31,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 connect();
-
-
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
