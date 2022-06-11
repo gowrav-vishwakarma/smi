@@ -75,9 +75,9 @@ module.exports = function (httpServer) {
                 to,
             });
         });
-        socket.on("bid-placed", ({ content, to }) => {
-            console.log("bid-placed", content, to, socket.username);
-            socket.to(to).emit("bid-placed", {
+        socket.on("offer-placed", ({ content, to }) => {
+            console.log("offer-placed", content, to, socket.username);
+            socket.to(to).emit("offer-placed", {
                 content,
                 from: socket.username,
                 to,
