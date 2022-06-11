@@ -2,6 +2,7 @@
     <v-card class="pa-2" outlined tile>
         <v-row>
             <v-col class="text-left" cols="9">
+            
                 <SingleOffer
                     v-for="(offer, i) in offers"
                     :offer="offer"
@@ -34,6 +35,7 @@ export default {
         FetchOffer() {
             DataService.GetAllOffer(this.question._id)
                 .then((response) => {
+                    console.log(response.data)
                     this.offers = response.data;
                 })
                 .catch((e) => {

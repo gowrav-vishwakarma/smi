@@ -12,9 +12,7 @@
             <v-list>
                 <v-list-item>
                     <v-list-item-content>
-                        <v-list-item-title>{{ question }}</v-list-item-title>
                         <v-list-item-subtitle>{{ from }}</v-list-item-subtitle>
-                        <v-list-item-subtitle>{{ bid }}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -38,14 +36,13 @@ export default {
         return {
             ringing: false,
             from: null,
+            caller:null,
             fromId: null,
-            bid: null,
-            bidId: null,
-            question: null,
+            offerById:null,
             questionId: null,
             soundurl:
                 "http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3",
-            bidsPlaced: [],
+       
         };
     },
     created() {
@@ -74,13 +71,10 @@ export default {
                 this.sendBusy();
                 return;
             }
+            this.from = content.callerName
+            this.offerById = content.offerById
             this.ringing = true;
-            this.from = content.from;
-            this.caller = content.caller;
-            this.bid = content.bid;
-            this.bidId = content.bidId;
-            this.question = content.question;
-            this.questionId = content.questionId;
+            this.caller = content.callerId;
             var audio = new Audio(this.soundurl);
             audio.play();
             console.log("Call received from ", from, content);
@@ -103,24 +97,6 @@ export default {
                     }
                 });
 
-            // this.$snotify.confirm(message, "Offer Placed", {
-            //     timeout: 0,
-            //     showProgressBar: false,
-            //     closeOnClick: true,
-            //     pauseOnHover: true,
-            //     buttons: [
-            //         {
-            //             text: "Visit Question",
-            //             action: (toast) => {
-            //                 this.$snotify.remove(toast.id);
-            // this.$router.push(
-            //     "/question/" + content.questionId
-            // );
-            //             },
-            //             bold: false,
-            //         },
-            //     ],
-            // });
             this.bidsPlaced.push(content);
             console.log("Offer Placed from ", content.offerUserName, content);
         });
@@ -152,58 +128,29 @@ export default {
             this.ringing = false;
             socket.emit("call-declined", {
                 content: {
-                    bidId: this.bidId,
+                    offerById: this.offerById,
                 },
-                to: this.caller,
+                to: this.callerId,
             });
         },
-        // async acceptCall() {
-        //     this.ringing = false;
-        //     const currentUser = this.$store.getters.currentUser;
-        //     const solutionAttempt = {
-        //         authUserId: new ObjectId(currentUser.authUserId),
-        //         bidId: new ObjectId(this.bidId),
-        //         bidderId: new ObjectId(currentUser._id),
-        //         questionId: new ObjectId(this.questionId),
-        //         questionBy: new ObjectId(this.caller),
-        //         createdAt: new Date(),
-        //         status: "attempted",
-        //     };
-        //     const mongodb =
-        //         this.$realmApp.currentUser.mongoClient("mongodb-atlas");
-        //     const collection = mongodb
-        //         .db("SolutionNowDB")
-        //         .collection("SolutionAttempts");
-        //     const resp = await collection.insertOne(solutionAttempt);
+        async acceptCall() {
+            this.ringing = false;
+            const currentUser = this.$store.getters.currentUser;
+            const solutionAttempt = {
+                authUserId: currentUser._id,
+                createdAt: new Date(),
+                status: "attempted",
+            };
+            console.log(solutionAttempt);
 
-        //     // update Bids collection by this.bidId to status "attempted" and insert solutionAttemptId in Bid.solutionAttemptId
-        //     const bidsCollection = mongodb
-        //         .db("SolutionNowDB")
-        //         .collection("Bids");
-
-        //     // update Bids collection by this.bidId to status "attempted" and insert solutionAttemptId in Bid.solutionAttemptIds Array
-        //     await bidsCollection.updateOne(
-        //         { _id: new ObjectId(this.bidId) },
-        //         {
-        //             $set: {
-        //                 status: "attempted",
-        //                 lastSolutionAttemptId: resp.insertedId,
-        //             },
-        //             $push: {
-        //                 solutionAttemptIds: resp.insertedId,
-        //             },
-        //         }
-        //     );
-
-        //     socket.emit("call-accepted", {
-        //         content: {
-        //             bidId: this.bidId,
-        //             solutionAttemptId: resp.insertedId,
-        //         },
-        //         to: this.caller,
-        //     });
-        //     this.$router.push("/solution-attempt/" + resp.insertedId);
-        // },
+            socket.emit("call-accepted", {
+                content: {
+                    offerById: this.offerById,
+                },
+                to: this.offerById,
+            });
+            this.$router.push("/solution-attempt/" + solutionAttempt.authUserId);
+        },
         removeBidFromSnackBars(bidId) {
             this.bidsPlaced = this.bidsPlaced.filter(
                 (bid) => bid._id !== bidId

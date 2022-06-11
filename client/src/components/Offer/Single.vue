@@ -1,5 +1,6 @@
 <template>
-    <div>
+
+        <v-card class="pa-2 my-1">
         <small>
             <v-icon small>mdi-star</v-icon>
             {{ 3 }}
@@ -9,8 +10,9 @@
         <modal v-if="offer.description" name="Desc">
             <p>{{ offer.description }}</p>
         </modal>
-        <Call :user="offer.offerById" />
-    </div>
+        <Call :offer="offer"/>
+        </v-card>
+ 
 </template>
 
 <script>
