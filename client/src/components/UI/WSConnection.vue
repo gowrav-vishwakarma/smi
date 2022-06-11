@@ -92,16 +92,16 @@ export default {
                 " placed a offer on'" +
                 content.questionTitle +
                 "'";
-                const goToPage=()=>{
-                    this.$router.push(
-                                "/question/" + content.questionId
-                            )
-                }
-            this.$vToastify.prompt({
-                                body: message,
-                                answers: { 'Go to question':goToPage, 'Close': false },
-                            })
-               
+            this.$vToastify
+                .prompt({
+                    body: message,
+                    answers: { "Go to question": true, Close: false },
+                })
+                .then((gotoPage) => {
+                    if (gotoPage) {
+                        this.$router.push("/question/" + content.questionId);
+                    }
+                });
 
             // this.$snotify.confirm(message, "Offer Placed", {
             //     timeout: 0,
@@ -113,9 +113,9 @@ export default {
             //             text: "Visit Question",
             //             action: (toast) => {
             //                 this.$snotify.remove(toast.id);
-                            // this.$router.push(
-                            //     "/question/" + content.questionId
-                            // );
+            // this.$router.push(
+            //     "/question/" + content.questionId
+            // );
             //             },
             //             bold: false,
             //         },
