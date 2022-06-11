@@ -64,12 +64,12 @@ export default {
                 content: {
                     questionTitle: this.question.title,
                     questionId: this.question._id,
-                    questionBy: this.question.user._id,
+                    questionBy: this.question.userId,
                     bidderId: this.$store.state.currentUser._id,
                     bidderName: this.$store.state.currentUser.name,
                     text: this.description,
                 },
-                to: this.question.user._id,
+                to: this.question.userId,
             });
             this.hide();
         },
