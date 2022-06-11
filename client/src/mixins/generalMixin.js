@@ -11,6 +11,10 @@ Vue.mixin({
             return question.userId == store.getters.currentUser._id;
         },
 
+        isThisMyOffer(offer) {
+            return offer.questionById == store.getters.currentUser._id;
+        },
+
         humanized_time_span(date, ref_date, date_formats, time_units) {
             //Date Formats must be be ordered smallest -> largest and must end in a format with ceiling of null
             date_formats = date_formats || {

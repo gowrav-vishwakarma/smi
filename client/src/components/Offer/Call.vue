@@ -1,5 +1,38 @@
 <template>
-    <v-icon class="call" @click="initiateCall">mdi-phone</v-icon>
+   <span>
+        <v-btn
+            large
+            icon
+            @click="initiateCall"
+            v-if="isThisMyOffer(offer)"
+        >
+            <v-icon>
+                mdi-phone
+            </v-icon>
+        </v-btn>
+        <v-dialog v-model="callingDialog" width="500">
+            <v-card>
+                <v-card-title class="text-h5 grey lighten-2">
+                    Calling : {{ offer.offerBy }}
+                </v-card-title>
+
+                <v-card-text v-if="isCalling"> Calling ... </v-card-text>
+                <v-card-text v-if="callDeclined">
+                    Calling Declined
+                </v-card-text>
+                <v-card-text v-if="callBusy"> Call Busy </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="declineCall">
+                        HangUp
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </span>
 </template>
 
 <style>
@@ -37,8 +70,7 @@ export default {
             }
         });
         socket.on("call-accepted", ({ content }) => {
-            console.log(content)
-            if (content.offerId === this.offer._id) {
+            if (content.offerId === this.offer._id && !this.callBusy) {
                 this.isCalling = false;
                 this.$router.push(
                     "/solution-attempt/" + content.solutionAttemptId
@@ -60,6 +92,17 @@ export default {
             });
             this.callingDialog = true;
             this.isCalling = true;
+        },
+        declineCall() {
+            this.ringing = false;
+            this.callingDialog = false;
+            this.callBusy = true;
+            socket.emit("call-declined", {
+                content: {
+                    offerById: this.offerById,
+                },
+                to: this.offer.offerById,
+            });
         },
     },
 };

@@ -121,7 +121,7 @@ export default {
             this.ringing = false;
             socket.emit("call-busy", {
                 content: {
-                    bidId: this.bid._id,
+                    offerById: this.offerById,
                 },
                 to: this.caller,
             });
@@ -137,13 +137,6 @@ export default {
         },
         async acceptCall() {
             this.ringing = false;
-            // const currentUser = this.$store.getters.currentUser;
-            // const solutionAttempt = {
-            //     authUserId: currentUser._id,
-            //     createdAt: new Date(),
-            //     status: "attempted",
-            // };
-           
             socket.emit("call-accepted", {
                 content: {
                     offerId:this.offerId,
