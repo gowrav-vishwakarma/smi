@@ -99,7 +99,7 @@ export default {
                 }
             this.$vToastify.prompt({
                                 body: message,
-                                answers: { 'Go to question': goToPage , 'Close': false }
+                                answers: { 'Go to question':goToPage, 'Close': false }
                             })
                
 
