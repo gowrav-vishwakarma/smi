@@ -79,6 +79,29 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.post(
+    "/rating",
+    async (req, res) => {
+        const { userId,rating,isQuestioner } = req.body;
+        try {
+                 if(isQuestioner){
+                await User.findByIdAndUpdate(userId, {
+                $inc: { totalRatingCount: 1,totalRatingPoints :rating,totalQuestionerRating:rating,
+                         questionerRatingPoint:1},
+            });
+        } else{
+            await User.findByIdAndUpdate(userId, {
+                $inc: { totalRatingCount: 1,totalRatingPoints :rating},
+                });
+        }
+            res.status(200).json({userId,rating,isQuestioner})
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    }
+);
+
 //Wishlist-part
 
 module.exports = router;
