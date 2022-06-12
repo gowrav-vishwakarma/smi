@@ -1,7 +1,7 @@
 <template>
 <v-container>
       <v-row
-            v-if="isMyQuestion()"
+            v-if="ismyquestion()"
             class="my-2 py-0 text-center"
         >
             <v-col cols="12" sm="12" md="6" lg="6" class="py-0 text-center">
@@ -13,7 +13,6 @@
                     hint="Solver Ratings"
                     class="mr-10"
                     inverse-label
-                    :label="solverRatingLabel"
                 ></v-slider>
             </v-col>
             <v-col sm="12" md="6" lg="6" class="text-center">
@@ -37,7 +36,6 @@
                     hint="Solver Ratings"
                     class="mr-10"
                     inverse-label
-                    :label="questionerRatingLable"
                 ></v-slider>
             </v-col>
             <v-col
@@ -82,19 +80,35 @@ export default{
             .catch(err=>console.log(err))
         },
         acceptSolution(){
+              DataService.RatingUpdate(this.MeetingDetails.offerById,this.solverRating,true)
+              .then(response=>{console.log(response.data)})
+              .catch(err=>console.log(err))
+                this.$vToastify.success(`You rated ${this.solverRating}`)
 
+              this.$router.push(`/question/${this.MeetingDetails.questionId}`);
         },
         denySolution(){
+              DataService.RatingUpdate(this.MeetingDetails.offerById,-1,true)
+              .then(response=>{console.log(response.data)})
+              .catch(err=>console.log(err))
+                this.$vToastify.failed(`You depreciated the rating by 1 point`)
+
+              this.$router.push(`/question/${this.MeetingDetails.questionId}`);
 
         },
         giveRating(){
+              DataService.RatingUpdate(this.MeetingDetails.questionById,this.questionerRating,false)
+              .then(response=>{console.log(response.data)})
+              .catch(err=>console.log(err))
+                this.$vToastify.success(`You rated ${this.questionerRating}`)
+               this.$router.push(`/question/${this.MeetingDetails.questionId}`);
 
         },
-        isMyQuestion(){
-            return this.$store.getters.currentUser && (this.$store.getters.currentUser._id == this.MeetingDetails.questionById);
+        ismyquestion(){
+            return this.MeetingDetails && (this.$store.getters.currentUser._id == this.MeetingDetails.questionById);
         },
         isMyOffer(){
-            return this.$store.getters.currentUser && (this.$store.getters.currentUser._id == this.MeetingDetails.offerById);
+            return this.MeetingDetails && (this.$store.getters.currentUser._id == this.MeetingDetails.offerById);
         }
     }
 }

@@ -99,6 +99,12 @@ class DataService {
         });
     }
 
+    RatingUpdate(userId,rating,isQuestioner) {
+         return http.post(`/solution/rating`, {
+            userId,rating,isQuestioner
+        });
+    }
+
     getSolutionDetails(solutionId) {
         const query = {
             solutionId,
