@@ -56,25 +56,25 @@ router.post(
     }
 );
 
-router.delete("/delC/", async (req, res) => {
-    try {
-        const { O_id } = req.query;
-        await Offer.findByIdAndDelete(O_id);
-        return res.status(200).json("Offer has been removed");
-    } catch (error) {
-        return res.status(500).json(error);
-    }
-});
+// router.delete("/delC/", async (req, res) => {
+//     try {
+//         const { O_id } = req.query;
+//         await Offer.findByIdAndDelete(O_id);
+//         return res.status(200).json("Offer has been removed");
+//     } catch (error) {
+//         return res.status(500).json(error);
+//     }
+// });
 
 router.get("/", async (req, res) => {
+    const { solutionId } = req.query;
+
+    console.log(solutionId)
     try {
-        const { Q_id } = req.query;
-        let offer;
-        offer = await Offer.find({
-            questionId: Q_id,
-        });
-        return res.status(200).json(offer);
+        const detail = await Solution.findById(solutionId);
+        return res.status(200).json(detail);
     } catch (error) {
+        console.log(error);
         return res.status(500).json(error);
     }
 });
