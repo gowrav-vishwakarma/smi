@@ -16,6 +16,7 @@ var usersRouter = require("./routes/users");
 var questionRouter = require("./routes/questions");
 var commentRouter = require("./routes/comment");
 var offerRouter = require("./routes/offer");
+var solutionRouter = require("./routes/solution");
 
 var app = express();
 app.use(upload());
@@ -37,5 +38,6 @@ app.use("/users", usersRouter);
 app.use("/questions", questionRouter);
 app.use("/comment", commentRouter);
 app.use("/offer", offerRouter);
+app.use("/solution", solutionRouter);
 
 module.exports = app;

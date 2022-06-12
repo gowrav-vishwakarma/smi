@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 
 const Offer = require("../models/Offer");
+const Question = require("../models/Question");
 
 router.post(
     "/add",
@@ -17,6 +18,11 @@ router.post(
             // console.log("questionData", questionData);
             const newOffer = new Offer(offerData);
             const savedoff = await newOffer.save();
+            // $inc totalOffers by one in Question
+            await Question.findByIdAndUpdate(req.body.questionId, {
+                $inc: { totalOffers: 1 },
+            });
+
             res.status(200).json(savedoff);
         } catch (err) {
             console.log(err);

@@ -7,7 +7,7 @@
                     Solve My Issue
                 </v-btn>
             </v-toolbar-title>
-
+            Welcome {{ $store.getters.currentUser.name }}
             <v-spacer></v-spacer>
             <v-divider vertical></v-divider>
             <v-toolbar-items>

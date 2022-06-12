@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 
 const Comment = require("../models/Comment");
+const Question = require("../models/Question");
 
 router.post(
     "/add",
@@ -13,11 +14,15 @@ router.post(
             commentById: req.user._id,
             commentBy: req.user.name,
         };
- try {
-            
+        try {
             // console.log("questionData", questionData);
             const newComment = new Comment(commentData);
             const savedComment = await newComment.save();
+            // $inc publicCommentsCount in Question by one
+            await Question.findByIdAndUpdate(req.body.questionId, {
+                $inc: { publicCommentsCount: 1 },
+            });
+
             res.status(200).json(savedComment);
         } catch (err) {
             console.log(err);

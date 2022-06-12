@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 router.post("/register", async (req, res) => {
-    console.log(req.body);
     const newUser = new User(req.body);
     try {
         const savedUser = await newUser.save();
@@ -23,7 +22,7 @@ router.post("/login", async (req, res, next) => {
         try {
             if (err || !user) {
                 const error = new Error(info.message);
-                return res.status(500).send(error).end();
+                return next(error);
             }
 
             req.login(user, { session: false }, async (error) => {
@@ -35,6 +34,7 @@ router.post("/login", async (req, res, next) => {
                     name: user.name,
                 };
                 const token = jwt.sign({ user: body }, "TOP_SECRET");
+                user.password = undefined;
                 return res.json({ user, token });
             });
         } catch (error) {

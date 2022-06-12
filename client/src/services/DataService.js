@@ -7,7 +7,7 @@ class DataService {
     Login(data) {
         return http.post(`/users/login`, data);
     }
-    CreateQuestion(data, video = null) {
+    CreateQuestion(data, video = null, progressCallBack) {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
             formData.append(key, value);
@@ -19,49 +19,48 @@ class DataService {
             headers: {
                 "Content-type": "multipart/form-data",
             },
+            progressCallBack,
         });
     }
 
-    CreateOffer(data){
-        return http.post('/offer/add',data);
+    CreateOffer(data) {
+        return http.post("/offer/add", data);
     }
 
-    GetAllOffer(idQ){
+    GetAllOffer(idQ) {
         const query = {
-            Q_id:idQ,
-        }
+            Q_id: idQ,
+        };
         return http.get(`/offer/`, {
             params: query,
         });
     }
-    
-    DelOffer(id){
+
+    DelOffer(id) {
         const query = {
-            O_id:id,
-        }
+            O_id: id,
+        };
         return http.delete(`/offer/delC/`, {
             params: query,
         });
     }
 
-    CreateCommunityAns(data){
-        return http.post('/comment/add',data);
+    CreateCommunityAns(data) {
+        return http.post("/comment/add", data);
     }
-    GetCommunityAns(idQ){
- 
+    GetCommunityAns(idQ) {
         const query = {
-            Q_id:idQ,
-        }
+            Q_id: idQ,
+        };
         return http.get(`/comment/`, {
             params: query,
         });
     }
 
-    DelCommunityAns(C_id){
-
+    DelCommunityAns(C_id) {
         const query = {
-            Cd:C_id,
-        }
+            Cd: C_id,
+        };
         return http.delete(`/comment/delC/`, {
             params: query,
         });
@@ -91,6 +90,12 @@ class DataService {
 
         return http.get(`/questions`, {
             params: query,
+        });
+    }
+
+    getSolutionAttemptId(offerId) {
+        return http.post(`/solution/create`, {
+            offerId,
         });
     }
 

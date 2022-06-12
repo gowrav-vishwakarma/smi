@@ -112,7 +112,8 @@
                             <span class="language">
                                 [<i v-for="l in question.languages" :key="l">
                                     {{ l }} </i
-                                >] - {{ question.createdAt }}
+                                >] -
+                                {{ humanized_time_span(question.createdAt) }}
                             </span>
                         </v-col>
                     </v-row>

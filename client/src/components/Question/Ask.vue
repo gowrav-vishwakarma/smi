@@ -83,11 +83,15 @@
                     </v-col>
                 </v-row>
             </v-form>
+            <v-progress-linear
+                class="mt-2"
+                v-model="progress"
+            ></v-progress-linear>
         </v-card-text>
         <v-card-actions>
             <v-btn
                 color="success"
-                class="mt-0"
+                class="mt-5"
                 @click="createQuestion"
                 :disabled="!valid"
                 block
@@ -112,6 +116,7 @@ export default {
     },
     data() {
         return {
+            progress: 0,
             blob: null,
             question: {
                 topic: "",
@@ -143,11 +148,15 @@ export default {
             this.blob = blob;
         },
         createQuestion() {
+            this.progress = 0;
             var data = this.question;
             data.languages = this.$store.state.currentUser.languagesSpeaks;
-            DataService.CreateQuestion(data, this.blob)
+            DataService.CreateQuestion(data, this.blob, (event) => {
+                this.progress = Math.round((100 * event.loaded) / event.total);
+            })
                 .then((response) => {
-                    console.log(response.data);
+                    Object.assign(this.$data, this.$options.data());
+                    console.log(response);
                     this.$vToastify.success("Question added");
                 })
                 .catch((e) => {

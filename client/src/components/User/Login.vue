@@ -63,6 +63,9 @@ export default {
                 })
                 .catch((e) => {
                     console.log(e);
+                    this.$vToastify.error(
+                        "Could not login, Is your username or password correct?"
+                    );
                 });
         },
     },

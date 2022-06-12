@@ -12,7 +12,7 @@ Vue.mixin({
         },
 
         isThisMyOffer(offer) {
-            return offer.questionById == store.getters.currentUser._id;
+            return offer.offerById == store.getters.currentUser._id;
         },
 
         humanized_time_span(date, ref_date, date_formats, time_units) {

@@ -29,7 +29,11 @@ const userSchema = new mongoose.Schema(
         },
         onlineStatus: {
             type: String,
-            default: "online",
+            default: "Offline",
+        },
+        type: {
+            type: String,
+            default: "Individual",
         },
         solvedQuestionsCount: {
             type: Number,
@@ -47,6 +51,7 @@ const userSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+
         totalQuestionerRating: {
             type: Number,
             default: 0,
@@ -55,14 +60,21 @@ const userSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+
+        publicCommentsCount: {
+            type: Number,
+            default: 0,
+        },
+        publicAnnotatedCommentsCount: {
+            type: Number,
+            default: 0,
+        },
+
         country: {
             type: String,
             required: true,
         },
-        authUserId: {
-            type: String,
-            required: false,
-        },
+
         username: {
             type: String,
             required: true,

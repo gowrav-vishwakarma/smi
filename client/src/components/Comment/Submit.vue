@@ -39,6 +39,7 @@ export default {
                 .then((response) => {
                     console.log(response.data);
                     this.$vToastify.success("Comment added");
+                    this.$emit("comment-submitted", this.comment);
                     this.comment = "";
                 })
                 .catch((e) => {

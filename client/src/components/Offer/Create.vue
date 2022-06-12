@@ -54,24 +54,24 @@ export default {
             DataService.CreateOffer(this.offer)
                 .then((response) => {
                     console.log(response.data);
+                    this.$emit("offer-placed", this.offer);
+
                     this.$vToastify.success("Offer added");
+                    socket.emit("offer-placed", {
+                        content: {
+                            questionTitle: this.question.title,
+                            questionId: this.question._id,
+                            questionBy: this.question.userId,
+                            offerById: this.$store.state.currentUser._id,
+                            offerUserName: this.$store.state.currentUser.name,
+                            text: this.description,
+                        },
+                        to: this.question.userId,
+                    });
                 })
                 .catch((e) => {
                     console.log(e);
                 });
-
-            socket.emit("offer-placed", {
-                content: {
-                    questionTitle: this.question.title,
-                    questionId: this.question._id,
-                    questionBy: this.question.userId,
-                    offerById: this.$store.state.currentUser._id,
-                    offerUserName: this.$store.state.currentUser.name,
-                    text: this.description,
-                },
-                to: this.question.userId,
-            });
-            this.hide();
         },
     },
 };

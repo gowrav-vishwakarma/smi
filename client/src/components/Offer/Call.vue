@@ -1,14 +1,7 @@
 <template>
-   <span>
-        <v-btn
-            large
-            icon
-            @click="initiateCall"
-            v-if="isThisMyOffer(offer)"
-        >
-            <v-icon>
-                mdi-phone
-            </v-icon>
+    <span>
+        <v-btn large icon @click="initiateCall" v-if="!isThisMyOffer(offer)">
+            <v-icon> mdi-phone </v-icon>
         </v-btn>
         <v-dialog v-model="callingDialog" width="500">
             <v-card>
@@ -36,22 +29,22 @@
 </template>
 
 <style>
-.call{
-    cursor: pointer!important;
+.call {
+    cursor: pointer !important;
     transition: 1s all;
 }
-.call:hover{
-   transform: rotate(10deg);
+.call:hover {
+    transform: rotate(10deg);
 }
 </style>
 
 <script>
 import socket from "@/socket";
 export default {
-    name: "BidCall",
+    name: "OfferCall",
     components: {},
     props: {
-       offer:Object
+        offer: Object,
     },
 
     data() {
@@ -81,13 +74,13 @@ export default {
     methods: {
         initiateCall() {
             socket.emit("initiateCall", {
-                content: {  
+                content: {
                     callerId: this.$store.getters.currentUser._id,
-                    callerName:this.$store.getters.currentUser.name,
+                    callerName: this.$store.getters.currentUser.name,
                     offerId: this.offer._id,
-                    offerById:this.offer.offerById,
+                    offerById: this.offer.offerById,
                     questionId: this.offer.questionId,
-                 },
+                },
                 to: this.offer.offerById,
             });
             this.callingDialog = true;

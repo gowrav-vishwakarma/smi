@@ -61,13 +61,25 @@ const questionSchema = new mongoose.Schema(
             type: String,
             default: "open",
         },
-        totalBids: {
+        totalOffers: {
+            type: Number,
+            default: 0,
+        },
+        solutionsAttempted: {
             type: Number,
             default: 0,
         },
         languages: {
             type: Array,
             required: true,
+        },
+        publicCommentsCount: {
+            type: Number,
+            default: 0,
+        },
+        publicAnnotatedCommentsCount: {
+            type: Number,
+            default: 0,
         },
     },
     { timestamps: true }

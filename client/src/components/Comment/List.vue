@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <b>Community Answers</b>
+        <b>Community Answers / Comments</b>
 
         <v-row>
             <v-col cols="12" md="12" sm="12">
@@ -19,7 +19,10 @@
             </v-col>
 
             <v-col cols="12" md="12" sm="12">
-                <SubmitComment :question="question" />
+                <SubmitComment
+                    :question="question"
+                    @comment-submitted="commentSubmitted"
+                />
             </v-col>
         </v-row>
     </v-container>
@@ -55,6 +58,10 @@ export default {
                 .catch((e) => {
                     console.log(e);
                 });
+        },
+
+        commentSubmitted() {
+            this.FetchAns();
         },
     },
 };

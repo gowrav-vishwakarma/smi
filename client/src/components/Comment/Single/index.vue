@@ -26,7 +26,7 @@
                                 <v-icon small>mdi-circle</v-icon>
                                 <span>
                                     {{ answer.commentBy }} -
-                                    {{ answer.createdAt }}
+                                    {{ humanized_time_span(answer.createdAt) }}
                                 </span>
                             </small>
                         </v-col>
