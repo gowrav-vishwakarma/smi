@@ -6,7 +6,7 @@
         <v-dialog v-model="callingDialog" width="500">
             <v-card>
                 <v-card-title class="text-h5 grey lighten-2">
-                    Calling : {{ offer.offerBy }}
+                    Calling : {{ offer.offerBy.name }}
                 </v-card-title>
 
                 <v-card-text v-if="isCalling"> Calling ... </v-card-text>
@@ -73,6 +73,8 @@ export default {
     },
     methods: {
         initiateCall() {
+            this.callDeclined = false;
+            this.callBusy = false;
             socket.emit("initiateCall", {
                 content: {
                     callerId: this.$store.getters.currentUser._id,

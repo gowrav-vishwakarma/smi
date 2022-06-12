@@ -1,26 +1,26 @@
 <template>
     <v-container>
         <div style="height: 100vh">
-        <RateComponent :solutionId="this.$route.params.id"/>
-            <!-- <vue-jitsi-meet
+            <RateComponent :solutionId="this.$route.params.id" />
+            <vue-jitsi-meet
                 ref="jitsiRef"
                 domain="meet.jit.si"
                 :options="jitsiOptions"
-            ></vue-jitsi-meet> -->
+            ></vue-jitsi-meet>
         </div>
     </v-container>
 </template>
 
 <script>
-// import { JitsiMeet } from "@mycure/vue-jitsi-meet";
+import { JitsiMeet } from "@mycure/vue-jitsi-meet";
 import RateComponent from "@/components/Solution/RateComponent.vue";
 
 export default {
     name: "SolutionAttemptPage",
     components: {
-    // VueJitsiMeet: JitsiMeet,
-    RateComponent
-},
+        VueJitsiMeet: JitsiMeet,
+        RateComponent,
+    },
     computed: {
         jitsiOptions() {
             return {
@@ -31,7 +31,7 @@ export default {
                     email: "user@email.com",
                     displayName: this.$store.getters.currentUser.name,
                 },
-                personID:'wedwds',
+                personID: "wedwds",
                 configOverwrite: {
                     disableDeepLinking: true,
                     prejoinPageEnabled: false,

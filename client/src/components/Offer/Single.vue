@@ -1,18 +1,16 @@
 <template>
-
-        <v-card class="pa-2 my-1">
+    <v-card class="pa-2 my-1">
         <small>
             <v-icon small>mdi-star</v-icon>
-            {{ 3 }}
+            {{ offererRating }}
         </small>
-        {{ offer.offerBy }}
+        {{ offer.offerBy.name }}
         <v-btn class="tagg" @click="show" v-if="offer.description">know</v-btn>
         <modal v-if="offer.description" name="Desc">
             <p>{{ offer.description }}</p>
         </modal>
-        <Call :offer="offer"/>
-        </v-card>
- 
+        <Call :offer="offer" />
+    </v-card>
 </template>
 
 <script>
@@ -39,6 +37,14 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+    },
+    computed: {
+        offererRating() {
+            return this.offer.offerBy.totalQuestionerRatingCount
+                ? this.offer.offerBy.questionerRatingPoint /
+                      this.offer.offerBy.totalQuestionerRatingCount
+                : "(New)";
         },
     },
 };

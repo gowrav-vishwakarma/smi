@@ -12,7 +12,7 @@ router.post(
         const questionData = {
             ...req.body,
             userId: req.user._id,
-            by: req.user.name,
+            by: req.user._id,
         };
         questionData.tags = questionData.tags.split(",");
         questionData.languages = questionData.languages.split(",");
@@ -90,6 +90,10 @@ router.get("/", async (req, res) => {
         if (tags) query.tags = tags.split(",");
 
         const questions = await Question.find(query)
+            .populate(
+                "by",
+                "name questionerRatingPoint totalQuestionerRatingCount -_id"
+            )
             .sort(sort)
             .skip((page - 1) * limit)
             .limit(limit);

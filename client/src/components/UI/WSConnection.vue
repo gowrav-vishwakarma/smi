@@ -104,11 +104,21 @@ export default {
                 this.from = content.callerName;
                 this.offerById = content.offerById;
                 this.offerId = content.offerId;
-                this.ringing = true;
+                // this.ringing = true;
                 this.caller = content.callerId;
                 // var audio = new Audio(this.soundurl);
                 // audio.play();
                 console.log("Call received from ", from, content);
+
+                this.$vToastify
+                    .prompt({
+                        body: "Call received from " + content.callerName,
+                        answers: { Accept: true, Denied: false },
+                    })
+                    .then((callAccept) => {
+                        if (callAccept) this.acceptCall();
+                        else this.declineCall();
+                    });
             });
 
             socket.on("offer-placed", ({ content }) => {

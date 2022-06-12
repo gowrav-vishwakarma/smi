@@ -108,11 +108,9 @@
 
                         <v-col>
                             <v-icon small>mdi-circle</v-icon>
-                            {{ question.by }} -
+                            {{ questionerRating }} {{ question.by.name }} <br />
                             <span class="language">
-                                [<i v-for="l in question.languages" :key="l">
-                                    {{ l }} </i
-                                >] -
+                                [ {{ question.languages.join(", ") }} ] -
                                 {{ humanized_time_span(question.createdAt) }}
                             </span>
                         </v-col>
@@ -164,6 +162,13 @@ export default {
         };
     },
     computed: {
+        questionerRating() {
+            return this.question.by.totalQuestionerRatingCount
+                ? this.question.by.questionerRatingPoint /
+                      this.question.by.totalQuestionerRatingCount
+                : "(New)";
+        },
+
         shortdetail() {
             return S(this.question.detail).stripTags().truncate(100).s;
         },

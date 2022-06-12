@@ -11,7 +11,7 @@ router.post(
     async (req, res) => {
         const offerData = {
             ...req.body,
-            offerBy: req.user.name,
+            offerBy: req.user._id,
             offerById: req.user._id,
         };
         try {
@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
         let offer;
         offer = await Offer.find({
             questionId: Q_id,
-        });
+        }).populate("offerBy", "name");
         return res.status(200).json(offer);
     } catch (error) {
         return res.status(500).json(error);

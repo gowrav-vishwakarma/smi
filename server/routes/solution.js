@@ -85,10 +85,10 @@ router.post("/rating", async (req, res) => {
         if (isQuestioner) {
             await User.findByIdAndUpdate(userId, {
                 $inc: {
-                    totalRatingCount: 1,
-                    totalRatingPoints: rating,
-                    totalQuestionerRating: rating,
-                    questionerRatingPoint: 1,
+                    // totalRatingCount: 1,
+                    // totalRatingPoints: rating,
+                    totalQuestionerRatingCount: 1,
+                    questionerRatingPoint: rating,
                 },
             });
         } else {

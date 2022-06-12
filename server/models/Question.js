@@ -46,11 +46,13 @@ const questionSchema = new mongoose.Schema(
             default: true,
         },
         userId: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            // type: String,
             require: true,
         },
         by: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
             required: true,
         },
         createdAt: {
@@ -84,5 +86,16 @@ const questionSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
+
+questionSchema.virtual("questionBy", {
+    ref: "User",
+    localField: "userId",
+    foreignField: "_id",
+    justOne: true,
+});
+
+// tell Mongoose to retreive the virtual fields
+questionSchema.set("toObject", { virtuals: true });
+questionSchema.set("toJSON", { virtuals: true });
 
 module.exports = mongoose.model("Question", questionSchema);

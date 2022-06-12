@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
             default: 0,
         },
 
-        totalQuestionerRating: {
+        totalQuestionerRatingCount: {
             type: Number,
             default: 0,
         },
