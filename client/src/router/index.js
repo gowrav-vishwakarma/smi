@@ -52,6 +52,15 @@ const routes = [
             requiresAuth: true,
         },
     },
+    {
+        path: "/solution-attempt/:id",
+        name: "SolutionAttempt",
+
+        component: () => import("../views/SolutionAttempt.vue"),
+        meta: {
+            requiresAuth: true,
+        },
+    },
 ];
 
 const router = new VueRouter({

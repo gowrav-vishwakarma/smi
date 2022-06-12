@@ -4,15 +4,24 @@ import store from "../store";
 Vue.mixin({
     methods: {
         isMyCommunityAnswer(answer) {
-            return answer.commentById == store.getters.currentUser._id;
+            return (
+                store.getters.currentUser &&
+                answer.commentById == store.getters.currentUser._id
+            );
         },
 
         isMyQuestion(question) {
-            return question.userId == store.getters.currentUser._id;
+            return (
+                store.getters.currentUser &&
+                question.userId == store.getters.currentUser._id
+            );
         },
 
         isThisMyOffer(offer) {
-            return offer.offerById == store.getters.currentUser._id;
+            return (
+                store.getters.currentUser &&
+                offer.offerById == store.getters.currentUser._id
+            );
         },
 
         humanized_time_span(date, ref_date, date_formats, time_units) {

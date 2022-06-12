@@ -14,6 +14,16 @@ router.post(
         const { offerId } = req.body;
 
         try {
+            // find solution by offerId and req.user._id first. if exists return its object
+            const solution = await Solution.findOne({
+                offerId: offerId,
+                userId: req.user._id,
+            });
+
+            if (solution) {
+                return res.status(200).json(solution);
+            }
+
             const offer = await Offer.findById(offerId);
             const solutionData = {
                 questionId: offer.questionId,

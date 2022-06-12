@@ -1,6 +1,9 @@
 <template>
     <div class="text-center">
-        <v-btn @click="placeOffer">Offer Solution</v-btn>
+        <v-btn v-if="$store.getters.isLoggedIn" @click="placeOffer"
+            >Offer Solution</v-btn
+        >
+        <div v-else>Login to offer</div>
         <modal name="Offerform">
             <v-form ref="form" v-model="valid">
                 <v-text-field
@@ -38,7 +41,7 @@ export default {
             offer: {
                 questionId: this.question._id,
                 questionById: this.question.userId,
-                userRating: this.$store.state.currentUser.totalRatingPoints,
+                // userRating: this.$store.state.currentUser.totalRatingPoints,
             },
             valid: false,
         };
