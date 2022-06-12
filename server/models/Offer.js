@@ -18,10 +18,10 @@ const offerSchema = new mongoose.Schema(
             type: String,
             required: false,
         },
-        userRating: {
-            type: Number,
-            required: true,
-        },
+        // userRating: {
+        //     type: Number,
+        //     required: true,
+        // },
         offerBy: {
             type: String,
             required: true,

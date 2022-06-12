@@ -17,7 +17,7 @@ router.post(
             // find solution by offerId and req.user._id first. if exists return its object
             const solution = await Solution.findOne({
                 offerId: offerId,
-                userId: req.user._id,
+                offerById: req.user._id,
             });
 
             if (solution) {
@@ -55,30 +55,5 @@ router.post(
         }
     }
 );
-
-router.delete("/delC/", async (req, res) => {
-    try {
-        const { O_id } = req.query;
-        await Offer.findByIdAndDelete(O_id);
-        return res.status(200).json("Offer has been removed");
-    } catch (error) {
-        return res.status(500).json(error);
-    }
-});
-
-router.get("/", async (req, res) => {
-    try {
-        const { Q_id } = req.query;
-        let offer;
-        offer = await Offer.find({
-            questionId: Q_id,
-        });
-        return res.status(200).json(offer);
-    } catch (error) {
-        return res.status(500).json(error);
-    }
-});
-
-//Wishlist-part
 
 module.exports = router;
