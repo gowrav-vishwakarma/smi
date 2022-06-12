@@ -1,87 +1,26 @@
 <template>
     <v-container class="grey lighten-5">
         <v-row>
-            <!-- left-part -->
-            <v-col sm="12" lg="3" xl="3" md="3">
-                <v-card class="pa-2" outlined tile>
-                    <v-row>
-                        <v-col col="12">
-                            <v-card class="pa-2" outlined tile>
-                                <v-row>
-                                    <v-col cols="auto" md="auto"
-                                        >{{ question.totalBids }} Bids</v-col
-                                    >
-                                    <v-spacer></v-spacer>
-                                    <v-col cols="auto">
-                                        <v-btn class="primary tag">{{
-                                            question.status
-                                        }}</v-btn>
-                                    </v-col>
-                                </v-row>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col col="12">
-                            <v-card class="pa-2" outlined tile>
-                                <v-icon class="icon" small>mdi-chat</v-icon>
-                                <v-icon
-                                    class="icon"
-                                    v-if="question.canDoVideoCall"
-                                    small
-                                    >mdi-video</v-icon
-                                >
-                                <v-icon
-                                    class="icon"
-                                    v-if="question.canShareScreen"
-                                    small
-                                    >mdi-monitor</v-icon
-                                >
-                                <v-icon
-                                    class="icon"
-                                    v-if="!question.isPaid"
-                                    medium
-                                    >mdi-cash</v-icon
-                                >
-                            </v-card>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col col="12">
-                            <v-btn class="success btn">
-                                Add to Daily Goals
-                            </v-btn>
-                            <b class="ml-2" v-if="!question.isPaid">PAID $</b>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-
-            <!-- right-part -->
-            <v-col cols="12" md="9">
-                <v-card class="pa-2" outlined tile>
+            <v-col cols="12" md="12">
+                <v-card class="pa-2">
                     <v-row>
                         <v-col cols="12" md="12">
-                            <v-card class="pa-2" outlined tile>
-                                <h3 @click="goToDetail(question)">
-                                    {{ question.title }}
-                                </h3>
-                            </v-card>
+                            <h3 @click="goToDetail(question)">
+                                {{ question.title }}
+                            </h3>
                         </v-col>
                     </v-row>
 
                     <v-row>
                         <v-col cols="12" md="10">
-                            <v-card
+                            <p
                                 class="pa-2 desc"
                                 outlined
                                 tile
                                 @click="goToDetail(question)"
                             >
                                 {{ shortdetail }}
-                            </v-card>
+                            </p>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col cols="2">
@@ -115,12 +54,37 @@
                             </span>
                         </v-col>
                     </v-row>
+                    <v-row>
+                        <v-col col="12">
+                            <v-card class="pa-2">
+                                <v-icon class="icon" small>mdi-chat</v-icon>
+                                <v-icon
+                                    class="icon"
+                                    v-if="question.canDoVideoCall"
+                                    small
+                                    >mdi-video</v-icon
+                                >
+                                <v-icon
+                                    class="icon"
+                                    v-if="question.canShareScreen"
+                                    small
+                                    >mdi-monitor</v-icon
+                                >
+                                <v-icon
+                                    class="icon"
+                                    v-if="!question.isPaid"
+                                    medium
+                                    >mdi-cash</v-icon
+                                >
+                            </v-card>
+                        </v-col>
+                    </v-row>
                 </v-card>
             </v-col>
         </v-row>
     </v-container>
 </template>
-<style>
+<style scoped>
 h3:hover {
     cursor: pointer;
 }
