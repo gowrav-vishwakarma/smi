@@ -108,7 +108,10 @@ router.get("/:id", async (req, res) => {
     const id = req.params.id;
 
     try {
-        const question = await Question.findById(id);
+        const question = await Question.findById(id).populate(
+            "by",
+            "name questionerRatingPoint totalQuestionerRatingCount -_id"
+        );
         return res.status(200).json(question);
     } catch (error) {
         console.log(error);

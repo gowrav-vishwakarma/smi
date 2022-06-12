@@ -25,7 +25,8 @@
                             <small>
                                 <v-icon small>mdi-circle</v-icon>
                                 <span>
-                                    {{ answer.commentBy }} -
+                                    {{ commenterRating }}
+                                    {{ answer.commentBy.name }} <br />
                                     {{ humanized_time_span(answer.createdAt) }}
                                 </span>
                             </small>
@@ -49,6 +50,12 @@ export default {
     computed: {
         shortdetail() {
             return S(this.answer.comment).stripTags().truncate(100).s;
+        },
+        commenterRating() {
+            return this.answer.commentBy.totalQuestionerRatingCount
+                ? this.answer.commentBy.questionerRatingPoint /
+                      this.answer.commentBy.totalQuestionerRatingCount
+                : "(New)";
         },
     },
     props: {

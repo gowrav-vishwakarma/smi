@@ -12,7 +12,7 @@ router.post(
         const commentData = {
             ...req.body,
             commentById: req.user._id,
-            commentBy: req.user.name,
+            commentBy: req.user._id,
         };
         try {
             // console.log("questionData", questionData);
@@ -47,7 +47,10 @@ router.get("/", async (req, res) => {
         let comment;
         comment = await Comment.find({
             questionId: Q_id,
-        });
+        }).populate(
+            "commentBy",
+            "name questionerRatingPoint totalQuestionerRatingCount -_id"
+        );
         return res.status(200).json(comment);
     } catch (error) {
         return res.status(500).json(err);
