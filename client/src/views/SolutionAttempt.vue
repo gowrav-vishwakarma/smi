@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <div style="height: 100vh">
+        <RateComponent :solutionId="this.$route.params.id"/>
             <vue-jitsi-meet
                 ref="jitsiRef"
                 domain="meet.jit.si"
@@ -12,12 +13,14 @@
 
 <script>
 import { JitsiMeet } from "@mycure/vue-jitsi-meet";
+import RateComponent from "@/components/Solution/RateComponent.vue";
 
 export default {
     name: "SolutionAttemptPage",
     components: {
-        VueJitsiMeet: JitsiMeet,
-    },
+    VueJitsiMeet: JitsiMeet,
+    RateComponent
+},
     computed: {
         jitsiOptions() {
             return {
@@ -28,6 +31,7 @@ export default {
                     email: "user@email.com",
                     displayName: this.$store.getters.currentUser.name,
                 },
+                personID:'wedwds',
                 configOverwrite: {
                     disableDeepLinking: true,
                     prejoinPageEnabled: false,

@@ -99,6 +99,15 @@ class DataService {
         });
     }
 
+    getSolutionDetails(solutionId) {
+        const query = {
+            solutionId,
+        }
+        return http.get(`/solution/`, {
+            params:query,
+        });
+    }
+
     getQuestionDetails(id) {
         return http.get(`/questions/${id}`);
     }
