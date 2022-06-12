@@ -93,3 +93,34 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+h3:hover {
+    cursor: pointer;
+}
+.desc {
+    max-height: 3.5rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.language {
+    font-size: 0.6rem;
+}
+.icon {
+    color: rgb(81, 128, 11) !important;
+    margin: 0 0.2rem;
+}
+.btn {
+    width: 100%;
+}
+.tag {
+    border-radius: 15px;
+    width: auto !important;
+    max-height: 1rem !important;
+    background-color: orange !important;
+    margin: 0rem 0.3rem;
+    padding: 0rem !important;
+    font-size: 0.6rem !important;
+}
+</style>
