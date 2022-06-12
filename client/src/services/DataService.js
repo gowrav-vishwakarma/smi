@@ -99,6 +99,21 @@ class DataService {
         });
     }
 
+    RatingUpdate(userId,rating,isQuestioner) {
+         return http.post(`/solution/rating`, {
+            userId,rating,isQuestioner
+        });
+    }
+
+    getSolutionDetails(solutionId) {
+        const query = {
+            solutionId,
+        }
+        return http.get(`/solution/`, {
+            params:query,
+        });
+    }
+
     getQuestionDetails(id) {
         return http.get(`/questions/${id}`);
     }

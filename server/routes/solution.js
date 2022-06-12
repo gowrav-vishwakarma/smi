@@ -56,4 +56,53 @@ router.post(
     }
 );
 
+// router.delete("/delC/", async (req, res) => {
+//     try {
+//         const { O_id } = req.query;
+//         await Offer.findByIdAndDelete(O_id);
+//         return res.status(200).json("Offer has been removed");
+//     } catch (error) {
+//         return res.status(500).json(error);
+//     }
+// });
+
+router.get("/", async (req, res) => {
+    const { solutionId } = req.query;
+
+    console.log(solutionId);
+    try {
+        const detail = await Solution.findById(solutionId);
+        return res.status(200).json(detail);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+
+router.post("/rating", async (req, res) => {
+    const { userId, rating, isQuestioner } = req.body;
+    try {
+        if (isQuestioner) {
+            await User.findByIdAndUpdate(userId, {
+                $inc: {
+                    totalRatingCount: 1,
+                    totalRatingPoints: rating,
+                    totalQuestionerRating: rating,
+                    questionerRatingPoint: 1,
+                },
+            });
+        } else {
+            await User.findByIdAndUpdate(userId, {
+                $inc: { totalRatingCount: 1, totalRatingPoints: rating },
+            });
+        }
+        res.status(200).json({ userId, rating, isQuestioner });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+//Wishlist-part
+
 module.exports = router;
