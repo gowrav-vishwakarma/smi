@@ -95,7 +95,7 @@ h3:hover {
     text-overflow: ellipsis;
 }
 .language {
-    font-size: 0.6rem;
+    font-size: 0.75rem;
 }
 .icon {
     color: rgb(81, 128, 11) !important;
