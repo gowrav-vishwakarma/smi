@@ -14,6 +14,11 @@ router.post(
             userId: req.user._id,
             by: req.user._id,
         };
+        // capitalise first letter of sentance in req.body.title
+        questionData.title =
+            questionData.title.charAt(0).toUpperCase() +
+            questionData.title.slice(1);
+
         questionData.tags = questionData.tags.split(",");
         questionData.languages = questionData.languages.split(",");
 

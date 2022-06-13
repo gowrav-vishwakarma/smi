@@ -1,11 +1,10 @@
 <template>
     <v-container>
-        <v-layout>
-            <v-row>
-                <QuestionList :questions="questions" />
-            </v-row>
-        </v-layout>
-        <v-layout class="mt-5">
+        <h3 style="border-bottom: 1px solid">Top Questiions</h3>
+        <v-row class="mt-5 mb-5">
+            <QuestionList :questions="questions" />
+        </v-row>
+        <v-layout style="border-top: 1px solid" class="pt-2">
             <v-flex xs12>
                 <v-btn
                     class="primary"

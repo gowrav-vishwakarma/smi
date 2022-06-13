@@ -1,46 +1,87 @@
 <template>
-    <div class="grey lighten-5 pr-2 pl-2">
-        <v-row>
-            <v-col cols="12" md="12">
-                <v-row>
-                    <v-col cols="12" md="12">
-                        <h3 @click="goToDetail(question)">
-                            {{ question.title }}
-                        </h3>
+    <div class="pr-2 pl-2">
+        <v-row dense>
+            <v-col cols="12" md="1" class="pa-1 text-end">
+                <v-row no-gutters>
+                    <v-col class="grey--text text-lighten-3 caption">
+                        {{ question.totalOffers }}
+                        {{ question.totalOffers == 1 ? "Offer" : "Offers" }}
+                    </v-col>
+                    <v-col class="grey--text text-lighten-3 caption">
+                        {{ question.publicCommentsCount }}
+                        {{
+                            question.publicCommentsCount == 1
+                                ? "Comment"
+                                : "Comments"
+                        }}
                     </v-col>
                 </v-row>
 
-                <v-row>
-                    <v-col cols="12" md="10">
-                        <p
-                            class="pa-2 desc"
-                            outlined
-                            tile
-                            @click="goToDetail(question)"
+                <v-row no-gutters>
+                    <v-col col="12">
+                        <v-icon class="icon" small color="green"
+                            >mdi-chat</v-icon
                         >
-                            {{ shortdetail }}
-                        </p>
-                    </v-col>
-                    <v-spacer></v-spacer>
-                    <v-col cols="2">
-                        <video width="100%" v-if="Video" :src="Video"></video>
+                        <v-icon
+                            small
+                            v-if="question.canShareScreen"
+                            color="green"
+                        >
+                            mdi-monitor
+                        </v-icon>
+                        <v-icon small v-else color="red">
+                            mdi-monitor-off
+                        </v-icon>
+                        <v-icon
+                            small
+                            color="green"
+                            v-if="question.canDoVideoCall"
+                        >
+                            mdi-video
+                        </v-icon>
+                        <v-icon small color="red" v-else>
+                            mdi-video-off
+                        </v-icon>
+                        <v-icon class="icon" v-if="question.isPaid" medium
+                            >mdi-cash</v-icon
+                        >
                     </v-col>
                 </v-row>
+            </v-col>
+            <v-divider inset vertical class=""></v-divider>
+            <v-col cols="12" md="10">
+                <div
+                    @click="goToDetail(question)"
+                    class="pl-2 mb-2 text-subtitle-2"
+                    style="cursor: pointer"
+                >
+                    {{ question.title }}
+                </div>
+
+                <div class="pl-2 caption mb-5" @click="goToDetail(question)">
+                    {{ shortdetail }}
+                </div>
+                <v-spacer></v-spacer>
+                <video width="100%" v-if="Video" :src="Video"></video>
 
                 <v-row>
                     <v-col>
-                        <v-btn
-                            class="tag"
+                        <v-chip
+                            label
                             v-for="tag in question.tags"
                             :key="tag"
+                            small
+                            color="indigo"
+                            dark
+                            class="ml-1 mr-1"
                         >
                             {{ tag }}
-                        </v-btn>
+                        </v-chip>
                     </v-col>
 
                     <v-spacer></v-spacer>
 
-                    <v-col>
+                    <v-col class="grey--text caption text--darken-2">
                         <v-icon small>mdi-circle</v-icon>
                         {{ questionerRating }} {{ question.by.name }} <br />
                         <span class="language">
@@ -49,28 +90,7 @@
                         </span>
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col col="12">
-                        <v-card class="pa-2">
-                            <v-icon class="icon" small>mdi-chat</v-icon>
-                            <v-icon
-                                class="icon"
-                                v-if="question.canDoVideoCall"
-                                small
-                                >mdi-video</v-icon
-                            >
-                            <v-icon
-                                class="icon"
-                                v-if="question.canShareScreen"
-                                small
-                                >mdi-monitor</v-icon
-                            >
-                            <v-icon class="icon" v-if="!question.isPaid" medium
-                                >mdi-cash</v-icon
-                            >
-                        </v-card>
-                    </v-col>
-                </v-row>
+                <v-divider class="mb-1"></v-divider>
             </v-col>
         </v-row>
     </div>
