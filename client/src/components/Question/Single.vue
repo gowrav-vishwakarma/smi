@@ -1,88 +1,79 @@
 <template>
-    <v-container class="grey lighten-5">
+    <div class="grey lighten-5 pr-2 pl-2">
         <v-row>
             <v-col cols="12" md="12">
-                <v-card class="pa-2">
-                    <v-row>
-                        <v-col cols="12" md="12">
-                            <h3 @click="goToDetail(question)">
-                                {{ question.title }}
-                            </h3>
-                        </v-col>
-                    </v-row>
+                <v-row>
+                    <v-col cols="12" md="12">
+                        <h3 @click="goToDetail(question)">
+                            {{ question.title }}
+                        </h3>
+                    </v-col>
+                </v-row>
 
-                    <v-row>
-                        <v-col cols="12" md="10">
-                            <p
-                                class="pa-2 desc"
-                                outlined
-                                tile
-                                @click="goToDetail(question)"
+                <v-row>
+                    <v-col cols="12" md="10">
+                        <p
+                            class="pa-2 desc"
+                            outlined
+                            tile
+                            @click="goToDetail(question)"
+                        >
+                            {{ shortdetail }}
+                        </p>
+                    </v-col>
+                    <v-spacer></v-spacer>
+                    <v-col cols="2">
+                        <video width="100%" v-if="Video" :src="Video"></video>
+                    </v-col>
+                </v-row>
+
+                <v-row>
+                    <v-col>
+                        <v-btn
+                            class="tag"
+                            v-for="tag in question.tags"
+                            :key="tag"
+                        >
+                            {{ tag }}
+                        </v-btn>
+                    </v-col>
+
+                    <v-spacer></v-spacer>
+
+                    <v-col>
+                        <v-icon small>mdi-circle</v-icon>
+                        {{ questionerRating }} {{ question.by.name }} <br />
+                        <span class="language">
+                            [ {{ question.languages.join(", ") }} ] -
+                            {{ humanized_time_span(question.createdAt) }}
+                        </span>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col col="12">
+                        <v-card class="pa-2">
+                            <v-icon class="icon" small>mdi-chat</v-icon>
+                            <v-icon
+                                class="icon"
+                                v-if="question.canDoVideoCall"
+                                small
+                                >mdi-video</v-icon
                             >
-                                {{ shortdetail }}
-                            </p>
-                        </v-col>
-                        <v-spacer></v-spacer>
-                        <v-col cols="2">
-                            <video
-                                width="100%"
-                                v-if="Video"
-                                :src="Video"
-                            ></video>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col>
-                            <v-btn
-                                class="tag"
-                                v-for="tag in question.tags"
-                                :key="tag"
+                            <v-icon
+                                class="icon"
+                                v-if="question.canShareScreen"
+                                small
+                                >mdi-monitor</v-icon
                             >
-                                {{ tag }}
-                            </v-btn>
-                        </v-col>
-
-                        <v-spacer></v-spacer>
-
-                        <v-col>
-                            <v-icon small>mdi-circle</v-icon>
-                            {{ questionerRating }} {{ question.by.name }} <br />
-                            <span class="language">
-                                [ {{ question.languages.join(", ") }} ] -
-                                {{ humanized_time_span(question.createdAt) }}
-                            </span>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col col="12">
-                            <v-card class="pa-2">
-                                <v-icon class="icon" small>mdi-chat</v-icon>
-                                <v-icon
-                                    class="icon"
-                                    v-if="question.canDoVideoCall"
-                                    small
-                                    >mdi-video</v-icon
-                                >
-                                <v-icon
-                                    class="icon"
-                                    v-if="question.canShareScreen"
-                                    small
-                                    >mdi-monitor</v-icon
-                                >
-                                <v-icon
-                                    class="icon"
-                                    v-if="!question.isPaid"
-                                    medium
-                                    >mdi-cash</v-icon
-                                >
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                </v-card>
+                            <v-icon class="icon" v-if="!question.isPaid" medium
+                                >mdi-cash</v-icon
+                            >
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-col>
         </v-row>
-    </v-container>
+    </div>
 </template>
 <style scoped>
 h3:hover {

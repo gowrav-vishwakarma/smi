@@ -5,8 +5,8 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VueToastify from "vue-toastify";
-import VModal from "vue-js-modal/dist/index.nocss.js";
-import "vue-js-modal/dist/styles.css";
+// import VModal from "vue-js-modal/dist/index.nocss.js";
+// import "vue-js-modal/dist/styles.css";
 
 import "@/mixins/generalMixin";
 /* import the fontawesome core */
@@ -22,7 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(faUserSecret);
 
 Vue.use(VueToastify);
-Vue.use(VModal);
+// Vue.use(VModal);
 /* add font awesome icon component */
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
