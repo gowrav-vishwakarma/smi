@@ -3,7 +3,7 @@
         {
             "name": "SMI Express",
             "script": "npm",
-            "args": "run start",
+            "args": "run start:pm2",
             "watch": false,
             "cwd": "/home/ubuntu/smi-express/server/",
             "out_file": "/home/ubuntu/hooker.out.log",
