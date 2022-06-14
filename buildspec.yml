@@ -5,8 +5,9 @@ phases:
         commands:
             - npm cache clean --force
             - npm i npm@6.14.6 -g
-            - pip install --upgrade pip
-            - pip install --upgrade awscli
+            - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            - unzip awscliv2.zip
+            - sudo ./aws/install
 
     build:
         commands:
@@ -14,7 +15,7 @@ phases:
             - echo Building PWA app
             - cd client
             - aws s3 cp s3://solvemyissue.live-env-files/env.client ./.env
-            - npm ci
+            - npm ci --only=prod
             - npm run build
             # - echo Building Server Side
             # - cd server
