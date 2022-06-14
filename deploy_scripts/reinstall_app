@@ -1,4 +1,4 @@
 #!/bin/bash
 cd /home/ubuntu/
 rm -rf smi-express
-git clone -–depth 0 https://github.com/gowrav-vishwakarma/smi.git smi-express
+git clone -–depth 1 https://github.com/gowrav-vishwakarma/smi.git smi-express
