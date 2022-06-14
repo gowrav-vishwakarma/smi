@@ -5,7 +5,7 @@
             "script": "npm",
             "args": "run start",
             "watch": false,
-            "cwd": "/home/ubuntu/smi-express/",
+            "cwd": "/home/ubuntu/smi-express/server/",
             "out_file": "/home/ubuntu/hooker.out.log",
             "err_file": "/home/ubuntu/hooker.err.log",
             "merge_logs": true,
