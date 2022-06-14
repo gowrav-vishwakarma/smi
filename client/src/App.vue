@@ -1,15 +1,15 @@
 <template>
     <v-app>
-        <NavBarLoggedIn
-            class="hidden-sm-and-down"
-            v-if="$store.getters.isLoggedIn"
-        />
-        <NavBarGuest class="hidden-sm-and-down" v-else />
         <v-main>
+            <NavBarLoggedIn
+                class="hidden-sm-and-down"
+                v-if="$store.getters.isLoggedIn"
+            />
+            <NavBarGuest class="hidden-sm-and-down" v-else />
             <router-view></router-view>
+            <BottomNavigation class="hidden-md-and-up" />
+            <WSConnection />
         </v-main>
-        <BottomNavigation class="hidden-md-and-up" />
-        <WSConnection />
     </v-app>
 </template>
 

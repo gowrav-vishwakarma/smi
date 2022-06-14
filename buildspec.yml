@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+    install:
+        commands:
+            - npm cache clean --force
+            - npm i npm@6.14.6 -g
+            - pip install --upgrade pip
+            - pip install --upgrade awscli
+
+    build:
+        commands:
+            - echo Build Phase
+            - echo Building PWA app
+            - cd client
+            - npm ci
+            - npm run build
+            # - echo Building Server Side
+            # - cd server
+            # - npm ci
+            # - echo Deploying Server Side
+    post_build:
+        commands:
+            - echo PostBuild Phase
+            - echo Pushing to S3
+            - aws s3 sync ./client/dist $S3_BUCKET
+# artifacts:
+#     files:
+#         - "server/**/*" #copy all build files + server code to S3 location

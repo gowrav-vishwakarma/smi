@@ -1,5 +1,5 @@
 <template>
-    <v-system-bar flat dense app dark class="indigo" height="40">
+    <v-app-bar flat dense app dark class="indigo" height="40">
         <v-toolbar-title>
             <v-btn plain :ripple="false" class="text-h7" to="/">
                 <v-img src="@/assets/logo.png" class="mr-2"></v-img>
@@ -27,10 +27,10 @@
         <v-toolbar-items>
             <v-btn plain class="" to="/profile"> Profile </v-btn>
         </v-toolbar-items>
-        <!-- <v-toolbar-items>
-                <v-btn plain class="" @click="logout"> Logout </v-btn>
-            </v-toolbar-items> -->
-    </v-system-bar>
+        <v-toolbar-items>
+            <v-btn plain class="" @click="logout"> Logout </v-btn>
+        </v-toolbar-items>
+    </v-app-bar>
     <!-- End of app toolbar -->
 </template>
 
