@@ -15,7 +15,7 @@ phases:
             - echo Building PWA app
             - cd client
             - aws s3 cp s3://solvemyissue.live-env-files/env.client ./.env
-            - npm ci --only=prod
+            - npm ci
             - npm run build
             # - echo Building Server Side
             # - cd server
