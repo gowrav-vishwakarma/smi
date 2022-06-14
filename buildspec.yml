@@ -13,6 +13,7 @@ phases:
             - echo Build Phase
             - echo Building PWA app
             - cd client
+            - aws s3 cp s3://solvemyissue.live-env-files/env.client ./.env
             - npm ci
             - npm run build
             # - echo Building Server Side
