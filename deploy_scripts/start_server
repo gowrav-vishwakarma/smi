@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cd /home/ubuntu/smi-express
-pm2 start ecosystem.json

@@ -19,6 +19,8 @@ import NavBarLoggedIn from "@/components/UI/NavbarLoggedIn";
 import BottomNavigation from "@/components/UI/BottomNavigation";
 import WSConnection from "@/components/UI/WSConnection";
 
+import smartlookClient from "smartlook-client";
+
 export default {
     name: "App",
     components: {
@@ -32,6 +34,11 @@ export default {
             drawer: false,
             value: "recent", // Hide mobile side menu by default
         };
+    },
+    mounted() {
+        if (process.env.VUE_APP_SMARTLOOK_KEY) {
+            smartlookClient.init(process.env.VUE_APP_SMARTLOOK_KEY);
+        }
     },
 };
 </script>

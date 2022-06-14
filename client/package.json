@@ -19,6 +19,7 @@
     "core-js": "^3.8.3",
     "multicorder": "^1.13.4",
     "register-service-worker": "^1.7.2",
+    "smartlook-client": "^7.0.1",
     "socket.io-client": "^4.5.1",
     "string": "^3.3.3",
     "vue": "^2.6.14",

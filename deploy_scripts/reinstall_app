@@ -1,6 +1,0 @@
-#!/bin/bash
-cd /home/ubuntu/
-rm -rf smi-express
-git clone -–depth 1 https://github.com/gowrav-vishwakarma/smi.git smi-express
-cd smi-express
-aws s3 cp s3://solvemyissue.live-env-files/env.server ./.env
