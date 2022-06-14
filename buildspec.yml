@@ -24,7 +24,7 @@ phases:
         commands:
             - echo PostBuild Phase
             - echo Pushing to S3
-            - aws s3 sync ./client/dist $S3_BUCKET
+            - aws s3 sync ./client/dist s3://solvemyissue.live
 # artifacts:
 #     files:
 #         - "server/**/*" #copy all build files + server code to S3 location
