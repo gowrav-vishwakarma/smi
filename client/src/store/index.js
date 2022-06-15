@@ -48,11 +48,19 @@ export default new Vuex.Store({
         setCurrentQuestion(state, question) {
             state.currentQuestion = question;
         },
+        // set currentError
+        setCurrentError(state, error) {
+            state.CurrentError = error;
+        },
     },
     actions: {
         // action to set current user in vuex state
         setCurrentUser({ commit }, user) {
             commit("setCurrentUser", user);
+        },
+        // action to set current error in vuex state
+        setCurrentError({ commit }, error) {
+            commit("setCurrentError", error);
         },
     },
     getters: {
@@ -74,6 +82,7 @@ export default new Vuex.Store({
         sortBy: (state) => state.filters.sortBy,
         notifications: (state) => state.notifications,
         currentQuestion: (state) => state.currentQuestion,
+        CurrentError : (state)=>state.CurrentError
     },
     modules: {},
     plugins: [
