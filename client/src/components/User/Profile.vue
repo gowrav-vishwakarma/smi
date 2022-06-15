@@ -80,7 +80,7 @@
           ></v-text-field>
         </v-col>
         <v-col v-if="notSameUser()" cols="auto">
-            <v-btn v-if="isDisabled" @click="()=>isDisabled=false">Edit</v-btn>
+            <v-btn v-if="isDisabled" @click="()=>isDisabled=false">{{edit}}</v-btn>
             <v-btn v-if="!isDisabled" @click="editUser()">{{save}}</v-btn>
         </v-col>
       </v-row>
@@ -108,6 +108,7 @@ export default{
            country: this.currentUser.country,
            topics: this.currentUser.topic,
            isDisabled:true,
+           edit:"Edit",
            save:"Save"
        };
     },
@@ -129,11 +130,12 @@ export default{
          DataService.editUserbyId(data,this.currentUser._id)
           .then((response) => {
                     console.log(response.data)
+                    this.$store.commit("setCurrentUser", response.data);
                 })
                 .catch((e) => {
                     console.log(e);
                 });
-
+         this.edit = "Saved"
          setTimeout(() => this.isDisabled = true, 1000);
 
         }
