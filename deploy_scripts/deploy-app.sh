@@ -1,5 +1,13 @@
 #!/bin/bash
 
+while [ $# -gt 0 ]; do
+    if [[ $1 == *"--"* ]]; then
+        v="${1/--/}"
+        declare $v="$2"
+    fi
+    shift
+done
+
 rm -rf smi-express-app
 git clone --branch master --depth 1 https://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@github.com/gowrav-vishwakarma/smi.git smi-express-app
 
