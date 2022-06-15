@@ -126,5 +126,11 @@ class DataService {
             params:query,
         });
     }
+
+    editUserbyId(data,id) {
+        return http.put(`/users/editU/`, {
+            data,id
+        });
+    }
 }
 export default new DataService();
