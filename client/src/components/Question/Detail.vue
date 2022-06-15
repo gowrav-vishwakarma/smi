@@ -5,21 +5,21 @@
                 <v-card class="pa-2" outlined tile>
                     <v-row>
                         <v-col cols="12" md="12">
-                            <v-card class="pa-2" outlined tile>
-                                <h3>
-                                    {{ question.title }}
-                                </h3>
-                            </v-card>
+                            <h3 class="heading-6">
+                                {{ question.title }}
+                            </h3>
                         </v-col>
                     </v-row>
 
                     <v-row>
                         <v-col cols="12" md="12">
-                            <vue-editor
+                            <div class="caption" v-html="questiondetail"></div>
+                            <!-- <vue-editor
                                 disabled
                                 v-model="questiondetail"
                                 :editorOptions="editorOptions"
-                            ></vue-editor>
+                                class="caption"
+                            ></vue-editor> -->
                         </v-col>
                         <v-col cols="8">
                             <video
@@ -44,11 +44,11 @@
 
                         <v-spacer></v-spacer>
 
-                        <v-col>
+                        <v-col class="caption">
                             <v-icon small>mdi-circle</v-icon>
                             {{ questionerRating }} {{ question.by.name }} -
                             <br />
-                            <span class="language">
+                            <span class="language caption">
                                 [ {{ question.languages.join(", ") }} ] -
                                 {{ humanized_time_span(question.createdAt) }}
                             </span>
@@ -61,12 +61,12 @@
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
+// import { VueEditor } from "vue2-editor";
 
 export default {
     name: "QuestionDetail",
     components: {
-        VueEditor,
+        // VueEditor,
     },
     props: {
         question: Object,
@@ -95,6 +95,10 @@ export default {
 </script>
 
 <style scoped>
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.snow.css";
+
 h3:hover {
     cursor: pointer;
 }

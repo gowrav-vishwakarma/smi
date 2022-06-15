@@ -4,28 +4,6 @@
             >Offer Solution</v-btn
         >
         <div v-else>Login to offer</div>
-        <modal name="Offerform">
-            <v-form ref="form" v-model="valid">
-                <v-text-field
-                    label="Optional comment"
-                    v-model="offer.description"
-                    :rules="[
-                        (v) => !!v || 'Required',
-                        (v) => v.length <= 50 || 'Too long',
-                    ]"
-                ></v-text-field>
-
-                <v-btn
-                    color="success"
-                    class="mt-0"
-                    @click="placeOffer"
-                    :disabled="!valid"
-                    block
-                >
-                    Create
-                </v-btn>
-            </v-form>
-        </modal>
     </div>
 </template>
 
