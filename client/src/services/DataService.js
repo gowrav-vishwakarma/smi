@@ -117,5 +117,14 @@ class DataService {
     getQuestionDetails(id) {
         return http.get(`/questions/${id}`);
     }
+
+    getUserbyId(userId) {
+        const query = {
+            userId,
+        }
+        return http.get(`/users/idby/`, {
+            params:query,
+        });
+    }
 }
 export default new DataService();

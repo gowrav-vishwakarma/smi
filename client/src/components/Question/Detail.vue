@@ -45,6 +45,7 @@
                         <v-spacer></v-spacer>
 
                         <v-col class="caption">
+                            <router-link :to="`/userprofile/${question.userId}`">
                             <v-icon small>mdi-circle</v-icon>
                             {{ questionerRating }} {{ question.by.name }} -
                             <br />
@@ -52,6 +53,7 @@
                                 [ {{ question.languages.join(", ") }} ] -
                                 {{ humanized_time_span(question.createdAt) }}
                             </span>
+                            </router-link>
                         </v-col>
                     </v-row>
                 </v-card>
