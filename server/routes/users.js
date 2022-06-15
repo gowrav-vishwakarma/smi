@@ -106,7 +106,7 @@ router.get("/idby", async (req, res) => {
         });
         return res.status(200).json(user);
     } catch (error) {
-        return res.status(500).json(err);
+        return res.status(500).send({message:"No user found"});
     }
 });
 
