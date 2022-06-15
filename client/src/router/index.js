@@ -53,6 +53,15 @@ const routes = [
         },
     },
     {
+        path: "/userprofile/:id",
+        name: "Profile",
+
+        component: () => import("../views/Profile/Others.vue"),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
         path: "/solution-attempt/:id",
         name: "SolutionAttempt",
 
