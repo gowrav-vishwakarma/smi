@@ -53,19 +53,21 @@ router.delete("/delU/", async (req, res) => {
     }
 });
 
-router.put("/editU/", async (req, res) => {
+router.put("/editU", async (req, res) => {
     try {
-        const id = req.query.id;
+        const {data,id} = req.body;
+
+        console.log(req.body)
         const updatedUser = await User.findByIdAndUpdate(
             id,
             {
-                $set: req.body,
+                $set: data,
             },
             { new: true }
         );
         return res.status(200).json(updatedUser);
     } catch (error) {
-        return res.status(500).json(err);
+        return res.status(500).json(error);
     }
 });
 

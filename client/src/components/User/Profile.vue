@@ -10,7 +10,7 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col cols="8">
-           <h2> Hello, {{firstName}}!</h2>
+           <h2>{{welcomeName}}</h2>
            <p>
                <small v-for="topic in topics" :key="topic">
                  {{topic}} ,
@@ -26,7 +26,7 @@
     </v-row>
 
     <v-row>
-        <v-form>
+        <v-form :disabled="isDisabled">
     <v-container>
       <v-row>
         <v-col
@@ -79,6 +79,10 @@
             filled
           ></v-text-field>
         </v-col>
+        <v-col v-if="notSameUser()" cols="auto">
+            <v-btn v-if="isDisabled" @click="()=>isDisabled=false">{{edit}}</v-btn>
+            <v-btn v-if="!isDisabled" @click="editUser()">{{save}}</v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-form>
@@ -87,19 +91,54 @@
 </template>
 
 <script>
+import DataService from '@/services/DataService';
 export default{
     data(){
        return{
+           welcomeName:this.notSameUser()? "Hello, "+this.currentUser.name.split(" ")[0]+"!":this.currentUser.name.split(" ")[0],
            firstName:this.currentUser.name.split(" ")[0],
            lastName: this.currentUser.name.split(" ")[1] || "",
            email: this.currentUser.email,
+            emailRules: [
+                (v) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+                    "E-mail must be valid",
+            ],
            username: this.currentUser.username.split("@")[0],
            country: this.currentUser.country,
-           topics: this.currentUser.topic
+           topics: this.currentUser.topic,
+           isDisabled:true,
+           edit:"Edit",
+           save:"Save"
        };
     },
     props:{
         currentUser:Object
+    },
+    methods:{
+        notSameUser(){
+            return this.$store.getters.currentUser._id == this.currentUser._id 
+        },
+        editUser(){
+            let data={
+                name : this.firstName+" "+this.lastName,
+                email: this.email,
+                username:this.username,
+                country:this.country
+            }
+         this.save = "Saving.."
+         DataService.editUserbyId(data,this.currentUser._id)
+          .then((response) => {
+                    console.log(response.data)
+                    this.$store.commit("setCurrentUser", response.data);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+         this.edit = "Saved"
+         setTimeout(() => this.isDisabled = true, 1000);
+
+        }
     }
 }
 </script>
