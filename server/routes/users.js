@@ -100,7 +100,7 @@ router.get("/idby", async (req, res) => {
     try {
         let user;
         user = await User.find({
-            _id: req.query.id,
+            _id: req.query.userId,
         });
         return res.status(200).json(user);
     } catch (error) {
