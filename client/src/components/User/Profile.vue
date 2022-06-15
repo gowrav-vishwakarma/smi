@@ -12,9 +12,7 @@
         <v-col cols="8">
            <h2>{{welcomeName}}</h2>
            <p>
-               <small v-for="topic in topics" :key="topic">
-                 {{topic}} ,
-               </small>
+               {{ topics.join(", ") }}
            </p>
         </v-col>
         <v-spacer></v-spacer>
@@ -129,7 +127,6 @@ export default{
          this.save = "Saving.."
          DataService.editUserbyId(data,this.currentUser._id)
           .then((response) => {
-                    console.log(response.data)
                     this.$store.commit("setCurrentUser", response.data);
                 })
                 .catch((e) => {

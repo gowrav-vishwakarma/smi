@@ -14,6 +14,7 @@
 <script>
 import UserView from "@/components/User/Profile.vue"
 import DataService from "@/services/DataService";
+
 export default {
     name: "ProfilePage",
     data(){
@@ -31,11 +32,11 @@ export default {
         fetchUser(id) {
             DataService.getUserbyId(id)
                 .then((response) => {
-                    console.log(response.data)
                     this.userInfo = response.data[0];
                 })
                 .catch((e) => {
-                    console.log(e);
+                    this.$store.commit("setCurrentError", e.response.data);
+                     this.$router.push(`/error`)
                 });
         },
     }
