@@ -13,9 +13,7 @@
 </template>
 
 <style>
-*{
-    background-color: #FE531D;
-}
+
 </style>
 
 <script>

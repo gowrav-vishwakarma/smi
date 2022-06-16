@@ -1,10 +1,12 @@
 <template>
     <v-card class="pa-2 my-1">
+        <router-link class="nav-link" :to="`/userprofile/${offer.offerById}`">
         <small>
             <v-icon small>mdi-star</v-icon>
             {{ offererRating }}
         </small>
         {{ offer.offerBy.name }}
+        </router-link>
         <v-btn class="tagg" @click="show" v-if="offer.description">know</v-btn>
         <modal v-if="offer.description" name="Desc">
             <p>{{ offer.description }}</p>
@@ -12,6 +14,13 @@
         <Call :offer="offer" />
     </v-card>
 </template>
+
+<style>
+.nav-link{
+    text-decoration: none;
+    font-weight: 600;
+}
+</style>
 
 <script>
 import Call from "./Call.vue";

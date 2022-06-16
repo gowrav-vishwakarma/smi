@@ -45,15 +45,8 @@
                         <v-spacer></v-spacer>
 
                         <v-col class="caption">
-                            <router-link :to="`/userprofile/${question.userId}`">
-                            <v-icon small>mdi-circle</v-icon>
-                            {{ questionerRating }} {{ question.by.name }} -
-                            <br />
-                            <span class="language caption">
-                                [ {{ question.languages.join(", ") }} ] -
-                                {{ humanized_time_span(question.createdAt) }}
-                            </span>
-                            </router-link>
+                             <Tooltip :question="question"/>
+                            {{ humanized_time_span(question.createdAt) }}
                         </v-col>
                     </v-row>
                 </v-card>
@@ -63,13 +56,14 @@
 </template>
 
 <script>
+import Tooltip from '../User/Tooltip.vue';
 // import { VueEditor } from "vue2-editor";
 
 export default {
     name: "QuestionDetail",
     components: {
-        // VueEditor,
-    },
+    Tooltip
+},
     props: {
         question: Object,
     },
@@ -80,6 +74,7 @@ export default {
                     toolbar: false,
                 },
             },
+            show:false
         };
     },
     computed: {

@@ -82,14 +82,9 @@
                     <v-spacer></v-spacer>
 
                     <v-col class="grey--text caption text--darken-2">
-                        <router-link :to="`/userprofile/${question.userId}`">
-                        <v-icon small>mdi-circle</v-icon>
-                        {{ questionerRating }} {{ question.by.name }} <br />
-                        <span class="language">
-                            [ {{ question.languages.join(", ") }} ] -
+                            <TooltipVue :question="question"/>
                             {{ humanized_time_span(question.createdAt) }}
-                        </span>
-                        </router-link>
+                 
                     </v-col>
                 </v-row>
                 <v-divider class="mb-1"></v-divider>
@@ -129,10 +124,14 @@ h3:hover {
 </style>
 <script>
 import S from "string";
+import TooltipVue from "../User/Tooltip.vue";
 export default {
     props: {
         question: Object,
     },
+    components:{
+    TooltipVue
+},
     data() {
         return {
             Video: this.question.video,

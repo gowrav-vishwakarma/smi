@@ -1,5 +1,5 @@
 <template>
-     <v-container> 
+     <v-container v-if="!error"> 
         <v-row>
             <v-col cols="9">
                <UserView v-if="userInfo._id" :currentUser="userInfo"/>
@@ -9,21 +9,27 @@
             </v-col>
         </v-row>
     </v-container>
+    <v-container v-else>
+        <Error/>
+    </v-container>
 </template>
 
 <script>
 import UserView from "@/components/User/Profile.vue"
 import DataService from "@/services/DataService";
+import Error from "@/components/Errors/500.vue"
 
 export default {
     name: "ProfilePage",
     data(){
         return{
-             userInfo:{}
+             userInfo:{},
+             error: false
         };
     },
     components: {
-        UserView
+        UserView,
+        Error
     },
     mounted(){
         this.fetchUser(this.$route.params.id);
