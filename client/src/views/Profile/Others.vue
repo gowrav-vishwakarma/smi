@@ -42,7 +42,7 @@ export default {
                 })
                 .catch((e) => {
                     this.$store.commit("setCurrentError", e.response.data);
-                     this.$router.push(`/error`)
+                    // this.$router.push(`/error`)
                 });
         },
     }

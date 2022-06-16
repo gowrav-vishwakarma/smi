@@ -19,7 +19,14 @@ var offerRouter = require("./routes/offer");
 var solutionRouter = require("./routes/solution");
 
 var app = express();
-app.use(upload());
+app.use(
+    upload({
+        limits: {
+            fileSize: 10000000, //10mb
+        },
+        abortOnLimit: true,
+    })
+);
 
 app.use(
     cors({

@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h3 style="border-bottom: 1px solid">Top Questiions</h3>
+        <h3 style="border-bottom: 1px solid">Top Questions</h3>
         <v-row class="mt-5 mb-5">
             <QuestionList :questions="questions" />
         </v-row>
