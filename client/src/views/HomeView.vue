@@ -1,9 +1,7 @@
 <template>
     <v-container>
-        <h3 style="border-bottom: 1px solid">Top Questions</h3>
-        <v-row class="mt-5 mb-5">
-            <QuestionList :questions="questions" />
-        </v-row>
+        <h3 style="border-bottom: 1px solid" class="mb-3">Top Questions</h3>
+        <QuestionList :questions="questions" />
         <v-layout style="border-top: 1px solid" class="pt-2">
             <v-flex xs12>
                 <v-btn
