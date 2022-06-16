@@ -1,131 +1,128 @@
 <template>
-    <v-card class="d-flex mb-2" flat tile>
-        <v-card elevation="11" class="Qcard" outlined shaped tile>
-            <v-container>
-                <div class="d-flex justify-space-between">
-                    <div class="d-flex justify-start mb-3" cols="auto">
-                        <v-img
-                            lazy-src="https://picsum.photos/id/11/10/6"
-                            max-height="70"
-                            max-width="54"
-                            class="mr-4"
-                            src="https://picsum.photos/id/11/500/300"
-                        ></v-img>
-                        <div class="d-flex flex-column justify-space-around">
-                            <h4 class="mb-2" @click="goToDetail(question)">
-                                {{ question.title }}
-                            </h4>
-                            <h6 class="caption">
-                                {{ question.by.name }} |
-                                <v-icon class="icon mr-2" small color="green"
-                                    >mdi-chat</v-icon
-                                >
-                                <v-icon
-                                    small
-                                    v-if="question.canShareScreen"
-                                    color="green"
-                                    class="mr-2"
-                                >
-                                    mdi-monitor
-                                </v-icon>
-                                <v-icon small v-else color="red" class="mr-2">
-                                    mdi-monitor-off
-                                </v-icon>
-                                <v-icon
-                                    small
-                                    color="green"
-                                    class="mr-2"
-                                    v-if="question.canDoVideoCall"
-                                >
-                                    mdi-video
-                                </v-icon>
-                                <v-icon small color="red" class="mr-2" v-else>
-                                    mdi-video-off
-                                </v-icon>
-                            </h6>
-                            <div class="caption mt-n1">
-                                <v-icon small>mdi-star</v-icon>
-                                {{ questionerRating }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex flex-column justify-start" cols="3">
-                        <small
-                            class="d-flex flex-column justify-end text-right"
-                        >
-                            <div>
-                                {{ humanized_time_span(question.createdAt) }}
-                            </div>
-                            <div><v-icon small>mdi-eye</v-icon> 10 views</div>
-                            <div>
-                                {{ question.status }}
-                            </div>
-                        </small>
-                        <div class="d-flex justify-end">
-                            <v-icon small>mdi-share</v-icon>
-                            <v-icon small class="mt-1">mdi-download</v-icon>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex justify-space-between mb-2 caption">
-                    <div>
-                        <p @click="goToDetail(question)">{{ shortdetail }}</p>
-                    </div>
-                    <div>
-                        <v-dialog v-model="dialog" width="500">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                    color="red lighten-2"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                >
-                                    <v-icon large>mdi-youtube</v-icon>
-                                </v-btn>
-                            </template>
-
-                            <v-card>
-                                <v-card-text>
-                                    <video
-                                        width="100%"
-                                        controls
-                                        v-if="Video"
-                                        :src="Video"
-                                    ></video>
-                                </v-card-text>
-                            </v-card>
-                        </v-dialog>
-                    </div>
-                </div>
-
-                <v-divider></v-divider>
-                <div class="d-flex justify-space-between pl-3 pr-3 mb-2">
-                    <div class="d-flex flex-column align-start">
-                        <div class="mt-3">
-                            <v-chip
-                                label
-                                v-for="tag in question.tags"
-                                :key="tag"
-                                class="tag"
-                                color="secondary"
+    <v-card elevation="11" class="d-flex mb-2 Qcard" outlined shaped tile>
+        <v-container>
+            <div class="d-flex justify-space-between">
+                <div class="d-flex justify-start mb-3" cols="auto">
+                    <v-img
+                        lazy-src="https://picsum.photos/id/11/10/6"
+                        max-height="70"
+                        max-width="54"
+                        class="mr-4"
+                        src="https://picsum.photos/id/11/500/300"
+                    ></v-img>
+                    <div class="d-flex flex-column justify-space-around">
+                        <h4 class="mb-2" @click="goToDetail(question)">
+                            {{ question.title }}
+                        </h4>
+                        <h6 class="caption">
+                            {{ question.by.name }} |
+                            <v-icon class="icon mr-2" small color="green"
+                                >mdi-chat</v-icon
                             >
-                                {{ tag }}
-                            </v-chip>
+                            <v-icon
+                                small
+                                v-if="question.canShareScreen"
+                                color="green"
+                                class="mr-2"
+                            >
+                                mdi-monitor
+                            </v-icon>
+                            <v-icon small v-else color="red" class="mr-2">
+                                mdi-monitor-off
+                            </v-icon>
+                            <v-icon
+                                small
+                                color="green"
+                                class="mr-2"
+                                v-if="question.canDoVideoCall"
+                            >
+                                mdi-video
+                            </v-icon>
+                            <v-icon small color="red" class="mr-2" v-else>
+                                mdi-video-off
+                            </v-icon>
+                        </h6>
+                        <div class="caption mt-n1">
+                            <v-icon small>mdi-star</v-icon>
+                            {{ questionerRating }}
                         </div>
                     </div>
-                    <div class="d-flex flex-row justify-space-around mt-6">
-                        <v-btn x-small class="mr-2">
-                            <v-icon x-small>mdi-plus</v-icon> Vote
-                        </v-btn>
-                        <v-btn x-small
-                            >{{ question.publicCommentsCount }} people
-                            answered</v-btn
-                        >
+                </div>
+
+                <div class="d-flex flex-column justify-start" cols="3">
+                    <small class="d-flex flex-column justify-end text-right">
+                        <div>
+                            {{ humanized_time_span(question.createdAt) }}
+                        </div>
+                        <div><v-icon small>mdi-eye</v-icon> 10 views</div>
+                        <div>
+                            {{ question.status }}
+                        </div>
+                    </small>
+                    <div class="d-flex justify-end">
+                        <v-icon small>mdi-share</v-icon>
+                        <v-icon small class="mt-1">mdi-download</v-icon>
                     </div>
                 </div>
-                <v-divider></v-divider>
-            </v-container>
-        </v-card>
+            </div>
+            <div class="d-flex justify-space-between mb-2 caption">
+                <div>
+                    <p @click="goToDetail(question)">{{ shortdetail }}</p>
+                </div>
+                <div>
+                    <v-dialog v-model="dialog" width="500">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                color="red lighten-2"
+                                v-bind="attrs"
+                                v-on="on"
+                            >
+                                <v-icon large>mdi-youtube</v-icon>
+                            </v-btn>
+                        </template>
+
+                        <v-card>
+                            <v-card-text>
+                                <video
+                                    width="100%"
+                                    controls
+                                    v-if="Video"
+                                    :src="Video"
+                                ></video>
+                            </v-card-text>
+                        </v-card>
+                    </v-dialog>
+                </div>
+            </div>
+
+            <v-divider></v-divider>
+            <div class="d-flex justify-space-between pl-3 pr-3 mb-2">
+                <div class="d-flex flex-column align-center">
+                    <div class="">
+                        <v-chip
+                            label
+                            v-for="tag in question.tags"
+                            :key="tag"
+                            x-small
+                            class="mr-1"
+                            color="secondary"
+                        >
+                            {{ tag }}
+                        </v-chip>
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-space-around align-center">
+                    <v-btn x-small class="mr-2">
+                        <v-icon x-small>mdi-plus</v-icon> Vote
+                    </v-btn>
+                    <v-btn x-small
+                        >{{ question.publicCommentsCount }} people
+                        answered</v-btn
+                    >
+                </div>
+            </div>
+            <v-divider></v-divider>
+        </v-container>
     </v-card>
 </template>
 
@@ -136,28 +133,6 @@
 h4,
 p {
     cursor: pointer;
-}
-.rate small {
-    font-size: 0.5rem;
-    margin: -2;
-}
-.tag {
-    border-radius: 25px !important;
-    width: auto !important;
-    max-height: 1rem !important;
-    background-color: #ededed !important;
-    margin: 0rem 0.3rem;
-    padding: 0.5rem !important;
-    font-size: 0.7rem !important;
-}
-.tag2 {
-    border-radius: 15px;
-    width: auto !important;
-    max-height: 1rem !important;
-    background-color: #ededed !important;
-    margin: 0rem 0.3rem;
-    padding: 1rem !important;
-    font-size: 0.6rem !important;
 }
 </style>
 
