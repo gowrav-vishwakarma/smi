@@ -1,140 +1,174 @@
 <template>
-    <div class="pr-2 pl-2">
-        <v-row dense>
-            <v-col cols="12" md="1" class="pa-1 text-end">
-                <v-row no-gutters>
-                    <v-col class="grey--text text-lighten-3 caption">
-                        {{ question.totalOffers }}
-                        {{ question.totalOffers == 1 ? "Offer" : "Offers" }}
-                    </v-col>
-                    <v-col class="grey--text text-lighten-3 caption">
-                        {{ question.publicCommentsCount }}
-                        {{
-                            question.publicCommentsCount == 1
-                                ? "Comment"
-                                : "Comments"
-                        }}
-                    </v-col>
-                </v-row>
-
-                <v-row no-gutters>
-                    <v-col col="12">
-                        <v-icon class="icon" small color="green"
+   <v-card
+      class="d-flex justify-center mb-2"
+      flat
+      tile
+    >
+     <v-card
+  elevation="11"
+  class="Qcard"
+  loading
+  outlined
+  shaped
+  tile
+>
+   <v-container>
+       <v-row class="d-flex justify-space-between">
+            <v-col class="d-flex justify-start mb-3" cols="auto">
+                <v-img
+                    lazy-src="https://picsum.photos/id/11/10/6"
+                    max-height="70"
+                    max-width="54"
+                    class="mr-4"
+                    src="https://picsum.photos/id/11/500/300"
+                    ></v-img>
+                <div class="d-flex flex-column justify-space-around">
+                  <h4 class="mb-2" @click="goToDetail(question)">{{question.title}}</h4>
+                  <h6>{{question.by.name}} | 
+                   <v-icon class="icon mr-2" small color="green"
                             >mdi-chat</v-icon
                         >
                         <v-icon
                             small
                             v-if="question.canShareScreen"
                             color="green"
+                            class="mr-2"
                         >
                             mdi-monitor
                         </v-icon>
-                        <v-icon small v-else color="red">
+                        <v-icon small v-else color="red"
+                            class="mr-2">
                             mdi-monitor-off
                         </v-icon>
                         <v-icon
                             small
                             color="green"
+                            class="mr-2"
                             v-if="question.canDoVideoCall"
                         >
                             mdi-video
                         </v-icon>
-                        <v-icon small color="red" v-else>
+                        <v-icon small color="red"
+                            class="mr-2" v-else>
                             mdi-video-off
                         </v-icon>
-                        <v-icon class="icon" v-if="question.isPaid" medium
-                            >mdi-cash</v-icon
-                        >
-                    </v-col>
-                </v-row>
+                  </h6>
+                </div>
             </v-col>
-            <v-divider inset vertical class=""></v-divider>
-            <v-col cols="12" md="10">
-                <div
-                    @click="goToDetail(question)"
-                    class="pl-2 mb-2 text-subtitle-2"
-                    style="cursor: pointer"
-                >
-                    {{ question.title }}
-                </div>
 
-                <div class="pl-2 caption mb-5" @click="goToDetail(question)">
-                    {{ shortdetail }}
+            <v-col class="d-flex flex-column justify-start" cols="3">
+                <small class="d-flex justify-end"><v-icon small>mdi-eye</v-icon>{{question.status}}</small>
+                <div class="d-flex justify-space-around">
+                    <div class="d-flex flex-column rate mb-0 mt-0">
+                        <h5>{{ humanized_time_span(question.createdAt) }}</h5>
+                    </div>
+                    <v-icon>mdi-star</v-icon>
+                    <v-icon>mdi-share</v-icon>
+                    <v-icon class="mt-1">mdi-download</v-icon>
                 </div>
-                <v-spacer></v-spacer>
-                <video width="100%" v-if="Video" :src="Video"></video>
+            </v-col>
+       </v-row>
+       <v-row class="d-flex justify-space-between mb-2">
+           <v-col cols="10">
+               <p @click="goToDetail(question)">{{shortdetail}}</p>
+           </v-col>
+           <v-col>
+               <v-dialog
+                v-model="dialog"
+                width="500"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="red lighten-2"
+          v-bind="attrs"
+          v-on="on"
+        >
+           <v-icon large>mdi-youtube</v-icon>
+        </v-btn>
+      </template>
 
-                <v-row>
-                    <v-col>
-                        <v-chip
+      <v-card>
+
+        <v-card-text>
+          <video width="100%" controls v-if="Video" :src="Video"></video>
+        </v-card-text>
+
+      </v-card>
+    </v-dialog>
+           </v-col>
+
+       </v-row>
+            
+        <v-divider></v-divider>
+        <v-row class="d-flex justify-space-between pl-3 pr-3 mb-2">
+            <v-col class="d-flex flex-column align-start" cols="4">
+                  <small>Tag used</small>
+                  <div class="mt-3">
+                 <v-chip
                             label
                             v-for="tag in question.tags"
                             :key="tag"
-                            small
-                            color="indigo"
-                            dark
-                            class="ml-1 mr-1"
+                             class="tag"
                         >
                             {{ tag }}
                         </v-chip>
-                    </v-col>
-
-                    <v-spacer></v-spacer>
-
-                    <v-col class="grey--text caption text--darken-2">
-                            <TooltipVue :question="question"/>
-                            {{ humanized_time_span(question.createdAt) }}
-                 
-                    </v-col>
-                </v-row>
-                <v-divider class="mb-1"></v-divider>
+                 </div>
+            </v-col>
+            <v-col class="d-flex flex-row justify-space-around mt-6" cols="4">
+                   <v-btn class="tag2"><v-icon>mdi-plus</v-icon> Vote</v-btn>
+                   <v-btn class="tag2">{{question.publicCommentsCount}} people answered</v-btn>
             </v-col>
         </v-row>
-    </div>
+        <v-divider></v-divider>
+   </v-container>
+</v-card>
+
+    </v-card>
+
 </template>
-<style scoped>
-h3:hover {
-    cursor: pointer;
+
+<style>
+.Qcard{
+    width: 70%!important;
 }
-.desc {
-    max-height: 3.5rem !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+h4,p{
+  cursor: pointer;  
 }
-.language {
-    font-size: 0.75rem;
-}
-.icon {
-    color: rgb(81, 128, 11) !important;
-    margin: 0 0.2rem;
-}
-.btn {
-    width: 100%;
+.rate
+small{
+    font-size: .5rem;
+    margin: -2;
 }
 .tag {
+    border-radius: 25px!important;
+    width: auto !important;
+    max-height: 1rem !important;
+    background-color: #EDEDED !important;
+    margin: 0rem 0.3rem;
+    padding: .5rem !important;
+    font-size: 0.7rem !important;
+}
+.tag2 {
     border-radius: 15px;
     width: auto !important;
     max-height: 1rem !important;
-    background-color: orange !important;
+    background-color: #EDEDED !important;
     margin: 0rem 0.3rem;
-    padding: 0rem !important;
+    padding: 1rem !important;
     font-size: 0.6rem !important;
 }
 </style>
+
 <script>
 import S from "string";
-import TooltipVue from "../User/Tooltip.vue";
 export default {
     props: {
         question: Object,
     },
-    components:{
-    TooltipVue
-},
     data() {
         return {
             Video: this.question.video,
+            dialog:false
         };
     },
     computed: {
