@@ -1,5 +1,9 @@
 <template>
-    <v-container>
+    <div class="d-flex justify-space-around">
+        <div class="mt-2">
+            <DockerVue :questions="questions"/>
+        </div>
+        <div>
         <h3 style="border-bottom: 1px solid" class="mb-3">Top Questions</h3>
         <QuestionList :questions="questions" />
         <v-layout style="border-top: 1px solid" class="pt-2">
@@ -34,16 +38,24 @@
                 </v-btn>
             </v-flex>
         </v-layout>
-    </v-container>
+        </div>
+        <div class="mt-2">
+            <TopAdsenseVue/>
+        </div>
+    </div>
 </template>
 
 <script>
 import QuestionList from "@/components/Question/List";
+import TopAdsenseVue from "@/components/UI/Top-Adsense.vue";
+import DockerVue from "@/components/UI/Docker.vue";
 import DataService from "../services/DataService";
 
 export default {
     components: {
         QuestionList,
+        DockerVue,
+        TopAdsenseVue
     },
     data() {
         return {

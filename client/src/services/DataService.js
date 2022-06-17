@@ -132,5 +132,9 @@ class DataService {
             data,id
         });
     }
+
+    getTopRatingUser(){
+        return http.get(`/users/?top=5`)
+    }
 }
 export default new DataService();
