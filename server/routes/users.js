@@ -72,13 +72,13 @@ router.put("/editU", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-    const qNew = req.query.new;
+    const top = req.query.top;
     const Language = req.query.language;
     const userID = req.query.user_id;
     try {
         let users;
-        if (qNew) {
-            users = await User.find().sort({ createdAt: -1 }).limit(5);
+        if (top) {
+            users = await User.find().sort({ totalRatingPoints: -1 }).limit(5);
         } else if (Language) {
             users = await User.find({
                 languagesSpeaks: {
