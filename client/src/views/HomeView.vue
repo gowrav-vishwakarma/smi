@@ -1,46 +1,48 @@
 <template>
     <div class="d-flex justify-space-around">
         <div class="mt-2">
-            <DockerVue :questions="questions"/>
+            <DockerVue :questions="questions" />
         </div>
         <div>
-        <h3 style="border-bottom: 1px solid" class="mb-3">Top Questions</h3>
-        <QuestionList :questions="questions" />
-        <v-layout style="border-top: 1px solid" class="pt-2">
-            <v-flex xs12>
-                <v-btn
-                    class="primary"
-                    @click="prevPage"
-                    :disabled="!hasPrevPage"
-                    :class="{
-                        disabled: !hasPrevPage,
-                        active: hasPrevPage,
-                    }"
-                    :style="{
-                        'margin-right': '10px',
-                    }"
-                >
-                    Previous
-                </v-btn>
-                <v-btn
-                    class="primary"
-                    @click="nextPage"
-                    :disabled="!hasNextPage"
-                    :class="{
-                        disabled: !hasNextPage,
-                        active: hasNextPage,
-                    }"
-                    :style="{
-                        'margin-left': '10px',
-                    }"
-                >
-                    Next
-                </v-btn>
-            </v-flex>
-        </v-layout>
+            <h3 style="border-bottom: 1px solid lightgray" class="mb-3">
+                Top Questions
+            </h3>
+            <QuestionList :questions="questions" />
+            <v-layout style="border-top: 1px solid" class="pt-2">
+                <v-flex xs12>
+                    <v-btn
+                        class="primary"
+                        @click="prevPage"
+                        :disabled="!hasPrevPage"
+                        :class="{
+                            disabled: !hasPrevPage,
+                            active: hasPrevPage,
+                        }"
+                        :style="{
+                            'margin-right': '10px',
+                        }"
+                    >
+                        Previous
+                    </v-btn>
+                    <v-btn
+                        class="primary"
+                        @click="nextPage"
+                        :disabled="!hasNextPage"
+                        :class="{
+                            disabled: !hasNextPage,
+                            active: hasNextPage,
+                        }"
+                        :style="{
+                            'margin-left': '10px',
+                        }"
+                    >
+                        Next
+                    </v-btn>
+                </v-flex>
+            </v-layout>
         </div>
         <div class="mt-2">
-            <TopAdsenseVue/>
+            <TopAdsenseVue />
         </div>
     </div>
 </template>
@@ -55,7 +57,7 @@ export default {
     components: {
         QuestionList,
         DockerVue,
-        TopAdsenseVue
+        TopAdsenseVue,
     },
     data() {
         return {

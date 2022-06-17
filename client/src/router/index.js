@@ -56,7 +56,7 @@ const routes = [
         path: "/userprofile/:id",
         name: "User-Profile",
 
-        component: require('../views/Profile/Others.vue').default,
+        component: require("../views/Profile/Others.vue").default,
         meta: {
             requiresAuth: true,
         },
@@ -76,6 +76,15 @@ const routes = [
         name: "Error 500",
 
         component: () => import("../components/Errors/500.vue"),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: "/test-page",
+        name: "TestPage",
+
+        component: () => import("../views/TestPage.vue"),
         meta: {
             requiresAuth: true,
         },

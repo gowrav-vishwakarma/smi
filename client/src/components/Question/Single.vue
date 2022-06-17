@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="11" class="d-flex mb-2 Qcard" outlined shaped tile>
+    <v-card elevation="0" class="d-flex mb-2 Qcard" shaped tile>
         <v-container>
             <div class="d-flex justify-space-between">
                 <div class="d-flex justify-start mb-3" cols="auto">
@@ -90,7 +90,6 @@
                 </div>
             </div>
 
-            <v-divider></v-divider>
             <div class="d-flex justify-space-between pl-3 pr-3 mb-2">
                 <div class="d-flex flex-column align-center">
                     <div class="">
