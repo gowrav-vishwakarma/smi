@@ -3,13 +3,8 @@
         <v-container>
             <div class="d-flex justify-space-between">
                 <div class="d-flex justify-start mb-3" cols="auto">
-                    <v-img
-                        lazy-src="https://picsum.photos/id/11/10/6"
-                        max-height="70"
-                        max-width="54"
-                        class="mr-4"
-                        src="https://picsum.photos/id/11/500/300"
-                    ></v-img>
+                    <UserAvatar class="ma-2" :user="question.by" />
+
                     <div class="d-flex flex-column justify-space-around">
                         <h4 class="mb-2" @click="goToDetail(question)">
                             {{ question.title }}
@@ -111,7 +106,9 @@
                         </v-chip>
                     </div>
                 </div>
-                <div class="d-flex flex-row justify-space-around align-center">
+                <div
+                    class="d-flex flex-row justify-space-around align-center mt-1"
+                >
                     <v-btn x-small class="mr-2">
                         <v-icon x-small>mdi-plus</v-icon> Vote
                     </v-btn>
@@ -138,9 +135,14 @@ p {
 
 <script>
 import S from "string";
+import UserAvatar from "@/components/User/Avatar";
+
 export default {
     props: {
         question: Object,
+    },
+    components: {
+        UserAvatar,
     },
     data() {
         return {

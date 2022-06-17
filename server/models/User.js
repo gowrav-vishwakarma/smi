@@ -15,6 +15,12 @@ const userSchema = new mongoose.Schema(
             unique: true,
             lowercase: true,
         },
+        avatar: {
+            type: String,
+            trim: true,
+            required: false,
+            // default: "https://i.pravatar.cc/50",
+        },
         password: {
             type: String,
             default: "",

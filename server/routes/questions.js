@@ -82,7 +82,6 @@ router.put("/editQ/", async (req, res) => {
 
 router.get("/", async (req, res) => {
     const { topics, languages, tags, isPaid, page, limit, sort } = req.query;
-
     try {
         const query = {
             isPaid: isPaid === "true",
@@ -90,14 +89,22 @@ router.get("/", async (req, res) => {
             limit: parseInt(limit),
         };
 
-        if (topics) query.topics = topics.split(",");
-        if (languages) query.languages = languages.split(",");
-        if (tags) query.tags = tags.split(",");
+        if (topics)
+            query.topic =
+                typeof topics === "string" ? topics.split(",") : topics;
+        if (languages)
+            query.languages =
+                typeof languages === "string"
+                    ? languages.split(",")
+                    : languages;
+        if (tags)
+            query.tags = typeof tags === "string" ? tags.split(",") : tags;
 
+        console.log(query);
         const questions = await Question.find(query)
             .populate(
                 "by",
-                "name questionerRatingPoint totalQuestionerRatingCount -_id"
+                "name avatar questionerRatingPoint totalQuestionerRatingCount -_id"
             )
             .sort(sort)
             .skip((page - 1) * limit)

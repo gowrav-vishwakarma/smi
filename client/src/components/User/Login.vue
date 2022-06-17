@@ -59,6 +59,14 @@ export default {
                     this.user = response.data.user;
                     this.user.token = response.data.token;
                     this.$store.commit("setCurrentUser", this.user);
+                    let filter = {
+                        topics: this.user.topic,
+                        tags: [],
+                        languages: this.user.languagesSpeaks,
+                        isPaid: undefined,
+                        sortBy: "newest",
+                    };
+                    this.$store.commit("updateFilters", filter);
                     this.$router.push("/");
                 })
                 .catch((e) => {
