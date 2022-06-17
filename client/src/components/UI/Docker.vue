@@ -3,6 +3,7 @@
         <div class="text-left d-flex flex-column">
             <v-btn
                 small
+                text
                 class="mb-2"
                 v-for="nm in [
                     'Home',
