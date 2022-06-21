@@ -1,5 +1,5 @@
 <template>
-    <v-container class="d-flex flex-column adsense">
+    <v-container class="d-flex flex-column adsense mr-0">
         <div class="text-center d-flex flex-column">
             <h3 class="mb-3">Top Running Solvers</h3>
             <div
@@ -39,7 +39,7 @@
 
 <style>
 .adsense {
-    width: 80%;
+    width: 80%!important;
     border-left: 1px solid lightgray;
 }
 .top {

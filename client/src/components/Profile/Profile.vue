@@ -1,27 +1,21 @@
 <template>
     <v-container>
-    <v-row>
-        <v-col cols="1">
-            <v-img
-            max-height="150"
-            max-width="250"
-            src="./Profile.svg"
-            ></v-img>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="8">
+    <div class="d-flex flex-row justify-start">
+        <div class="ml-4">
+            <UserAvatar v-if="currentUser._id" :user="currentUser" />
+        </div>
+        <div class="ml-5">
            <h2>{{welcomeName}}</h2>
            <p>
                {{ topics.join(", ") }}
            </p>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="3">
+        </div>
+        <div class="ml-2">
             <v-card class="pa-2" outlined tile>
                 Current Badge
             </v-card>
-        </v-col>
-    </v-row>
+        </div>
+    </div>
 
     <v-row>
         <v-form :disabled="isDisabled">
@@ -90,6 +84,7 @@
 
 <script>
 import DataService from '@/services/DataService';
+import UserAvatar from '@/components/User/Avatar.vue'
 export default{
     data(){
        return{
@@ -109,6 +104,9 @@ export default{
            edit:"Edit",
            save:"Save"
        };
+    },
+    components:{
+      UserAvatar
     },
     props:{
         currentUser:Object

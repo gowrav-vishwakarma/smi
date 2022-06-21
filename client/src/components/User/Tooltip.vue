@@ -7,7 +7,7 @@
     v-bind="attrs"
     v-on="on"
     >
-        {{ questionerRating }}
+        {{ question.by.questionerRatingPoint }}
     {{ question.by.name.split(" ")[0] }}
     </v-btn>
 </template>

@@ -136,5 +136,19 @@ class DataService {
     getTopRatingUser(){
         return http.get(`/users/?top=5`)
     }
+
+    getQuestionUserbyId(userId) {
+        console.log(userId)
+        return http.get(`/questions/user/${userId}`)
+    }
+    GetCommunityAnsUserbyId(userId) {
+        const query = {
+            userId: userId,
+        };
+        return http.get(`/comment/question`, {
+            params: query,
+        });
+    }
+
 }
 export default new DataService();

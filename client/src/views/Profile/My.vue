@@ -1,23 +1,34 @@
 <template>
-    <v-container> 
-        <v-row>
-            <v-col cols="9">
-               <UserView :currentUser="this.$store.getters.currentUser"/>
-            </v-col>
-            <v-col cols="3">
-
-            </v-col>
-        </v-row>
-    </v-container>
-   
+<div class="d-flex justify-space-between">
+        <div class="mt-2">
+            <Docker/>
+        </div>
+        <div class="mt-2 ml-3 d-flex flex-column justify-start">
+            <div class="mb-3">
+                 <UserView :currentUser="this.$store.getters.currentUser"/>
+            </div>
+            <div class="mt-5">
+                <QuestionTab :currentUser="this.$store.getters.currentUser"/>
+                </div>
+        </div>
+        <div class="mt-2">
+            <StatusReview :currentUser="this.$store.getters.currentUser" />
+        </div>
+    </div>
 </template>
 
 <script>
-import UserView from '@/components/User/Profile.vue'
+import UserView from '@/components/Profile/Profile.vue'
+import Docker from '@/components/UI/Docker.vue'
+import QuestionTab from '@/components/Profile/QuestionTab.vue';
+import StatusReview from '@/components/Profile/Status-review.vue';
 export default {
     name: "ProfilePage",
     components: {
-       UserView
-    },
+    UserView,
+    Docker,
+    QuestionTab,
+    StatusReview
+},
 };
 </script>
