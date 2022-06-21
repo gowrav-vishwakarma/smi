@@ -80,7 +80,20 @@ router.put("/editQ/", async (req, res) => {
     }
 });
 
+router.get("/user/:userId",async (req,res)=>{
+    try {
+        let questions;
+        questions = await Question.find({
+            userId: req.params.userId,
+        });
+        return res.status(200).json(questions);
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+})
+
 router.get("/", async (req, res) => {
+    
     const { topics, languages, tags, isPaid, page, limit, sort } = req.query;
     try {
         const query = {
@@ -101,7 +114,7 @@ router.get("/", async (req, res) => {
             query.tags = typeof tags === "string" ? tags.split(",") : tags;
 
         console.log(query);
-        const questions = await Question.find(query)
+        const questions = await Question.find()
             .populate(
                 "by",
                 "name avatar questionerRatingPoint totalQuestionerRatingCount -_id"

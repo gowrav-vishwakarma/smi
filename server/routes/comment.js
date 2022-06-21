@@ -57,6 +57,22 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/question/", async (req, res) => {
+    try {
+        const { userId } = req.query;
+        let comment;
+        comment = await Comment.find({
+            commentById: userId,
+        }).populate(
+            "questionId",
+            "title detail tags _id"
+        );
+        return res.status(200).json(comment);
+    } catch (error) {
+        return res.status(500).json(err);
+    }
+});
+
 //Wishlist-part
 
 module.exports = router;
