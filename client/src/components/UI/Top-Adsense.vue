@@ -1,6 +1,30 @@
 <template>
     <v-container class="d-flex flex-column adsense mr-0">
         <div class="text-center d-flex flex-column">
+
+<!-- user-card-ifLoggedin -->
+            <div class="d-flex flex-column justify-space-between" v-if="this.$store.state.currentUser">
+                <UserAvatar class="ma-2" :user="this.$store.state.currentUser" />
+                <h5>Hello, {{this.$store.state.currentUser.name.split(" ")[0]}}</h5>
+                <p>{{this.$store.state.currentUser.topic.join(" , ")}}</p>
+                 <div class="status mb-2">
+               <v-icon
+                                small
+                                v-if="this.$store.state.currentUser.onlineStatus == 'Online' "
+                                color="green"
+                                class="mr-2"
+                            >
+                                mdi-checkbox-blank-circle
+                            </v-icon>
+                            <v-icon small v-else color="red" class="mr-2">
+                                mdi-checkbox-blank-circle
+                            </v-icon>
+                            {{this.$store.state.currentUser.onlineStatus}}
+                           
+                 </div>
+            </div>
+   <!-- user-card-ifLoggedin -->         
+
             <h3 class="mb-3">Top Running Solvers</h3>
             <div
                 v-for="(user, key) in users"
@@ -41,6 +65,11 @@
 .adsense {
     width: 80%!important;
     border-left: 1px solid lightgray;
+}
+.status{
+    border: .7px solid grey;
+    border-radius: 15px;
+    padding: 5px;
 }
 .top {
     border-bottom: 1px solid grey;
