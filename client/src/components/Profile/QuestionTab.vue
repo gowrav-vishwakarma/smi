@@ -1,6 +1,6 @@
 <template>
 
-<b-tabs class="btab" content-class="mt-3">
+<b-tabs class="btab mb-4" content-class="mt-3">
     <b-tab title="Question Asked" active>
        <v-card class="mb-2 ml-2 mr-2" v-for="(question,key) in questions" :key="key">
            <v-card-title>
@@ -30,7 +30,7 @@
 .btab{
   border: 1px solid rgb(137, 136, 136);
   border-radius: 9px;  
-  height: 30rem!important;
+  height: 25rem!important;
   padding: 10px;
   overflow: scroll;
 }
