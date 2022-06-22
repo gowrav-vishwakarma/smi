@@ -5,6 +5,19 @@
         </div>
         <div>
         <h3 style="border-bottom: 1px solid" class="mb-3">Top Questions</h3>
+           <!-- search field -->
+                 <v-combobox
+                    v-model="topic"
+                    :items="topics"
+                    label="Search by topic"
+                    prepend-icon="search"
+                    multiple
+                    chips
+                    v-on:change="updateFilter"
+                    clearable
+                    :delimiters="[',']"
+                    deletable-chips
+                ></v-combobox>   
         <QuestionList :questions="questions" />
         <v-layout style="border-top: 1px solid" class="pt-2">
             <v-flex xs12>
@@ -50,6 +63,7 @@ import QuestionList from "@/components/Question/List";
 import TopAdsenseVue from "@/components/UI/Top-Adsense.vue";
 import DockerVue from "@/components/UI/Docker.vue";
 import DataService from "../services/DataService";
+import { topics } from "@/services/staticValues";
 
 export default {
     components: {
@@ -66,6 +80,8 @@ export default {
             questionsPerPage: 10,
             hasNextPage: false,
             hasPrevPage: false,
+            topic:this.$store.state.currentUser.topic,
+            topics
         };
     },
     mounted() {
@@ -98,6 +114,10 @@ export default {
             this.currentPage--;
             this.getQuestionsFromApi();
         },
+        updateFilter(){
+        this.$store.commit("setCurrentTopic", this.topic);
+        this.getQuestionsFromApi();
+        }
     },
 };
 </script>

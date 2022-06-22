@@ -12,13 +12,12 @@
 <script>
 import QuestionSingle from "@/components/Question/Single";
 
-
 export default {
     components: {
         QuestionSingle
     },
     props: {
         questions: Array,
-    },
+    }
 };
 </script>

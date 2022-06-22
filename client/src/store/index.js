@@ -40,6 +40,9 @@ export default new Vuex.Store({
         updateFilters(state, filters) {
             state.filters = filters;
         },
+        setCurrentTopic(state,topic){
+              state.filters.topics = topic
+        },
         // mutation to update notifications
         showNotification(state, notification) {
             state.notifications.push(notification);
@@ -62,6 +65,9 @@ export default new Vuex.Store({
         setCurrentError({ commit }, error) {
             commit("setCurrentError", error);
         },
+        setCurrentTopic({commit},topic) {
+            commit("setCurrentTopic",topic)
+        }
     },
     getters: {
         isLoggedIn: (state) =>
