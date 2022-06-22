@@ -46,10 +46,10 @@ router.get("/", async (req, res) => {
         const { Q_id } = req.query;
         let comment;
         comment = await Comment.find({
-            questionId: Q_id,
+            questionId: Q_id
         }).populate(
             "commentBy",
-            "name questionerRatingPoint totalQuestionerRatingCount -_id"
+            "name questionerRatingPoint totalQuestionerRatingCount _id"
         );
         return res.status(200).json(comment);
     } catch (error) {

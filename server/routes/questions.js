@@ -95,6 +95,7 @@ router.get("/user/:userId",async (req,res)=>{
 router.get("/", async (req, res) => {
     
     const { topics, languages, tags, isPaid, page, limit, sort } = req.query;
+    console.log(topics)
     try {
         const query = {
             isPaid: isPaid === "true",
@@ -105,16 +106,15 @@ router.get("/", async (req, res) => {
         if (topics)
             query.topic =
                 typeof topics === "string" ? topics.split(",") : topics;
-        if (languages)
-            query.languages =
-                typeof languages === "string"
-                    ? languages.split(",")
-                    : languages;
-        if (tags)
-            query.tags = typeof tags === "string" ? tags.split(",") : tags;
+        // if (languages)
+        //     query.languages =
+        //         typeof languages === "string"
+        //             ? languages.split(",")
+        //             : languages;
+        // if (tags)
+        //     query.tags = typeof tags === "string" ? tags.split(",") : tags;
 
-        console.log(query);
-        const questions = await Question.find()
+        const questions = await Question.find(query)
             .populate(
                 "by",
                 "name avatar questionerRatingPoint totalQuestionerRatingCount -_id"
