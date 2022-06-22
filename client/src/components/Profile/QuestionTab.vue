@@ -73,6 +73,7 @@ export default{
         getAnswered(){
             DataService.GetCommunityAnsUserbyId(this.currentUser._id)
             .then(response=>{
+                console.log(response.data)
                 this.answers = response.data;
             })
             .catch(err=>console.log(err))
