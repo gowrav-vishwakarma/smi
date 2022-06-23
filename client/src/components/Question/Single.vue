@@ -108,8 +108,11 @@
                 <div
                     class="d-flex flex-row justify-space-around align-center mt-1"
                 >
-                    <v-btn x-small class="mr-2">
-                        <v-icon x-small>mdi-plus</v-icon> Vote
+                    <v-btn @click="Vote(true)" v-if="!voted" x-small class="mr-2">
+                        <v-icon x-small>mdi-thumb-up</v-icon>{{votes}} Vote
+                    </v-btn>
+                    <v-btn @click="Vote(false)" v-if="voted" x-small class="mr-2">
+                        <v-icon x-small>mdi-thumb-down</v-icon>{{votes}} Dislike
                     </v-btn>
                     <v-btn x-small
                         >{{ question.publicCommentsCount }} people
@@ -135,6 +138,7 @@ p {
 <script>
 import S from "string";
 import UserAvatar from "@/components/User/Avatar";
+import DataService from "@/services/DataService";
 
 export default {
     props: {
@@ -147,7 +151,12 @@ export default {
         return {
             Video: this.question.video,
             dialog: false,
+            voted:false,
+            votes:this.question.voteCount
         };
+    },
+    mounted(){
+        this.hasVoted()
     },
     computed: {
         questionerRating() {
@@ -165,6 +174,37 @@ export default {
         goToDetail(question) {
             this.$router.push(`/question/${question._id}`);
         },
+
+        hasVoted(){
+            DataService.myVote("question",this.question._id,this.$store.getters.currentUser._id)
+            .then(response=>{
+                if(response.data.length==0){
+                    this.voted = false;
+                }
+                if(response.data.length>0 && response.data[0].isquestionVote==true){
+                    this.voted = true;
+                } else{
+                    this.voted = false;
+                }
+
+            })
+            .catch(err=>console.log(err))
+        },
+
+        Vote(type){
+                DataService.QuestionVote(this.question._id,type)
+                .then(response=>{
+
+                    if(response.data.isquestionVote){
+                        this.votes =this.votes + 1;
+                    } else{
+                        this.votes = this.votes - 1;
+                    }
+                    this.voted = !this.voted;
+                })
+                .catch(err=>console.log(err))
+        }
+        
     },
 };
 </script>

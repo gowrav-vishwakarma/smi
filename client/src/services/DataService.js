@@ -149,6 +149,30 @@ class DataService {
             params: query,
         });
     }
+    myVote(type,questionId,userId) {
+        const query = {
+            questionId: questionId,
+            userId: userId,
+        }
+       
+        if(type=="question"){
+        return http.get(`/vote/question`, {
+            params: query,
+        });
+    } else{
+        return http.get(`/vote/comment`, {
+            params: query,
+        });
+    }
+    }
+
+    QuestionVote(questionId,type){
+        
+        return http.post(`/vote/quesVote`, {
+            questionId,type
+        });
+    
+    }
 
 }
 export default new DataService();
