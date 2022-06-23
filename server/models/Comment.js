@@ -20,6 +20,10 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        voteCount:{
+            type:Number,
+            default:0
+        }
     },
     { timestamps: true }
 );
