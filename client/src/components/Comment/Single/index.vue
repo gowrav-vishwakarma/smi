@@ -16,17 +16,24 @@
                                 v-if="isMyCommunityAnswer(answer)"
                             >
                                 <v-icon small>mdi-delete</v-icon
-                                ><small>delete comment</small>
+                                >
                             </v-btn>
+
+                               <v-btn @click="Vote(true)" v-if="!voted" x-small class="ml-2">
+                        <v-icon x-small>mdi-thumb-up</v-icon>{{votes}} Vote
+                    </v-btn>
+                    <v-btn @click="Vote(false)" v-if="voted" x-small class="ml-2 primary">
+                        <v-icon x-small>mdi-thumb-up</v-icon>{{votes}} Voted
+                    </v-btn>
                         </v-col>
                         <v-spacer></v-spacer>
                         <!-- info -->
-                        <v-col md="4" sm="12">
+                        <v-col md="4">
                             <small>
                                 <v-icon small>mdi-circle</v-icon>
                                 <span>
-                                    {{ commenterRating }}
-                                    {{ answer.commentBy.name }} <br />
+                                    <!-- {{ answer.commentBy.totalRatingPoints }}
+                                    {{ answer.commentBy.name }} <br /> -->
                                     {{ humanized_time_span(answer.createdAt) }}
                                 </span>
                             </small>
@@ -45,7 +52,12 @@ export default {
     data() {
         return {
             userID: this.$store.state.currentUser || null,
+            voted:false,
+            votes:this.answer.voteCount
         };
+    },
+    mounted(){
+        this.hasVoted();
     },
     computed: {
         shortdetail() {
@@ -72,6 +84,33 @@ export default {
                     console.log(e);
                 });
         },
+         hasVoted(){
+            
+                if(!this.answer.voteUsers || this.answer.voteUsers.length==0){
+                    this.voted = false;
+                }
+                if(this.answer.voteUsers && this.answer.voteUsers.includes(this.$store.state.currentUser._id)){
+                    this.voted = true;
+                } else{
+                    this.voted = false;
+                }
+
+        },
+
+        Vote(type){
+                DataService.CommentVote(this.answer._id,this.answer.questionId,type)
+                .then(response=>{
+
+                    if(response.data.iscommentVote){
+                        this.votes =this.votes + 1;
+                    } else{
+                        this.votes = this.votes - 1;
+                    }
+                    this.voted = !this.voted;
+                })
+                .catch(err=>console.log(err))
+        }
+        
     },
 };
 </script>

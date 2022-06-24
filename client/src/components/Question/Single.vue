@@ -111,8 +111,8 @@
                     <v-btn @click="Vote(true)" v-if="!voted" x-small class="mr-2">
                         <v-icon x-small>mdi-thumb-up</v-icon>{{votes}} Vote
                     </v-btn>
-                    <v-btn @click="Vote(false)" v-if="voted" x-small class="mr-2">
-                        <v-icon x-small>mdi-thumb-down</v-icon>{{votes}} Dislike
+                    <v-btn @click="Vote(false)" v-if="voted" x-small class="mr-2 primary">
+                        <v-icon x-small>mdi-thumb-up</v-icon>{{votes}} Voted
                     </v-btn>
                     <v-btn x-small
                         >{{ question.publicCommentsCount }} people
@@ -176,19 +176,16 @@ export default {
         },
 
         hasVoted(){
-            DataService.myVote("question",this.question._id,this.$store.getters.currentUser._id)
-            .then(response=>{
-                if(response.data.length==0){
+            
+                if(!this.question.voteUsers || this.question.voteUsers.length==0){
                     this.voted = false;
                 }
-                if(response.data.length>0 && response.data[0].isquestionVote==true){
+                if(this.question.voteUsers && this.question.voteUsers.includes(this.$store.state.currentUser._id)){
                     this.voted = true;
                 } else{
                     this.voted = false;
                 }
 
-            })
-            .catch(err=>console.log(err))
         },
 
         Vote(type){
