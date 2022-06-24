@@ -15,10 +15,8 @@ router.post(
             commentBy: req.user._id,
         };
         try {
-            // console.log("questionData", questionData);
             const newComment = new Comment(commentData);
             const savedComment = await newComment.save();
-            // $inc publicCommentsCount in Question by one
             await Question.findByIdAndUpdate(req.body.questionId, {
                 $inc: { publicCommentsCount: 1 },
             });
@@ -49,7 +47,7 @@ router.get("/", async (req, res) => {
             questionId: Q_id
         }).populate(
             "commentBy",
-            "name questionerRatingPoint totalQuestionerRatingCount _id"
+            "name avatar questionerRatingPoint totalQuestionerRatingCount -_id"
         );
         return res.status(200).json(comment);
     } catch (error) {

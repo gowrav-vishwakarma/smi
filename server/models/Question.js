@@ -86,6 +86,10 @@ const questionSchema = new mongoose.Schema(
         voteCount:{
             type:Number,
             default:0
+        },
+        voteUsers:{
+            type: Array,
+            default:[]
         }
     },
     { timestamps: true }

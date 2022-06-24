@@ -6,6 +6,10 @@ const VoteSchema = new mongoose.Schema(
             type: String,
             required:true,
         },
+        commentId:{
+            type:String,
+            required:false
+        },
         userId: {
             type:String,
             required:true
@@ -14,6 +18,10 @@ const VoteSchema = new mongoose.Schema(
             type:Boolean,
             default:false
         },
+        iscommentVote:{
+            type:Boolean,
+            default:false
+        }
     },
     { timestamps: true }
 );
