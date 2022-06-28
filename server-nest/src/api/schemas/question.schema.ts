@@ -11,9 +11,27 @@ export enum QuestionStatus {
   SOLVED = 'SOLVED',
 }
 
+// defines quesitions value in the system
 const questionValue = {
   totalOfferingCount: { type: Number, default: 0 },
   totalVoteCount: { type: Number, default: 0 },
+};
+
+// defines questions possible solutions channels
+const solutionChannels = {
+  comments: { type: Boolean, default: true },
+  chat: { type: Boolean, default: true },
+  screenShare: { type: Boolean, default: true },
+  audioCall: { type: Boolean, default: true },
+  videoCall: { type: Boolean, default: true },
+};
+
+const solutionChannelsDefaults = {
+  comments: true,
+  chat: true,
+  screenShare: true,
+  audioCall: true,
+  videoCall: true,
 };
 
 @Schema()
@@ -40,6 +58,9 @@ export class Question {
   })
   status: string;
 
+  @Prop(raw({ type: solutionChannels, default: solutionChannelsDefaults }))
+  solutionChannels: Record<string, any>;
+
   @Prop(raw({ type: questionValue, required: true }))
   questionValue: Record<string, any>;
 
@@ -51,6 +72,9 @@ export class Question {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   questioiner: User;
+
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Comment' })
+  comments: mongoose.Schema.Types.ObjectId[];
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

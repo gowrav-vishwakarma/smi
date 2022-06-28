@@ -4,10 +4,10 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 export class LoginUserDTO {
   @IsNotEmpty()
   @IsEmail()
-  @ApiProperty()
+  @ApiProperty({ default: 'test@test.com' })
   username: string;
 
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({ default: '1234' })
   password: string;
 }
