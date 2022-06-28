@@ -20,5 +20,6 @@ import { CommentSchema } from './schemas/comment.schema';
   ],
   controllers: [UsersController, QuestionsController, CommentsController],
   providers: [UsersService, QuestionsService, CommentsService],
+  exports: [UsersService, MongooseModule],
 })
 export class ApiModule {}

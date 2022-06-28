@@ -1,5 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 export type UserDocument = User & Document;
 
@@ -15,12 +16,20 @@ export enum AccountTypes {
   AGENCY = 'AGENCY',
 }
 
-const questionerRaputation = {
-  totalQuestionsAsked: { type: Number, default: 0 },
-  totalMarkedSolved: { type: Number, default: 0 },
-  totalRatingsCount: { type: Number, default: 0 },
-  totalRatingsSum: { type: Number, default: 0 },
-};
+@Schema({ _id: false })
+class questionerRaputation {
+  @Prop({ type: Number, default: 0 })
+  totalQuestionsAsked: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalMarkedSolved: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalRatingsCount: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalRatingsSum: number;
+}
 
 const questionerRaputationDefaults = {
   totalQuestionsAsked: 0,
@@ -29,12 +38,30 @@ const questionerRaputationDefaults = {
   totalRatingsSum: 0,
 };
 
-const solverRating = {
-  totalOfferingCount: { type: Number, default: 0 },
-  totalRatingCount: { type: Number, default: 0 },
-  totalRatingSum: { type: Number, default: 0 },
-  totalCommentsCount: { type: Number, default: 0 },
-  totalCommentsVoteCount: { type: Number, default: 0 },
+@Schema({ _id: false })
+class solverRating {
+  @Prop({ type: Number, default: 0 })
+  totalOfferingCount: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalRatingCount: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalRatingSum: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalCommentsCount: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalCommentsVoteCount: number;
+}
+
+const solverRatingDefaults = {
+  totalOfferingCount: 0,
+  totalRatingCount: 0,
+  totalRatingSum: 0,
+  totalCommentsCount: 0,
+  totalCommentsVoteCount: 0,
 };
 
 @Schema()
@@ -44,6 +71,9 @@ export class User {
 
   @Prop({ required: true, unique: true })
   email: string;
+
+  @Prop({ required: false, unique: true })
+  username: string;
 
   @Prop({ required: true })
   password: string;
@@ -78,10 +108,20 @@ export class User {
       default: questionerRaputationDefaults,
     }),
   )
-  questionerRaputation: Record<string, any>;
+  reputationAsQuestioner: Record<string, any>;
 
-  @Prop(raw({ type: solverRating, required: false }))
-  solverRating: Record<string, any>;
+  @Prop(
+    raw({ type: solverRating, required: true, default: solverRatingDefaults }),
+  )
+  ratingAsSolver: Record<string, any>;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.pre<UserDocument>('save', function (next) {
+  if (this.isModified('password')) {
+    this.password = bcrypt.hashSync(this.password, 8);
+  }
+  this.username = this.email;
+  next();
+});
