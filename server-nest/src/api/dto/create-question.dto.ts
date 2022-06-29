@@ -74,10 +74,10 @@ export class CreateQuestionDTO {
   })
   languages: string[];
 
-  @Type(() => SolutionChannelsDTO)
-  @Transform(({ value, key }) => {
-    if (typeof value === 'string') return JSON.parse(value);
-    return value;
+  //   @Type(() => SolutionChannelsDTO)
+  @Transform(({ obj, key }) => {
+    if (typeof obj[key] === 'string') return JSON.parse(obj[key]);
+    return obj[key];
   })
   @IsDefined()
   //   @ValidateNested()
@@ -87,7 +87,7 @@ export class CreateQuestionDTO {
       chat: true,
       screenShare: true,
       audioCall: true,
-      videoCall: true,
+      videoCall: false,
     },
     required: true,
   })
