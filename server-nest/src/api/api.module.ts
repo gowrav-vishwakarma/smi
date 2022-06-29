@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { QuestionsController } from './questions/questions.controller';
@@ -9,6 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/user.schema';
 import { QuestionSchema } from './schemas/question.schema';
 import { CommentSchema } from './schemas/comment.schema';
+import { AuthModule } from 'src/auth/auth.module';
+import { MediaService } from './media/media.service';
 
 @Module({
   imports: [
@@ -17,9 +19,10 @@ import { CommentSchema } from './schemas/comment.schema';
       { name: 'Question', schema: QuestionSchema },
       { name: 'Comment', schema: CommentSchema },
     ]),
+    forwardRef(() => AuthModule),
   ],
   controllers: [UsersController, QuestionsController, CommentsController],
-  providers: [UsersService, QuestionsService, CommentsService],
+  providers: [UsersService, QuestionsService, CommentsService, MediaService],
   exports: [UsersService, MongooseModule],
 })
 export class ApiModule {}
