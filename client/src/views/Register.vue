@@ -1,18 +1,17 @@
 <template>
     <div class="d-flex align-center justify-center">
         
-           <LoginView class="mt-10"/>
+           <RegisterView class="mt-10"/>
         
     </div>
 </template>
 
-
 <script>
-import LoginView from "@/components/User/Login";
+import RegisterView from "@/components/User/Register";
 
 export default {
     components: {
-        LoginView,
+        RegisterView,
     },
 };
 </script>
