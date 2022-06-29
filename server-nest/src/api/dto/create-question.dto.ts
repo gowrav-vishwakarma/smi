@@ -1,16 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
-import {
-  IsArray,
-  IsBoolean,
-  IsDefined,
-  IsNotEmptyObject,
-  IsNumber,
-  IsObject,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsBoolean, IsDefined, IsOptional, IsString } from 'class-validator';
 
 class SolutionChannelsDTO {
   @IsBoolean()

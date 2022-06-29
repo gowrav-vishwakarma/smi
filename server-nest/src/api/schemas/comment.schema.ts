@@ -13,7 +13,7 @@ const commentValue = {
 @Schema()
 export class Comment {
   @Prop({ required: true })
-  detail: string;
+  comment: string;
 
   @Prop(raw({ type: commentValue, required: true }))
   commentValue: Record<string, any>;

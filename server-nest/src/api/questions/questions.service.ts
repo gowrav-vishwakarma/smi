@@ -9,4 +9,6 @@ export class QuestionsService {
     @InjectModel(Question.name)
     private readonly questionModel: Model<QuestionDocument>,
   ) {}
+
+  getdetailedQuestion(id: string) {}
 }

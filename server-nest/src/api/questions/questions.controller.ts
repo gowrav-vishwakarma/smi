@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   UploadedFile,
@@ -35,15 +36,17 @@ export class QuestionsController {
     return filterOptions;
   }
 
-  @Post('/ask')
+  @Get(':id')
+  questionDetail(@Param('id') id: string) {
+    return this.questionsService.getdetailedQuestion(id);
+  }
+
+  @Post('/create')
   @UsePipes(ValidationPipe)
   @ApiConsumes('multipart/form-data')
   @ApiBearerAuth()
-  //   @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('video'))
-  //   @ApiBody({
-  //     type: CreateQuestionDTO,
-  //   })
   async askQuestion(
     @Body() question: CreateQuestionDTO,
     @UploadedFile() video: Express.Multer.File,
@@ -54,4 +57,7 @@ export class QuestionsController {
     };
     // return await this.questionsService.createQuestion(question);
   }
+
+  @Get('/vote/:id')
+  async vote(@Param('id') id: string) {}
 }
