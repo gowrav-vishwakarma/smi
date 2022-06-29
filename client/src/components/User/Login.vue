@@ -1,33 +1,84 @@
 <template>
     <v-flex class="mx-2 py-4 px-2 card" xs12 md6 sm-6>
-        <v-card v-if="!submitted" class="px-3 py-3" color="white">
-            <v-form ref="form" v-model="valid" lazy-validation>
-                <div class="py-5">
-                    <h2>Login</h2>
+        <div class="d-flex flex-column justify-center align-center">
+            <div class="py-5 d-flex flex-row jusity-center">
+                    <h2 class="head">Login to your Account</h2>
                 </div>
+       <div class="mt-3 d-flex">         
+              <v-form ref="form" v-model="valid" lazy-validation>
+                
 
                 <v-text-field
                     v-model="logForm.emailL"
                     :rules="emailRules"
-                    label="E-mail"
-                    prepend-icon="mdi-email"
+                    placeholder="Enter your email id"
+                    outlined
+                    dense
                     required
+                    class="field"
                 ></v-text-field>
-
-                <v-text-field
+               
+               <v-text-field
                     v-model="logForm.passwordL"
-                    label="Password"
-                    prepend-icon="mdi-lock"
-                    required
-                    type="password"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show1 ? 'text' : 'password'"
+                    placeholder="Password"
+                    outlined
+                    dense
+                    class="field mt-2"
+                    @click:append="show1 = !show1"
                 ></v-text-field>
-                <v-btn class="primary" @click="login"> Login </v-btn>
+              <div class="field mt-2 d-flex align-start justify-space-between">
+                  <span>
+                  <input type="checkbox" class="mr-1 ml-1" v-model="remember">
+                  <label>Remember me</label>
+                  </span>
+                  <small>
+                      Forgot password?
+                  </small>
+              </div>
+              
             </v-form>
-        </v-card>
+            </div>
+             <v-btn class="lgnbtn" @click="login"> Login </v-btn>
+             <p>Not having an account ? <router-link class="text-decoration-none" to="/register">Sign Up</router-link> </p>
+            </div>
     </v-flex>
 </template>
 
+<style>
+@import url('https://fonts.googleapis.com/css? family=Oxygen:300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
+
+.head{
+font-family: 'Inter', sans-serif;
+font-weight: 400;
+font-size: 24px;
+line-height: 29.05px;
+color: #000000;
+}
+.field{
+    width: 596px;
+    height: 58px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 24.2px;
+    color: #777777;
+}
+.lgnbtn{
+    width: 388px;
+    height: 52px;
+    border-radius: 12px;
+    background-color: #69AEFE!important;
+    margin-bottom: 1rem;
+}
+
+</style>
+
 <script>
+
 import DataService from "@/services/DataService";
 
 export default {
@@ -37,6 +88,8 @@ export default {
                 emailL: "",
                 passwordL: "",
             },
+            show1:false,
+            remember:false,
             valid: false,
             submitted: false,
             user: {},

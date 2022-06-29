@@ -1,24 +1,18 @@
 <template>
-    <v-app>
-        <v-main>
-            <v-container class="fill-height" grid-list-md text-xs-center>
-                <v-layout row wrap>
-                    <LoginView />
-                    <RegisterView />
-                </v-layout>
-            </v-container>
-        </v-main>
-    </v-app>
+    <div class="d-flex align-center justify-center">
+        
+           <LoginView class="mt-10"/>
+        
+    </div>
 </template>
+
 
 <script>
 import LoginView from "@/components/User/Login";
-import RegisterView from "@/components/User/Register";
 
 export default {
     components: {
         LoginView,
-        RegisterView,
     },
 };
 </script>
