@@ -164,7 +164,7 @@ router.post("/update", async (req,res)=>{
                   if(err){
                       return res.status(400).json({error:"Reset password error"})
                   } else {
-                      return res.status(200).json({message:"Your password has been changed"})
+                      return res.status(200).json({message:"Your password has been changed, Go to login page"})
                   }
                 })
             })
