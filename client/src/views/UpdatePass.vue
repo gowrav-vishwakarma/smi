@@ -78,9 +78,15 @@ export default {
             DataService.updatePass(this.token,this.password)
             .then(res=>{
                 console.log(res);
+                 this.$vToastify.success(
+                        res.data.message
+                    );
             })
             .catch(err=>{
                 console.log(err);
+                 this.$vToastify.error(
+                        err.response.data.error
+                    );
             })
         }
     }
