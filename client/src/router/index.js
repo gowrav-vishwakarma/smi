@@ -37,6 +37,32 @@ const routes = [
             requiresAuth: false,
         },
     },
+
+    {
+        path: "/forget",
+        name: "forgetpassword",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import(/* webpackChunkName: "about" */ "../views/ForgetPass.vue"),
+        meta: {
+            requiresAuth: false,
+        },
+    },
+
+    {
+        path: "/update/:token",
+        name: "updatepassword",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import(/* webpackChunkName: "about" */ "../views/UpdatePass.vue"),
+        meta: {
+            requiresAuth: false,
+        },
+    },
     {
         path: "/question/:id",
         name: "QuestionDetails",

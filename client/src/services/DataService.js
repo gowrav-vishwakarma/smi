@@ -163,6 +163,17 @@ class DataService {
         });
     
     }
+    forgetPass(email){
+        return http.post(`/users/forgot`,{
+            email
+        })
+    }
+
+    updatePass(token,password){
+        return http.post(`/users/update`,{
+            token,password
+        })
+    }
 
 }
 export default new DataService();
