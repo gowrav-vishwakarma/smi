@@ -1,16 +1,75 @@
 <template>
-    <v-app-bar flat dense app dark class="indigo" height="40">
-        <v-toolbar-title class="">
-            <v-btn plain :ripple="false" class="" to="/">
+    <v-app-bar app outlined dark class="white" height="60">
+        <v-toolbar-title class="mr-10">
+            <v-btn plain :ripple="false" class="text-dark" to="/">
                 <v-img src="@/assets/logo.png" class="mr-2"></v-img>
                 Solve My Issue
             </v-btn>
         </v-toolbar-title>
 
-        <v-spacer></v-spacer>
-        <v-divider vertical></v-divider>
-        <v-toolbar-items>
-            <v-btn plain class="" to="/login" exact> Login/Register </v-btn>
+        <v-toolbar-items class="tabs">
+            <v-btn plain class="text-dark" to="/" exact> About </v-btn>
         </v-toolbar-items>
+        <v-toolbar-items class="tabs">
+            <v-btn plain class="text-dark" to="/" exact> Badges </v-btn>
+        </v-toolbar-items>
+        <v-toolbar-items>
+            <!-- search field -->
+                 <v-combobox
+                    class="sBar mt-3 mr-2 text-dark"
+                    v-model="topic"
+                    :items="topics"
+                    label="Search by topic"
+                    placeholder="Search"
+                    multiple
+                    chips
+                    outlined
+                    dense
+                    rounded
+                    v-on:change="updateFilter"
+                    clearable
+                    :delimiters="[',']"
+                    deletable-chips
+                ></v-combobox>   
+        </v-toolbar-items>
+
+        <v-spacer></v-spacer>
+    
+            <v-btn class="nbtn" to="/login" exact> Login</v-btn>
+        
+            <v-btn class="nbtn" to="/register" exact> Sign Up</v-btn>
+        
     </v-app-bar>
 </template>
+
+<style>
+@import url('https://fonts.googleapis.com/css? family=Oxygen:300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
+
+.sBar{
+    border: 1px solid #EEEEEE;
+    width: 40rem!important;
+    height: 2rem;
+}
+
+.tabs{
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24.2px;
+    color: #000000;
+}
+
+.nbtn{
+    margin: .8rem;
+    color: #444444!important;
+    background-color: white!important;
+    border-radius: 5px;
+    border: 1px solid #444444;
+}
+.nbtn:hover{
+    color: white!important;
+    border: 1px solid #69AEFE;
+    background-color: #69AEFE!important;
+}
+</style>
