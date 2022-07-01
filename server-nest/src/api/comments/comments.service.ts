@@ -11,7 +11,11 @@ export class CommentsService {
     private readonly commentModel: Model<CommentDocument>,
   ) {}
 
-  createComment(createCommentDto: CreateCommentDTO) {}
+  createComment(createCommentDto: CreateCommentDTO) {
+    return 'TODO';
+  }
 
-  getComments(questionId: string) {}
+  getComments(questionId: string) {
+    return 'TODO';
+  }
 }

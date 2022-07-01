@@ -14,5 +14,7 @@ export class CommentsController {
   }
 
   @Get('/vote/:id')
-  async vote(@Param('id') id: string) {}
+  async vote(@Param('id') id: string) {
+    return 'TODO';
+  }
 }
