@@ -7,6 +7,7 @@
     "start:pm2": "pm2 start bin/www --name server --interpreter node --watch bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "aws-sdk": "^2.1148.0",
     "bcrypt": "^5.0.1",
     "connect-ensure-login": "^0.1.1",

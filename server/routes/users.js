@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // ...
 const User = require("../models/User");
@@ -109,6 +111,68 @@ router.get("/idby", async (req, res) => {
         return res.status(500).send({message:"No user found"});
     }
 });
+
+router.post("/forgot",async (req,res) => {
+
+    const email = req.body.email
+    User.findOne({email},(err,user)=>{
+        if(err || !user) {
+            return res.status(400).json({error:'User with this email does not exist'})
+        }
+
+        const token = jwt.sign({_id:user._id},"TOP_SECRET",{expiresIn:'15m'})
+
+        const msg = {
+            to:email,
+            from:"191352@juitsolan.in",
+            subject:"Reset password confirmation",
+            text:"Link expires in 15 minutes",
+            html:`<div><h3>Please click down the below link to reset your password</h3>
+                    <p>${process.env.CLIENT_URL}#/update/${token}</p>
+                       </div>`
+        };
+
+        return user.updateOne({resetLink:token},(err,user)=>{
+            if(err){
+                return res.status(400).json({error:"Reset password link error"})
+            } else {
+                sgMail.send(msg)
+                .then(() => {
+                    console.log('Email sent')
+                  })
+                 
+                 return res.status(200).json({message:"Email has been sent, please follow the instructions"}) 
+            }
+        })
+    })
+
+});
+
+router.post("/update", async (req,res)=>{
+    const {token,password} = req.body;
+    if(token){
+        jwt.verify(token,"TOP_SECRET",function(error,decodedData){
+            if(error) {
+                return res.status(400).json({error:"Incorrect token or it is expired"})
+            }
+            User.findOne({resetLink:token},(err,user)=>{
+                if(err || !user){
+                    return res.status(400).json({error:"User with this token doesn't exist"})
+                }
+                user.password = password
+                user.save((err,result)=>{
+                  if(err){
+                      return res.status(400).json({error:"Reset password error"})
+                  } else {
+                      return res.status(200).json({message:"Your password has been changed, Go to login page"})
+                  }
+                })
+            })
+        })
+    } else {
+        return res.status(401).json({error:"Authentication error"})
+    }
+})
 
 //Wishlist-part
 

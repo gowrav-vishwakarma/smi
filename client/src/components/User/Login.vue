@@ -34,7 +34,7 @@
                   <label>Remember me</label>
                   </span>
                   <small>
-                      Forgot password?
+                       <router-link class="text-decoration-none" to="/forget">Forget password?</router-link>
                   </small>
               </div>
               
