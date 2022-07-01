@@ -11,6 +11,7 @@ import { QuestionSchema } from './schemas/question.schema';
 import { CommentSchema } from './schemas/comment.schema';
 import { AuthModule } from 'src/auth/auth.module';
 import { MediaService } from './media/media.service';
+import { MediaController } from './media/media.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,12 @@ import { MediaService } from './media/media.service';
     ]),
     forwardRef(() => AuthModule),
   ],
-  controllers: [UsersController, QuestionsController, CommentsController],
+  controllers: [
+    UsersController,
+    QuestionsController,
+    CommentsController,
+    MediaController,
+  ],
   providers: [UsersService, QuestionsService, CommentsService, MediaService],
   exports: [UsersService, MongooseModule],
 })

@@ -16,8 +16,8 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('SMI APIs')
-    .setDescription('Swagger documentation')
+    .setTitle('SMI Project')
+    .setDescription('SMI API documentation')
     .setVersion('1.0')
     .addTag('smi')
     .addBearerAuth({ in: 'header', type: 'http' })
