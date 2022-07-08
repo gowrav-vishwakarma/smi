@@ -63,6 +63,10 @@ const questionSchema = new mongoose.Schema(
             type: String,
             default: "open",
         },
+        views:{
+             type:Array,
+             default:[]
+        },
         totalOffers: {
             type: Number,
             default: 0,
@@ -90,7 +94,15 @@ const questionSchema = new mongoose.Schema(
         voteUsers:{
             type: Array,
             default:[]
-        }
+        },
+        didIVoted: {
+            type:Number,
+            default:-1
+        },
+        options: [{
+            value: String,
+            votes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+        }]
     },
     { timestamps: true }
 );

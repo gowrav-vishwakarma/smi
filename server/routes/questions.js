@@ -94,7 +94,7 @@ router.get("/user/:userId",async (req,res)=>{
 
 router.get("/", async (req, res) => {
     
-    const { topics, languages, tags, isPaid, page, limit, sort } = req.query;
+    const { topics, languages, tags, isPaid, page, limit, sort,userId } = req.query;
     console.log(topics)
     try {
         const query = {
@@ -113,6 +113,15 @@ router.get("/", async (req, res) => {
         //             : languages;
         // if (tags)
         //     query.tags = typeof tags === "string" ? tags.split(",") : tags;
+        
+        Question.aggregate([
+            {
+                $addFields: {
+                                didIVoted: { $ne: [ { $indexOfArray: [ "$this.voteUsers", userId ] }, -1 ] }
+                            
+                }
+            }
+        ])
 
         const questions = await Question.find(query)
             .populate(
