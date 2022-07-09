@@ -56,7 +56,7 @@ export class Question {
   @Prop({ required: true })
   topic: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   title: string;
 
   @Prop({ required: true })
@@ -86,7 +86,7 @@ export class Question {
   @Prop({ required: true, default: Date.now() })
   createdAt: Date;
 
-  @Prop({ required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   questionerId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })

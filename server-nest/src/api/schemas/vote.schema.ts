@@ -14,13 +14,16 @@ export class Vote {
   @Prop({ required: true, default: Date.now() })
   createdAt: Date;
 
-  @Prop({ required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  commentId: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   questionId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Question' })
   question: Question;
 
-  @Prop({ required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   userId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })

@@ -7,6 +7,6 @@ export class CreateCommentDTO {
   questionId: string;
 
   @IsString()
-  @ApiProperty({ default: 'Comment title here' })
+  @ApiProperty({ default: 'Comment here' })
   comment: string;
 }

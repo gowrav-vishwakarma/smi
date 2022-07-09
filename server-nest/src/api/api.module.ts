@@ -12,6 +12,7 @@ import { CommentSchema } from './schemas/comment.schema';
 import { AuthModule } from 'src/auth/auth.module';
 import { MediaService } from './media/media.service';
 import { MediaController } from './media/media.controller';
+import { VoteSchema } from './schemas/vote.schema';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MediaController } from './media/media.controller';
       { name: 'User', schema: UserSchema },
       { name: 'Question', schema: QuestionSchema },
       { name: 'Comment', schema: CommentSchema },
+      { name: 'Vote', schema: VoteSchema },
     ]),
     forwardRef(() => AuthModule),
   ],

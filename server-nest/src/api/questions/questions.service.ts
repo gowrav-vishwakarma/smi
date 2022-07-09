@@ -3,7 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateQuestionDTO } from '../dto/create-question.dto';
 import { GetQuestionsDTO } from '../dto/question-filter-query.dto';
+import { VoteQuestionDTO } from '../dto/vote-question.dto';
 import { Question, QuestionDocument } from '../schemas/question.schema';
+import { UserDocument } from '../schemas/user.schema';
+import { Vote, VoteDocument } from '../schemas/vote.schema';
 const ObjectId = require('mongoose').Types.ObjectId;
 
 @Injectable()
@@ -11,6 +14,8 @@ export class QuestionsService {
   constructor(
     @InjectModel(Question.name)
     private readonly questionModel: Model<QuestionDocument>,
+    @InjectModel(Vote.name)
+    private readonly voteModel: Model<VoteDocument>,
   ) {}
 
   async createQuestion(question: CreateQuestionDTO): Promise<QuestionDocument> {
@@ -66,7 +71,10 @@ export class QuestionsService {
     return questions;
   }
 
-  async getdetailedQuestion(id: string): Promise<QuestionDocument> {
+  async getdetailedQuestion(
+    id: string,
+    user?: UserDocument,
+  ): Promise<QuestionDocument> {
     const questions = await this.questionModel.aggregate([
       {
         $match: { _id: ObjectId(id) },
@@ -104,5 +112,35 @@ export class QuestionsService {
     } else {
       throw new NotFoundException('Question not found');
     }
+  }
+
+  async voteQuestion(
+    voteDto: VoteQuestionDTO,
+    user: UserDocument,
+  ): Promise<any> {
+    const updateDetails = await this.voteModel.updateOne(
+      {
+        userId: user._id,
+        questionId: voteDto.questionId,
+      },
+      {
+        vote: voteDto.vote === 'up' ? 1 : -1,
+      },
+      { upsert: true },
+    );
+
+    if (voteDto.vote === 'up') {
+      await this.questionModel.updateOne(
+        { _id: voteDto.questionId },
+        { $inc: { 'questionValue.totalVoteCount': 1 } },
+      );
+    }
+    if (voteDto.vote === 'down') {
+      await this.questionModel.updateOne(
+        { _id: voteDto.questionId },
+        { $inc: { 'questionValue.totalVoteCount': -1 } },
+      );
+    }
+    return updateDetails;
   }
 }

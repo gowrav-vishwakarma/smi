@@ -17,8 +17,10 @@ import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { CreateQuestionDTO } from '../dto/create-question.dto';
 import { GetQuestionsDTO } from '../dto/question-filter-query.dto';
+import { VoteQuestionDTO } from '../dto/vote-question.dto';
 import { MediaService } from '../media/media.service';
 import { QuestionDocument } from '../schemas/question.schema';
+import { UserDocument } from '../schemas/user.schema';
 import { QuestionsService } from './questions.service';
 
 @Controller('questions')
@@ -32,14 +34,16 @@ export class QuestionsController {
   @Get()
   @UsePipes(ValidationPipe)
   getQuestions(
+    @GetUser() user: UserDocument,
     @Query() filterOptions: GetQuestionsDTO,
   ): QuestionDocument[] | any {
-    return this.questionsService.searchQuestions(filterOptions);
+    return this.questionsService.searchQuestions(filterOptions, user);
   }
 
   @Get(':id')
-  questionDetail(@Param('id') id: string) {
-    return this.questionsService.getdetailedQuestion(id);
+  @UsePipes(ValidationPipe)
+  questionDetail(@GetUser() user: UserDocument, @Param('id') id: string) {
+    return this.questionsService.getdetailedQuestion(id, user);
   }
 
   @Post('/create')
@@ -48,17 +52,32 @@ export class QuestionsController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('video'))
-  async askQuestion(
-    @GetUser() user: any,
+  async createQuestion(
+    @GetUser() user: UserDocument,
     @Body() question: CreateQuestionDTO,
     @UploadedFile() video: Express.Multer.File,
   ) {
-    const questionData = { ...question, questionerId: user._id };
-    return await this.questionsService.createQuestion(questionData);
+    const questionData = {
+      ...question,
+      questionerId: user._id,
+      video: video ? video.originalname : null,
+    };
+
+    const createdQuestion = await this.questionsService.createQuestion(
+      questionData,
+    );
+
+    if (video) {
+      await this.mediaService.createMedia(video, createdQuestion._id);
+    }
+    return createdQuestion;
   }
 
-  @Get('/vote/:id')
-  async vote(@Param('id') id: string) {
-    return 'TODO';
+  @Get('/vote/:questionId/:vote')
+  @UsePipes(ValidationPipe)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  async vote(@GetUser() user: UserDocument, @Param() voteDto: VoteQuestionDTO) {
+    return this.questionsService.voteQuestion(voteDto, user);
   }
 }
