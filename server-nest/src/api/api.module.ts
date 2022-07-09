@@ -23,12 +23,12 @@ import { MediaController } from './media/media.controller';
     forwardRef(() => AuthModule),
   ],
   controllers: [
-    UsersController,
     QuestionsController,
     CommentsController,
+    UsersController,
     MediaController,
   ],
-  providers: [UsersService, QuestionsService, CommentsService, MediaService],
+  providers: [QuestionsService, CommentsService, UsersService, MediaService],
   exports: [UsersService, MongooseModule],
 })
 export class ApiModule {}

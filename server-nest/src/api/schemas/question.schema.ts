@@ -12,19 +12,36 @@ export enum QuestionStatus {
 }
 
 // defines quesitions value in the system
-const questionValue = {
-  totalOfferingCount: { type: Number, default: 0 },
-  totalVoteCount: { type: Number, default: 0 },
+@Schema({ _id: false })
+class questionValue {
+  @Prop({ required: true, default: 0 })
+  totalOfferingCount: number;
+  @Prop({ required: true, default: 0 })
+  totalVoteCount: number;
+  @Prop({ required: true, default: 0 })
+  totalCommentsCount: number;
+}
+
+const questionValueDefault = {
+  totalOfferingCount: 0,
+  totalVoteCount: 0,
+  totalCommentsCount: 0,
 };
 
 // defines questions possible solutions channels
-const solutionChannels = {
-  comments: { type: Boolean, default: true },
-  chat: { type: Boolean, default: true },
-  screenShare: { type: Boolean, default: true },
-  audioCall: { type: Boolean, default: true },
-  videoCall: { type: Boolean, default: true },
-};
+@Schema({ _id: false })
+class solutionChannels {
+  @Prop({ required: true, default: true })
+  comments: boolean;
+  @Prop({ required: true, default: true })
+  chat: boolean;
+  @Prop({ required: true, default: true })
+  screenShare: boolean;
+  @Prop({ required: true, default: true })
+  audioCall: boolean;
+  @Prop({ required: true, default: true })
+  videoCall: boolean;
+}
 
 const solutionChannelsDefaults = {
   comments: true,
@@ -48,7 +65,7 @@ export class Question {
   @Prop({ required: true })
   tags: string[];
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   video: string;
 
   @Prop({
@@ -61,20 +78,22 @@ export class Question {
   @Prop(raw({ type: solutionChannels, default: solutionChannelsDefaults }))
   solutionChannels: Record<string, any>;
 
-  @Prop(raw({ type: questionValue, required: true }))
+  @Prop(
+    raw({ type: questionValue, required: true, default: questionValueDefault }),
+  )
   questionValue: Record<string, any>;
 
   @Prop({ required: true, default: Date.now() })
   createdAt: Date;
 
   @Prop({ required: true })
-  questioinerId: string;
+  questionerId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  questioiner: User;
+  questioner: User;
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Comment' })
-  comments: mongoose.Schema.Types.ObjectId[];
+  // @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Comment' })
+  // comments: mongoose.Schema.Types.ObjectId[];
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

@@ -14,6 +14,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { GetUser } from 'src/auth/get-user.decorator';
 import { CreateQuestionDTO } from '../dto/create-question.dto';
 import { GetQuestionsDTO } from '../dto/question-filter-query.dto';
 import { MediaService } from '../media/media.service';
@@ -33,7 +34,7 @@ export class QuestionsController {
   getQuestions(
     @Query() filterOptions: GetQuestionsDTO,
   ): QuestionDocument[] | any {
-    return filterOptions;
+    return this.questionsService.searchQuestions(filterOptions);
   }
 
   @Get(':id')
@@ -48,14 +49,12 @@ export class QuestionsController {
   @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('video'))
   async askQuestion(
+    @GetUser() user: any,
     @Body() question: CreateQuestionDTO,
     @UploadedFile() video: Express.Multer.File,
   ) {
-    return {
-      question,
-      video: video?.originalname,
-    };
-    // return await this.questionsService.createQuestion(question);
+    const questionData = { ...question, questionerId: user._id };
+    return await this.questionsService.createQuestion(questionData);
   }
 
   @Get('/vote/:id')

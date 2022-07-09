@@ -33,12 +33,12 @@ class SolutionChannelsDTO {
 
 export class CreateQuestionDTO {
   @IsDefined()
-  @ApiProperty({ default: ['IT', 'Media'] })
-  @Transform(({ obj, key }) => {
-    if (typeof obj[key] === 'string') return obj[key]?.split(',');
-    return obj[key];
-  })
-  topics: string[];
+  @ApiProperty({ default: 'IT' })
+  // @Transform(({ obj, key }) => {
+  //   if (typeof obj[key] === 'string') return obj[key]?.split(',');
+  //   return obj[key];
+  // })
+  topic: string;
 
   @IsString()
   @ApiProperty({ default: 'Question title here' })

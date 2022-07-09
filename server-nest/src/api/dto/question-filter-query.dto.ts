@@ -11,14 +11,26 @@ import {
 export class GetQuestionsDTO {
   @IsOptional()
   @ApiPropertyOptional({ default: ['IT', 'Media'] })
+  @Transform(({ obj, key }) => {
+    if (typeof obj[key] === 'string') return obj[key]?.split(',');
+    return obj[key];
+  })
   topics: string[];
 
   @IsOptional()
   @ApiPropertyOptional({ default: ['VueJS', 'NodeJs'] })
+  @Transform(({ obj, key }) => {
+    if (typeof obj[key] === 'string') return obj[key]?.split(',');
+    return obj[key];
+  })
   tags: string[];
 
   @IsOptional()
   @ApiPropertyOptional({ default: ['Hindi', 'English'] })
+  @Transform(({ obj, key }) => {
+    if (typeof obj[key] === 'string') return obj[key]?.split(',');
+    return obj[key];
+  })
   languages: string[];
 
   @IsOptional()
@@ -56,4 +68,9 @@ export class GetQuestionsDTO {
   @ApiPropertyOptional({ default: null })
   @IsNumber()
   page: number;
+
+  @IsOptional()
+  @ApiPropertyOptional({ default: null })
+  @IsString()
+  sort: string;
 }
