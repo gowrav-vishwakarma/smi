@@ -3,8 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateQuestionDTO } from '../dto/create-question.dto';
 import { GetQuestionsDTO } from '../dto/question-filter-query.dto';
+import { QuestionOfferSolutionDTO } from '../dto/question-offersolution.dto';
 import { VoteQuestionDTO } from '../dto/vote-question.dto';
 import { Question, QuestionDocument } from '../schemas/question.schema';
+import {
+  SolutionOffer,
+  SolutionOfferDocument,
+} from '../schemas/solutionoffer.schema';
 import { UserDocument } from '../schemas/user.schema';
 import { Vote, VoteDocument } from '../schemas/vote.schema';
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -16,6 +21,8 @@ export class QuestionsService {
     private readonly questionModel: Model<QuestionDocument>,
     @InjectModel(Vote.name)
     private readonly voteModel: Model<VoteDocument>,
+    @InjectModel(SolutionOffer.name)
+    private readonly offerModel: Model<SolutionOfferDocument>,
   ) {}
 
   async createQuestion(question: CreateQuestionDTO): Promise<QuestionDocument> {
@@ -142,5 +149,19 @@ export class QuestionsService {
       );
     }
     return updateDetails;
+  }
+
+  async offerSolution(offer: QuestionOfferSolutionDTO, user: UserDocument) {
+    // intert into offers collection and increment question offer count
+    const offerDetails = await this.offerModel.create({
+      ...offer,
+      userId: user._id,
+    });
+    await this.questionModel.updateOne(
+      { _id: offer.questionId },
+      { $inc: { 'questionValue.totalOfferingCount': 1 } },
+    );
+
+    return offerDetails;
   }
 }

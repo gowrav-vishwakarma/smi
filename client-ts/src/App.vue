@@ -1,28 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar app color="primary" dark>
-            <div class="d-flex align-center">
-                <v-img
-                    alt="Vuetify Logo"
-                    class="shrink mr-2"
-                    contain
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-                    transition="scale-transition"
-                    width="40"
-                />
-
-                <v-img
-                    alt="Vuetify Name"
-                    class="shrink mt-1 hidden-sm-and-down"
-                    contain
-                    min-width="100"
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-                    width="100"
-                />
-            </div>
-
-            <v-spacer></v-spacer>
-        </v-app-bar>
+        <ui-app-bar></ui-app-bar>
 
         <v-main>
             <router-view></router-view>
@@ -32,11 +10,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
+import UiAppBar from "@/components/UI/AppBar.vue";
 @Component({
-    components: {},
+    components: {
+        UiAppBar,
+    },
 })
-export default class App extends Vue {
-    message = "hi there...";
-}
+export default class App extends Vue {}
 </script>

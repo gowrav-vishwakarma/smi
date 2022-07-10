@@ -7,8 +7,8 @@ import { MediaService } from './media.service';
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
-  @Post('/upload')
-  async uploadMedia() {
-    return 'TODO';
-  }
+  // @Post('/upload')
+  // async uploadMedia() {
+  //   return 'TODO';
+  // }
 }

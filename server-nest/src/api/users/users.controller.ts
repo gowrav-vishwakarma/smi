@@ -4,10 +4,12 @@ import {
   Get,
   Param,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserDocument } from '../schemas/user.schema';
 import { UsersService } from './users.service';
 
@@ -24,5 +26,10 @@ export class UsersController {
   }
 
   @Post('update-me')
-  updateUser(@Body() user: any) {}
+  @UsePipes(ValidationPipe)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  updateUser(@Body() user: any) {
+    return 'TODO';
+  }
 }

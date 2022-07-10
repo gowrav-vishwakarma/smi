@@ -4,17 +4,17 @@ import * as mongoose from 'mongoose';
 import { User } from 'src/api/schemas/user.schema';
 import { Question } from 'src/api/schemas/question.schema';
 
-export type OfferDocument = Offer & Document;
+export type SolutionOfferDocument = SolutionOffer & Document;
 
 @Schema()
-export class Offer {
-  @Prop({ required: true })
+export class SolutionOffer {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   questionId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Question' })
   question: Question;
 
-  @Prop({ required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   userId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
@@ -26,4 +26,4 @@ export class Offer {
   createdAt: Date;
 }
 
-export const OfferSchema = SchemaFactory.createForClass(Offer);
+export const SolutionOfferSchema = SchemaFactory.createForClass(SolutionOffer);

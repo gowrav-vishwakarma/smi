@@ -13,6 +13,8 @@ import { AuthModule } from 'src/auth/auth.module';
 import { MediaService } from './media/media.service';
 import { MediaController } from './media/media.controller';
 import { VoteSchema } from './schemas/vote.schema';
+import { ConfigModule } from '@nestjs/config';
+import { SolutionOfferSchema } from './schemas/solutionoffer.schema';
 
 @Module({
   imports: [
@@ -21,8 +23,10 @@ import { VoteSchema } from './schemas/vote.schema';
       { name: 'Question', schema: QuestionSchema },
       { name: 'Comment', schema: CommentSchema },
       { name: 'Vote', schema: VoteSchema },
+      { name: 'SolutionOffer', schema: SolutionOfferSchema },
     ]),
     forwardRef(() => AuthModule),
+    ConfigModule,
   ],
   controllers: [
     QuestionsController,

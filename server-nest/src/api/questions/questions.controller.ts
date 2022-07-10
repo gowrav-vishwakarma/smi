@@ -17,6 +17,7 @@ import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { CreateQuestionDTO } from '../dto/create-question.dto';
 import { GetQuestionsDTO } from '../dto/question-filter-query.dto';
+import { QuestionOfferSolutionDTO } from '../dto/question-offersolution.dto';
 import { VoteQuestionDTO } from '../dto/vote-question.dto';
 import { MediaService } from '../media/media.service';
 import { QuestionDocument } from '../schemas/question.schema';
@@ -79,5 +80,16 @@ export class QuestionsController {
   @UseGuards(AuthGuard())
   async vote(@GetUser() user: UserDocument, @Param() voteDto: VoteQuestionDTO) {
     return this.questionsService.voteQuestion(voteDto, user);
+  }
+
+  @Post('/offer-solution')
+  @UsePipes(ValidationPipe)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  async offerSolution(
+    @GetUser() user: UserDocument,
+    @Body() offer: QuestionOfferSolutionDTO,
+  ) {
+    return this.questionsService.offerSolution(offer, user);
   }
 }
