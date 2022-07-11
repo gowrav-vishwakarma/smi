@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { getModule } from "vuex-module-decorators";
 import VuexPersistence from "vuex-persist";
 import Auth, { IAuthState } from "./module/auth";
 
@@ -9,6 +10,12 @@ export interface IRootState {
   auth: IAuthState;
 }
 
-export default new Vuex.Store<IRootState>({
+const store = new Vuex.Store<IRootState>({
+  modules: {
+    auth: Auth,
+  },
   plugins: [new VuexPersistence({ key: "SMI" }).plugin],
 });
+
+export default store;
+export const AuthStoreModule = getModule(Auth, store);

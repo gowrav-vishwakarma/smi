@@ -5,22 +5,28 @@ import {
   Action,
   getModule,
 } from "vuex-module-decorators";
-import { CurrentUserI } from "@/types/CurrentUser";
 
-import store from "@/store";
+export interface CurrentUserI {
+  _id: string;
+  email: string;
+  name: string;
+  accessToken: string;
+}
 
 export interface IAuthState {
   currentUser: CurrentUserI | null;
 }
 
-@Module({ dynamic: true, store, name: "auth" })
-export default class Auth extends VuexModule {
+@Module({ name: "auth" })
+export default class Auth extends VuexModule implements IAuthState {
   currentUser: CurrentUserI | null = null;
+
+  get token() {
+    return this.currentUser?.accessToken;
+  }
 
   @Mutation
   setCurrentUser(currentUser: CurrentUserI) {
     this.currentUser = currentUser;
   }
 }
-
-export const AuthModule = getModule(Auth);
