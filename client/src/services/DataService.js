@@ -159,6 +159,13 @@ class DataService {
         });
     
     }
+    QuestionReport(questionId,type){
+        
+        return http.post(`/report/quesVote`, {
+            questionId,type
+        });
+    
+    }
     CommentVote(commentId,questionId,type){
         
         return http.post(`/vote/commVote`, {

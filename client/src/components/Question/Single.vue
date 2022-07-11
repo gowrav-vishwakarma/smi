@@ -106,11 +106,17 @@
                 <div
                     class="d-flex flex-row justify-space-around align-center mt-1"
                 >
-                    <v-btn @click="Vote(true)" small :disabled="voted" class="mr-2 primary">
+                    <v-btn @click="Vote(true)" small v-if="!voted" class="mr-2">
                         <v-icon>mdi-thumb-up</v-icon>{{votes}}
                     </v-btn>
-                    <v-btn @click="Vote(false)" small :disabled="!voted" class="mr-2 red lighten-1 text-light">
-                        <v-icon>mdi-thumb-down</v-icon>
+                    <v-btn @click="Vote(false)" small v-if="voted" class="mr-2 primary">
+                        <v-icon>mdi-thumb-up</v-icon>{{votes}}
+                    </v-btn>
+                    <v-btn @click="Report(true)" small v-if="!reported" class="mr-2 text-danger">
+                        <v-icon>mdi-thumb-down</v-icon>{{reports}}
+                    </v-btn>
+                    <v-btn @click="Report(false)" small v-if="reported" class="mr-2 red lighten-1 text-light">
+                        <v-icon>mdi-thumb-down</v-icon>{{reports}}
                     </v-btn>
                     <div class="d-flex flex-column mt-3 ml-1">
                     <v-btn class="curve mb-1" @click="goToDetail(question)"
@@ -170,11 +176,14 @@ export default {
             Video: this.question.video,
             dialog: false,
             voted:false,
+            reports:this.question.reportCount,
+            reported:false,
             votes:this.question.voteCount
         };
     },
     mounted(){
-        this.hasVoted()
+        this.hasVoted(),
+        this.hasReported()
     },
     computed: {
         questionerRating() {
@@ -205,6 +214,18 @@ export default {
                 }
 
         },
+        hasReported(){
+            
+                if(!this.question.reportUsers || this.question.reportUsers.length==0){
+                    this.reported = false;
+                }
+                if(this.question.reportUsers && this.question.reportUsers.includes(this.$store.state.currentUser._id)){
+                    this.reported = true;
+                } else{
+                    this.reported = false;
+                }
+
+        },
 
         Vote(type){
                 DataService.QuestionVote(this.question._id,type)
@@ -216,8 +237,26 @@ export default {
                         this.votes = this.votes - 1;
                     }
                     this.voted = !this.voted;
+                    if(type==true && this.reported)
+                     this.Report(false);
                 })
                 .catch(err=>console.log(err))
+        },
+
+        Report(type){
+                DataService.QuestionReport(this.question._id,type)
+                .then(response=>{
+                    if(response.data.isquestionReport){
+                        this.reports =this.reports + 1;
+                    } else{
+                        this.reports = this.reports - 1;
+                    }
+                    this.reported = !this.reported;
+                    if(type==true && this.voted)
+                     this.Vote(false);
+                })
+                .catch(err=>console.log(err))
+               
         }
         
     },
