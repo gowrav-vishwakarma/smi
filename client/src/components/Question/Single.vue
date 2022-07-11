@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="0" class="d-flex mb-2 Qcard" shaped tile>
+    <v-card elevation="0" class="d-flex mb-2 Qcard">
         <v-container>
             <div class="d-flex justify-space-between">
                 <div class="d-flex justify-start mb-3" cols="auto">
@@ -60,7 +60,7 @@
                 <div>
                     <p @click="goToDetail(question)">{{ shortdetail }}</p>
                 </div>
-                <div>
+                <div class="mb-0">
                     <v-dialog v-model="dialog" width="500">
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn
@@ -122,21 +122,25 @@
                     </div>
                 </div>
             </div>
-             <v-divider></v-divider>
         </v-container>
     </v-card>
 </template>
 
 <style>
+
 @import url('https://fonts.googleapis.com/css? family=Oxygen:300,400,700&display=swap');
 @import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
 
-
 .Qcard {
-    width: 100% !important;
+    min-width: 45rem!important;
+    border: 2px solid #D9D9D9!important;
+    border-radius: 12px!important;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 h4,
 p {
+    font-family: 'Inter';
     cursor: pointer;
 }
 .curve{

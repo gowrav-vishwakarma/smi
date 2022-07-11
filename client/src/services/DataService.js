@@ -66,7 +66,7 @@ class DataService {
         });
     }
 
-    getQuestions(filter, page, limit, sort) {
+    getQuestions(filter, page, limit, sort,userid) {
         const topics = filter.topics || [];
         const languages = filter.languages || [];
         const tags = filter.tags || [];
@@ -77,7 +77,9 @@ class DataService {
                 : filter.isPaid === false
                 ? false
                 : undefined;
-
+       
+        const userId = userid || '';      
+                
         const query = {
             topics,
             languages,
@@ -86,6 +88,7 @@ class DataService {
             page,
             limit,
             sort,
+            userId
         };
 
         return http.get(`/questions`, {
