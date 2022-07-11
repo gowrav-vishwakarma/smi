@@ -12,6 +12,7 @@ export const validatorDto = async <T extends ClassConstructor<any>>(
   const errors = await validate(objInstance);
   // errors is an array of validation errors
   if (errors.length > 0) {
+    console.error(errors);
     throw new TypeError(
       `validation failed. The error fields : ${errors.map(
         ({ property, children }) =>
@@ -19,6 +20,8 @@ export const validatorDto = async <T extends ClassConstructor<any>>(
       )}`
     );
   }
+
+  return objInstance;
 };
 
 export default class APIService {
@@ -35,19 +38,20 @@ export default class APIService {
 
   protected async axiosCall<T>(
     config: AxiosRequestConfig,
-    requestDto?: ClassConstructor<any>,
-    responseDto?: ClassConstructor<any>
+    requestDtoToValidate?: ClassConstructor<any>,
+    responseDtoToValidate?: ClassConstructor<any>
   ): Promise<T | any> {
     // try {
-    if (requestDto) await validatorDto(requestDto, config.data);
+    if (requestDtoToValidate) {
+      config.data = await validatorDto(requestDtoToValidate, config.data);
+    }
     const response = await this.axiosInstance.request<T>(config);
-    if (responseDto) {
-      if (typeof response.data === "object")
-        await validatorDto(
-          responseDto,
-          response.data as Record<string, unknown>
-        );
-      console.log("validated", responseDto, response.data);
+    if (responseDtoToValidate) {
+      const validated = await validatorDto(
+        responseDtoToValidate,
+        response.data as Record<string, unknown>
+      );
+      return validated;
     }
     return response.data;
     // } catch (error) {

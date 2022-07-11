@@ -6,8 +6,4 @@ export default class LoginDTO {
 
   @IsNotEmpty()
   password!: string;
-
-  @IsNumber()
-  @IsOptional()
-  x?: number;
 }

@@ -54,6 +54,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import UserAPIService from "../../services/user.api";
 import { CurrentUserI } from "../../types/CurrentUser";
+import { AuthModule } from "../../store/module/auth";
 
 @Component({
   name: "LoginComponent",
@@ -91,7 +92,7 @@ export default class LoginComponent extends Vue {
         accessToken: data.accessToken,
       };
       user.accessToken = data.accessToken;
-      this.$store.commit("setCurrentUser", user);
+      AuthModule.setCurrentUser(user);
       let filter = {
         // topics: user.topic,
         tags: [],
@@ -99,7 +100,7 @@ export default class LoginComponent extends Vue {
         isPaid: undefined,
         sortBy: "newest",
       };
-      this.$store.commit("updateFilters", filter);
+      //   this.$store.commit("updateFilters", filter);
       //   this.$router.push("/");
     }
   }

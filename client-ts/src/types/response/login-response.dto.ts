@@ -2,8 +2,11 @@ import { Type } from "class-transformer";
 import {
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsObject,
+  IsOptional,
   IsString,
+  Min,
   ValidateNested,
 } from "class-validator";
 import "reflect-metadata";
@@ -20,10 +23,6 @@ export class UserDetails {
   @IsNotEmpty()
   @IsEmail()
   email!: string;
-
-  @IsNotEmpty()
-  @IsString()
-  emailx!: string;
 }
 
 export default class LoginResponseDTO {
