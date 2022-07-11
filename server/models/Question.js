@@ -63,9 +63,9 @@ const questionSchema = new mongoose.Schema(
             type: String,
             default: "open",
         },
-        views:{
-             type:Array,
-             default:[]
+        views: {
+            type: Array,
+            default: [],
         },
         totalOffers: {
             type: Number,
@@ -87,22 +87,20 @@ const questionSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-        voteCount:{
-            type:Number,
-            default:0
+        voteCount: {
+            type: Number,
+            default: 0,
         },
-        voteUsers:{
+        voteUsers: {
             type: Array,
-            default:[]
+            default: [],
         },
-        didIVoted: {
-            type:Number,
-            default:-1
-        },
-        options: [{
-            value: String,
-            votes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
-        }]
+        options: [
+            {
+                value: String,
+                votes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+            },
+        ],
     },
     { timestamps: true }
 );

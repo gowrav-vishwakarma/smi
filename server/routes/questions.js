@@ -80,7 +80,7 @@ router.put("/editQ/", async (req, res) => {
     }
 });
 
-router.get("/user/:userId",async (req,res)=>{
+router.get("/user/:userId", async (req, res) => {
     try {
         let questions;
         questions = await Question.find({
@@ -90,53 +90,83 @@ router.get("/user/:userId",async (req,res)=>{
     } catch (error) {
         return res.status(500).json(error);
     }
-})
-
-router.get("/", async (req, res) => {
-    
-    const { topics, languages, tags, isPaid, page, limit, sort,userId } = req.query;
-    console.log(topics)
-    try {
-        const query = {
-            isPaid: isPaid === "true",
-            page: parseInt(page),
-            limit: parseInt(limit),
-        };
-
-        if (topics)
-            query.topic =
-                typeof topics === "string" ? topics.split(",") : topics;
-        // if (languages)
-        //     query.languages =
-        //         typeof languages === "string"
-        //             ? languages.split(",")
-        //             : languages;
-        // if (tags)
-        //     query.tags = typeof tags === "string" ? tags.split(",") : tags;
-        
-        Question.aggregate([
-            {
-                $addFields: {
-                                didIVoted: { $ne: [ { $indexOfArray: [ "$this.voteUsers", userId ] }, -1 ] }
-                            
-                }
-            }
-        ])
-
-        const questions = await Question.find(query)
-            .populate(
-                "by",
-                "name avatar questionerRatingPoint totalQuestionerRatingCount -_id"
-            )
-            .sort(sort)
-            .skip((page - 1) * limit)
-            .limit(limit);
-        return res.status(200).json(questions);
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json(error);
-    }
 });
+
+router.get(
+    "/",
+    passport.authenticate(["jwt", "anonymous"], { session: false }),
+    async (req, res) => {
+        const { _id: userId } = req.user ? req.user : { _id: null };
+        const {
+            topics,
+            languages,
+            tags,
+            isPaid,
+            page = 1,
+            limit = 10,
+            sort,
+        } = req.query;
+        console.log(topics);
+        try {
+            const query = {
+                isPaid: isPaid === "true",
+            };
+
+            if (topics)
+                query.topic =
+                    typeof topics === "string" ? topics.split(",") : topics;
+
+            // if (languages)
+            //     query.languages =
+            //         typeof languages === "string"
+            //             ? languages.split(",")
+            //             : languages;
+            // if (tags)
+            //     query.tags = typeof tags === "string" ? tags.split(",") : tags;
+
+            const questions = await Question.aggregate([
+                {
+                    $match: query,
+                },
+                {
+                    $addFields: {
+                        didIVoted: {
+                            $ne: [
+                                { $indexOfArray: ["$voteUsers", userId] },
+                                -1,
+                            ],
+                        },
+                    },
+                },
+                {
+                    $sort: {
+                        [sort]: -1,
+                    },
+                },
+                {
+                    $skip: (page - 1) * limit,
+                },
+                {
+                    $limit: +limit,
+                },
+                // lookup user as by to get the user name avatar questionerRatingPoint totalQuestionerRatingCount -_id
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "by",
+                    },
+                },
+            ]);
+
+            return res.status(200).json(questions);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    }
+);
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
