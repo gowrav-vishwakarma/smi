@@ -52,8 +52,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import UserAPIService from "../../services/user.api";
 import { AuthStoreModule } from "@/store";
+import UserAPIService from "../../services/user.api";
 import { CurrentUserI } from "@/store/module/auth";
 
 @Component({
@@ -91,7 +91,6 @@ export default class LoginComponent extends Vue {
         ...data.user,
         accessToken: data.accessToken,
       };
-      user.accessToken = data.accessToken;
       AuthStoreModule.setCurrentUser(user);
       console.log(AuthStoreModule.token);
       let filter = {

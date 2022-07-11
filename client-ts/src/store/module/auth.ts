@@ -1,3 +1,4 @@
+import { validatorDto } from "@/helper/validateDto";
 import {
   VuexModule,
   Module,
@@ -6,11 +7,11 @@ import {
   getModule,
 } from "vuex-module-decorators";
 
-export interface CurrentUserI {
-  _id: string;
-  email: string;
-  name: string;
-  accessToken: string;
+export class CurrentUserI {
+  _id!: string;
+  email!: string;
+  name!: string;
+  accessToken!: string;
 }
 
 export interface IAuthState {
@@ -26,7 +27,8 @@ export default class Auth extends VuexModule implements IAuthState {
   }
 
   @Mutation
-  setCurrentUser(currentUser: CurrentUserI) {
+  async setCurrentUser(currentUser: CurrentUserI) {
+    // await validatorDto(CurrentUserI, currentUser);
     this.currentUser = currentUser;
   }
 }
