@@ -1,53 +1,49 @@
 <template>
-  <v-flex class="mx-2 py-4 px-2 card" xs12 md6 sm-6>
-    <div class="d-flex flex-column justify-center align-center">
-      <div class="py-5 d-flex flex-row jusity-center">
-        <h2 class="head">Login to your Account</h2>
-      </div>
-      <div class="mt-3 d-flex">
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field
-            v-model="logForm.emailL"
-            :rules="emailRules"
-            placeholder="Enter your email id"
-            outlined
-            dense
-            required
-            class="field"
-          ></v-text-field>
+  <div class="d-flex flex-column align-center">
+    <h2 class="head py-5">Login to your Account</h2>
+    <div class="mt-3">
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field
+          v-model="logForm.emailL"
+          :rules="emailRules"
+          placeholder="Enter your email id"
+          outlined
+          dense
+          required
+          class="field"
+        ></v-text-field>
 
-          <v-text-field
-            v-model="logForm.passwordL"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="Password"
-            outlined
-            dense
-            class="field mt-2"
-            @click:append="showPassword = !showPassword"
-          ></v-text-field>
-          <div class="field mt-2 d-flex align-start justify-space-between">
-            <span>
-              <input type="checkbox" class="mr-1 ml-1" v-model="remember" />
-              <label>Remember me</label>
-            </span>
-            <small>
-              <router-link class="text-decoration-none" to="/forget"
-                >Forget password?</router-link
-              >
-            </small>
-          </div>
-        </v-form>
-      </div>
-      <v-btn class="lgnbtn" @click="login"> Login </v-btn>
-      <p>
-        Not having an account ?
-        <router-link class="text-decoration-none" to="/register"
-          >Sign Up</router-link
-        >
-      </p>
+        <v-text-field
+          v-model="logForm.passwordL"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="Password"
+          outlined
+          dense
+          class="field mt-2"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
+        <div class="field mt-2 d-flex align-start justify-space-between">
+          <span>
+            <input type="checkbox" class="mr-1 ml-1" v-model="remember" />
+            <label>Remember me</label>
+          </span>
+          <small>
+            <router-link class="text-decoration-none" to="/forget"
+              >Forget password?</router-link
+            >
+          </small>
+        </div>
+      </v-form>
     </div>
-  </v-flex>
+    <v-btn class="lgnbtn" @click="login"> Login </v-btn>
+    <p>
+      Not having an account ?
+      <router-link class="text-decoration-none" to="/register"
+        >Sign Up</router-link
+      >
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -67,8 +63,6 @@ export default class LoginComponent extends Vue {
   private showPassword = false;
   private remember = false;
   private valid = false;
-  private submitted = false;
-  private user = {};
   private emailRules = [
     (v: any) =>
       /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
@@ -76,11 +70,13 @@ export default class LoginComponent extends Vue {
   ];
 
   async login() {
+    if (!this.valid) return;
+
     const data = await UserAPIService.login({
       username: this.logForm.emailL,
       password: this.logForm.passwordL,
     }).catch((err: any) => {
-      if (err.response && err.response.status === 401) {
+      if (err.response?.status === 401) {
         console.log("Username or password is incorrect");
       } else {
         console.log(err);
