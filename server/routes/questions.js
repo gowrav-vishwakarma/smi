@@ -136,6 +136,12 @@ router.get(
                                 -1,
                             ],
                         },
+                        didIReported: {
+                            $ne: [
+                                { $indexOfArray: ["$reportUsers", userId] },
+                                -1,
+                            ],
+                        },
                     },
                 },
                 {

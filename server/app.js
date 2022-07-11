@@ -18,6 +18,7 @@ var commentRouter = require("./routes/comment");
 var offerRouter = require("./routes/offer");
 var solutionRouter = require("./routes/solution");
 var voteRouter = require("./routes/votes")
+var reportRouter = require("./routes/reports")
 
 var app = express();
 app.use(
@@ -48,5 +49,6 @@ app.use("/comment", commentRouter);
 app.use("/offer", offerRouter);
 app.use("/solution", solutionRouter);
 app.use("/vote", voteRouter);
+app.use("/report", reportRouter);
 
 module.exports = app;

@@ -95,12 +95,14 @@ const questionSchema = new mongoose.Schema(
             type: Array,
             default: [],
         },
-        options: [
-            {
-                value: String,
-                votes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-            },
-        ],
+        reportCount: {
+            type: Number,
+            default: 0,
+        },
+        reportUsers: {
+            type: Array,
+            default: [],
+        },
     },
     { timestamps: true }
 );
