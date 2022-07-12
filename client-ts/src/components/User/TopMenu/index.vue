@@ -1,8 +1,10 @@
 <template>
-    <div>
-        <guest-top-menu></guest-top-menu>
-        <logged-in-top-menu></logged-in-top-menu>
-    </div>
+  <div>
+    <logged-in-top-menu
+      v-if="$store.getters.isAuthenticated"
+    ></logged-in-top-menu>
+    <guest-top-menu v-else></guest-top-menu>
+  </div>
 </template>
 
 <script lang="ts">
@@ -11,11 +13,11 @@ import GuestTopMenu from "@/components/User/TopMenu/GuestUser.vue";
 import LoggedInTopMenu from "@/components/User/TopMenu/LoggedInUser.vue";
 
 @Component({
-    name: "TopMenu",
-    components: {
-        GuestTopMenu,
-        LoggedInTopMenu,
-    },
+  name: "TopMenu",
+  components: {
+    GuestTopMenu,
+    LoggedInTopMenu,
+  },
 })
 export default class App extends Vue {}
 </script>

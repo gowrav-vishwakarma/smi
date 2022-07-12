@@ -22,13 +22,28 @@ export interface IAuthState {
 export default class Auth extends VuexModule implements IAuthState {
   currentUser: CurrentUserI | null = null;
 
-  get token() {
+  get token(): string | undefined {
     return this.currentUser?.accessToken;
+  }
+
+  get isAuthenticated(): boolean {
+    return this.currentUser !== null && this.currentUser?.accessToken !== null;
+  }
+
+  get loggedInUser(): CurrentUserI | null {
+    return this.currentUser ?? null;
   }
 
   @Mutation
   async setCurrentUser(currentUser: CurrentUserI) {
-    await validatorDto(CurrentUserI, { ...currentUser });
     this.currentUser = currentUser;
+  }
+
+  @Action
+  async setCurrentUserAction(currentUser: CurrentUserI) {
+    this.context.commit(
+      "setCurrentUser",
+      await validatorDto(CurrentUserI, { ...currentUser })
+    );
   }
 }

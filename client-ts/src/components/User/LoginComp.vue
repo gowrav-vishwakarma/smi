@@ -87,15 +87,15 @@ export default class LoginComponent extends Vue {
         ...data.user,
         accessToken: data.accessToken,
       };
-      AuthStoreModule.setCurrentUser(user);
+      await AuthStoreModule.setCurrentUserAction(user);
       console.log(AuthStoreModule.token);
-      let filter = {
-        // topics: user.topic,
-        tags: [],
-        // languages: user.languagesSpeaks,
-        isPaid: undefined,
-        sortBy: "newest",
-      };
+      // let filter = {
+      //   // topics: user.topic,
+      //   tags: [],
+      //   // languages: user.languagesSpeaks,
+      //   isPaid: undefined,
+      //   sortBy: "newest",
+      // };
       //   this.$store.commit("updateFilters", filter);
       //   this.$router.push("/");
     }

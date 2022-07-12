@@ -1,0 +1,94 @@
+<template>
+  <v-icon small @click="call">mdi-circle</v-icon>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import socket from "@/services/socket";
+
+@Component({
+  name: "WSManager",
+})
+export default class WSManager extends Vue {
+  mounted() {
+    this.socketConnect();
+  }
+
+  socketConnect() {
+    if (!this.$store.getters.isAuthenticated) {
+      console.log("Not connecting to socket because user is not authenticated");
+      return;
+    }
+    const username = this.$store.getters.loggedInUser._id;
+
+    socket.auth = { username };
+    socket.connect();
+
+    socket.on("session", ({ username }) => {
+      console.log("Session receievd");
+      socket.auth = { username };
+    });
+
+    socket.on("call-received", (payload) => {
+      console.log("call-received", payload);
+    });
+
+    // socket.on("call-received", ({ from, content }) => {
+    //   if (this.$store.getters.onlineStatus === "busy") {
+    //     this.sendBusy();
+    //     return;
+    //   }
+    //   this.from = content.callerName;
+    //   this.offerById = content.offerById;
+    //   this.offerId = content.offerId;
+    //   // this.ringing = true;
+    //   this.caller = content.callerId;
+    //   // var audio = new Audio(this.soundurl);
+    //   // audio.play();
+    //   console.log("Call received from ", from, content);
+
+    //   this.$vToastify
+    //     .prompt({
+    //       body: "Call received from " + content.callerName,
+    //       answers: { Accept: true, Denied: false },
+    //     })
+    //     .then((callAccept) => {
+    //       if (callAccept) this.acceptCall();
+    //       else this.declineCall();
+    //     });
+    // });
+
+    // socket.on("offer-placed", ({ content }) => {
+    //   let message =
+    //     content.offerUserName +
+    //     " placed a offer on'" +
+    //     content.questionTitle +
+    //     "'";
+    //   this.$vToastify
+    //     .prompt({
+    //       body: message,
+    //       answers: { "Go to question": true, Close: false },
+    //     })
+    //     .then((gotoPage) => {
+    //       if (gotoPage) {
+    //         this.$router.push("/question/" + content.questionId);
+    //       }
+    //     });
+
+    //   // this.offerPlaced.push(content);
+    //   console.log("Offer Placed from ", content.offerUserName, content);
+    // });
+
+    socket.on("connect_error", (err) => {
+      console.error(err);
+    });
+  }
+
+  call() {
+    socket.emit("initiateCall", {
+      content: "HI there",
+      to: "62bb11d860a89d6ed2a56596",
+    });
+  }
+}
+</script>

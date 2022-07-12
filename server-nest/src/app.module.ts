@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ApiModule } from './api/api.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { WsGateway } from './ws/ws.gateway';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { ConfigModule } from '@nestjs/config';
     ApiModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, WsGateway],
 })
 export class AppModule {}
