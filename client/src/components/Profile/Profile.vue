@@ -1,23 +1,37 @@
 <template>
-    <v-container>
+    <div class="cont">
     <div class="d-flex flex-row justify-start">
-        <div class="ml-4">
-            <UserAvatar v-if="currentUser._id" :user="currentUser" />
+        <div class="ml-4 mr-5">
+            <UserAvatar v-if="currentUser._id" :user="currentUser" :SIZE="100" />
         </div>
-        <div class="ml-5">
+        <div class="ml-3 mt-4 infocard">
            <h2>{{welcomeName}}</h2>
            <p>
                {{ topics.join(", ") }}
            </p>
         </div>
-        <div class="ml-2">
-            <v-card class="pa-2" outlined tile>
-                Current Badge
-            </v-card>
-        </div>
+        <div class="status ml-2 mt-3">
+               <v-icon
+                                small
+                                v-if="this.currentUser.onlineStatus == 'Online' "
+                                color="green"
+                                class="mr-2"
+                            >
+                                mdi-checkbox-blank-circle
+                            </v-icon>
+                            <v-icon small v-else color="red" class="mr-2">
+                                mdi-checkbox-blank-circle
+                            </v-icon>
+                            {{this.currentUser.onlineStatus}}
+                           
+           </div>
     </div>
+    <div class="d-flex flex-row justify-start ml-3 mt-3">
+      <v-btn @click="isShow = !isShow">{{!isShow?'Profile':'Settings'}}</v-btn>
+    </div>
+ 
 
-    <v-row>
+    <v-row v-show="!isShow">
         <v-form :disabled="isDisabled">
     <v-container>
       <v-row>
@@ -79,14 +93,42 @@
     </v-container>
   </v-form>
     </v-row>
-</v-container>
+    <div v-if="isShow" class="d-flex flex-column mt-4 profile">
+     <QuestionTab :currentUser="currentUser"/>
+     </div>
+</div>
 </template>
+
+<style>
+@import url('https://fonts.googleapis.com/css? family=Oxygen:300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
+
+.infocard
+h2{
+text-align: left;  
+font-family: 'Inter', sans-serif;
+font-weight: 500;
+font-size: 24px;
+line-height: 29.05px;
+color: #000000;
+}
+
+.status{
+    border: 1px solid grey;
+    border-radius: 15px;
+    height: 2.2rem;
+    padding: 10px;
+}
+.cont{
+  min-width: 50rem;
+}
+</style>
 
 <script>
 import DataService from '@/services/DataService';
 import UserAvatar from '@/components/User/Avatar.vue'
-export default{
-    data(){
+import QuestionTab from './QuestionTab.vue';
+export default{data(){
        return{
            welcomeName:this.notSameUser()? "Hello, "+this.currentUser.name.split(" ")[0]+"!":this.currentUser.name.split(" ")[0],
            firstName:this.currentUser.name.split(" ")[0],
@@ -102,14 +144,19 @@ export default{
            topics: this.currentUser.topic,
            isDisabled:true,
            edit:"Edit",
-           save:"Save"
+           save:"Save",
+           isShow:true,
        };
     },
     components:{
-      UserAvatar
+      UserAvatar,
+      QuestionTab
     },
     props:{
         currentUser:Object
+    },
+    mounted(){
+      console.log(this.currentUser)
     },
     methods:{
         notSameUser(){

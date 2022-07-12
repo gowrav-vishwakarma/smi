@@ -6,13 +6,13 @@
             :src="user.avatar"
             alt="avatar"
             class="avatar"
-            max-height="70"
-            max-width="54"
+            max-height="90"
+            max-width="90"
         />
         <gravatar
             v-else
             :email="user.email"
-            :size="50"
+            :size="SIZE"
             :default="'identicon'"
         ></gravatar>
     </div>
@@ -27,6 +27,10 @@ export default {
             type: Object,
             required: true,
         },
+        SIZE:{
+            type:Number,
+            default:50
+        }
     },
     components: {
         Gravatar,

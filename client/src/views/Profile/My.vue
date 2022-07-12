@@ -7,9 +7,6 @@
             <div class="mb-3">
                  <UserView :currentUser="this.$store.getters.currentUser"/>
             </div>
-            <div class="mt-5">
-                <QuestionTab :currentUser="this.$store.getters.currentUser"/>
-                </div>
         </div>
         <div class="mt-2">
             <StatusReview :currentUser="this.$store.getters.currentUser" />
@@ -20,14 +17,12 @@
 <script>
 import UserView from '@/components/Profile/Profile.vue'
 import Docker from '@/components/UI/Docker.vue'
-import QuestionTab from '@/components/Profile/QuestionTab.vue';
 import StatusReview from '@/components/Profile/Status-review.vue';
 export default {
     name: "ProfilePage",
     components: {
     UserView,
     Docker,
-    QuestionTab,
     StatusReview
 },
 };

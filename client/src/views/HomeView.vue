@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex justify-space-between">
         <div class="mt-2">
-            <DockerVue :questions="questions" />
+            <DockerVue :questions="questions"/>
         </div>
         <div>
         <div class="d-flex sticky-top bar mt-3 pl-2 pr-2 justify-space-between">
@@ -73,7 +73,7 @@
         </v-layout>
         </div>
         <div class="mt-2 d-flex justify-end ml-0">
-            <TopAdsenseVue />
+            <TopAdsenseVue/>
         </div>
     </div>
 </template>
@@ -138,7 +138,7 @@ export default {
     components: {
         QuestionList,
         DockerVue,
-        TopAdsenseVue,
+        TopAdsenseVue
     },
     data() {
         return {
@@ -192,10 +192,8 @@ export default {
             questionsPerPage: 10,
             hasNextPage: false,
             hasPrevPage: false,
-            topic: this.$store.state.currentUser
-                ? this.$store.state.currentUser.topic
-                : [],
-            topics,
+            topic:this.$store.state.currentUser.topic,
+            topics
         };
     },
     mounted() {
@@ -208,7 +206,6 @@ export default {
                 this.currentPage,
                 this.questionsPerPage,
                 this.$store.getters.sortBy,
-                this.$store.getters.currentUser._id
             )
                 .then((response) => {
                     console.log(response.data);
@@ -229,10 +226,10 @@ export default {
             this.currentPage--;
             this.getQuestionsFromApi();
         },
-        updateFilter() {
-            this.$store.commit("setCurrentTopic", this.topic);
-            this.getQuestionsFromApi();
-        },
+        updateFilter(){
+        this.$store.commit("setCurrentTopic", this.topic);
+        this.getQuestionsFromApi();
+        }
     },
 };
 </script>

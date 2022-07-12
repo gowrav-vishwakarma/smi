@@ -8,9 +8,6 @@
             <div class="mb-3">
                 <UserView v-if="userInfo._id" :currentUser="userInfo"/>
             </div>
-            <div>
-                <QuestionTabVue v-if="userInfo._id" :currentUser="userInfo"/>
-                </div>
         </div>
         <div class="mt-2">
              <StatusReview v-if="userInfo._id" :currentUser="userInfo"/>
@@ -25,7 +22,6 @@
 import UserView from "@/components/Profile/Profile.vue"
 import DataService from "@/services/DataService";
 import Error from "@/components/Errors/500.vue"
-import QuestionTabVue from "@/components/Profile/QuestionTab.vue";
 import StatusReview from '@/components/Profile/Status-review.vue'
 import Docker from "@/components/UI/Docker.vue";
 
@@ -40,7 +36,6 @@ export default {
     components: {
         UserView,
         Error,
-        QuestionTabVue,
         Docker,
         StatusReview
     },

@@ -12,7 +12,7 @@
             >
                 <div class="d-flex flex-row">
                     <v-icon class="mr-1">mdi-trophy</v-icon>
-                    <UserAvatar class="ma-2" :user="user" />
+                    <UserAvatar class="ma-2 " :user="user" />
                     <div class="d-flex mt-3 ml-2 text-left flex-column">
                         <small>{{ user.name }}</small>
                         <small>{{ user.type }}</small>

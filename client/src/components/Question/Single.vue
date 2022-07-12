@@ -106,18 +106,22 @@
                 <div
                     class="d-flex flex-row justify-space-around align-center mt-1"
                 >
-                    <v-btn @click="Vote(true)" small v-if="!voted" class="mr-2">
+                
+                    <v-btn @click="Vote(true)" small :disabled="disable" v-if="!voted" class="mr-2">
                         <v-icon>mdi-thumb-up</v-icon>{{votes}}
                     </v-btn>
-                    <v-btn @click="Vote(false)" small v-if="voted" class="mr-2 primary">
+                    <v-btn @click="Vote(false)" small :disabled="disable" v-if="voted" class="mr-2 primary">
                         <v-icon>mdi-thumb-up</v-icon>{{votes}}
                     </v-btn>
-                    <v-btn @click="Report(true)" small v-if="!reported" class="mr-2 text-danger">
+                    <v-btn @click="Report(true)" small :disabled="disable" v-if="!reported" class="mr-2 text-danger">
                         <v-icon>mdi-thumb-down</v-icon>{{reports}}
                     </v-btn>
-                    <v-btn @click="Report(false)" small v-if="reported" class="mr-2 red lighten-1 text-light">
+                    <v-btn @click="Report(false)" small :disabled="disable" v-if="reported" class="mr-2 red lighten-1 text-light">
                         <v-icon>mdi-thumb-down</v-icon>{{reports}}
                     </v-btn>
+                 
+                        <v-btn v-if="disable" @click="goToLog" small class="mr-2">Login to React</v-btn>
+                    
                     <div class="d-flex flex-column mt-3 ml-1">
                     <v-btn class="curve mb-1" @click="goToDetail(question)"
                         >{{ question.publicCommentsCount }} comments</v-btn
@@ -178,7 +182,8 @@ export default {
             voted:false,
             reports:this.question.reportCount,
             reported:false,
-            votes:this.question.voteCount
+            votes:this.question.voteCount,
+            disable:this.$store.state.currentUser?false:true
         };
     },
     mounted(){
@@ -198,6 +203,9 @@ export default {
         },
     },
     methods: {
+        goToLog() {
+            this.$router.push(`/login`);
+        },
         goToDetail(question) {
             this.$router.push(`/question/${question._id}`);
         },
