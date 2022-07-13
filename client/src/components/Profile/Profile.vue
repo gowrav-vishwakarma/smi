@@ -27,73 +27,15 @@
            </div>
     </div>
     <div class="d-flex flex-row justify-start ml-3 mt-3">
-      <v-btn @click="isShow = !isShow">{{!isShow?'Profile':'Settings'}}</v-btn>
+      <v-btn class="toggle ml-3" @click="toggle1">Profile</v-btn>
+      <v-btn class="toggle ml-3" @click="toggle2">Settings</v-btn>
     </div>
  
-
-    <v-row v-show="!isShow">
-        <v-form :disabled="isDisabled">
-    <v-container>
-      <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="firstName"
-            label="First Name"
-            filled
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="lastName"
-            label="Last Name"
-            filled
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="12">
-             <v-text-field
-                    v-model="email"
-                    :rules="emailRules"
-                    label="Email"
-                    filled
-                ></v-text-field>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="country"
-            label="Country"
-            filled
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="username"
-            label="Username"
-            filled
-          ></v-text-field>
-        </v-col>
-        <v-col v-if="notSameUser()" cols="auto">
-            <v-btn v-if="isDisabled" @click="()=>isDisabled=false">{{edit}}</v-btn>
-            <v-btn v-if="!isDisabled" @click="editUser()">{{save}}</v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
-    </v-row>
-    <div v-if="isShow" class="d-flex flex-column mt-4 profile">
+   <Setting :currentUser="currentUser" v-if="isShow2"/>
+   
+    <div v-if="isShow1" class="d-flex flex-column mt-4 profile">
+       <Badges :currentUser="currentUser"/>
+       <Reviews :currentUser="currentUser"/>
      <QuestionTab :currentUser="currentUser"/>
      </div>
 </div>
@@ -116,11 +58,16 @@ color: #000000;
 .status{
     border: 1px solid grey;
     border-radius: 15px;
-    height: 2.2rem;
-    padding: 10px;
+    padding-top: 3px;
 }
 .cont{
-  min-width: 50rem;
+  min-width: 60rem;
+}
+.toggle{
+background: rgba(255, 204, 109, 0.55);
+border: 1px solid #FFB21E;
+box-shadow: 0px 2px 4px rgba(157, 155, 155, 0.06);
+border-radius: 12px;
 }
 </style>
 
@@ -128,6 +75,9 @@ color: #000000;
 import DataService from '@/services/DataService';
 import UserAvatar from '@/components/User/Avatar.vue'
 import QuestionTab from './QuestionTab.vue';
+import Setting from './Setting.vue'
+import Badges from './Badges.vue'
+import Reviews from './Reviews.vue';
 export default{data(){
        return{
            welcomeName:this.notSameUser()? "Hello, "+this.currentUser.name.split(" ")[0]+"!":this.currentUser.name.split(" ")[0],
@@ -145,13 +95,17 @@ export default{data(){
            isDisabled:true,
            edit:"Edit",
            save:"Save",
-           isShow:true,
+           isShow1:true,
+           isShow2:false,
        };
     },
     components:{
-      UserAvatar,
-      QuestionTab
-    },
+    UserAvatar,
+    QuestionTab,
+    Setting,
+    Badges,
+    Reviews
+},
     props:{
         currentUser:Object
     },
@@ -159,6 +113,15 @@ export default{data(){
       console.log(this.currentUser)
     },
     methods:{
+      toggle1(){
+         this.isShow1=true;
+         this.isShow2=false;
+      },
+      toggle2(){
+
+         this.isShow1=false;
+         this.isShow2=true;
+      },
         notSameUser(){
             return this.$store.getters.currentUser._id == this.currentUser._id 
         },

@@ -1,16 +1,13 @@
 <template>
 
-<div v-if="!error" class="d-flex justify-space-around">
-        <div class="mt-2">
+<div v-if="!error" class="d-flex justify-space-around mt-8">
+        <!-- <div class="mt-2">
             <Docker/>
-        </div>
+        </div> -->
         <div class="mt-2 ml-3 d-flex flex-column">
             <div class="mb-3">
                 <UserView v-if="userInfo._id" :currentUser="userInfo"/>
             </div>
-        </div>
-        <div class="mt-2">
-             <StatusReview v-if="userInfo._id" :currentUser="userInfo"/>
         </div>
 </div>
     <v-container v-else>
@@ -22,8 +19,7 @@
 import UserView from "@/components/Profile/Profile.vue"
 import DataService from "@/services/DataService";
 import Error from "@/components/Errors/500.vue"
-import StatusReview from '@/components/Profile/Status-review.vue'
-import Docker from "@/components/UI/Docker.vue";
+// import Docker from "@/components/UI/Docker.vue";
 
 export default {
     name: "ProfilePage",
@@ -36,8 +32,7 @@ export default {
     components: {
         UserView,
         Error,
-        Docker,
-        StatusReview
+        // Docker,
     },
     mounted(){
         this.fetchUser(this.$route.params.id);
