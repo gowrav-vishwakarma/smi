@@ -1,15 +1,21 @@
 <template>
-  <v-icon small @click="call">mdi-circle</v-icon>
+  <v-icon small @click="call" :color="isConnected ? 'green' : 'red'"
+    >mdi-circle</v-icon
+  >
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import socket from "@/services/socket";
+import socket, { SocketOn, SocketEmit } from "@/services/socket";
+import SocketAuthDto from "@/types/ws/socket-auth.dto";
+import InitiateCallDTO from "@/types/ws/initiate-call.dto";
 
 @Component({
   name: "WSManager",
 })
 export default class WSManager extends Vue {
+  isConnected = false;
+
   mounted() {
     this.socketConnect();
   }
@@ -24,10 +30,18 @@ export default class WSManager extends Vue {
     socket.auth = { username };
     socket.connect();
 
-    socket.on("session", ({ username }) => {
-      console.log("Session receievd");
-      socket.auth = { username };
-    });
+    SocketOn(
+      "session",
+      (data: any) => {
+        socket.auth = { username };
+        this.isConnected = true;
+      },
+      SocketAuthDto
+    );
+    // socket.on("session", ({ username }) => {
+    //   socket.auth = { username };
+    //   this.isConnected = true;
+    // });
 
     socket.on("call-received", (payload) => {
       console.log("call-received", payload);
@@ -85,10 +99,14 @@ export default class WSManager extends Vue {
   }
 
   call() {
-    socket.emit("initiateCall", {
-      content: "HI there",
-      to: "62bb11d860a89d6ed2a56596",
-    });
+    SocketEmit(
+      "initiateCall",
+      {
+        content: "Hi There",
+        to: "62bb11d860a89d6ed2a56596",
+      },
+      InitiateCallDTO
+    );
   }
 }
 </script>
