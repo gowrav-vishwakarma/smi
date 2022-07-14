@@ -104,9 +104,13 @@ router.get(
             isPaid,
             page = 1,
             limit = 10,
-            sort,
+            sortBy,
+            filterBy,
+            tagBy
         } = req.query;
-        console.log(topics);
+
+        console.log(sortBy,filterBy,tagBy)
+
         try {
             const query = {
                 isPaid: isPaid === "true",
@@ -115,7 +119,7 @@ router.get(
             if (topics)
                 query.topic =
                     typeof topics === "string" ? topics.split(",") : topics;
-
+            
             // if (languages)
             //     query.languages =
             //         typeof languages === "string"
@@ -146,7 +150,7 @@ router.get(
                 },
                 {
                     $sort: {
-                        [sort]: -1,
+                        [sortBy ]: -1,
                     },
                 },
                 {
