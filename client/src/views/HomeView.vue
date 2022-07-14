@@ -283,6 +283,7 @@ export default {
         },
         apply(){
             this.getQuestionsFromApi();
+            this.isShow2 = false;
         }
     },
 };
