@@ -1,92 +1,84 @@
 <template>
-    <v-container>
+    <div class="cont">
     <div class="d-flex flex-row justify-start">
-        <div class="ml-4">
-            <UserAvatar v-if="currentUser._id" :user="currentUser" />
+        <div class="ml-4 mr-5">
+            <UserAvatar v-if="currentUser._id" :user="currentUser" :SIZE="100" />
         </div>
-        <div class="ml-5">
+        <div class="ml-3 mt-4 infocard">
            <h2>{{welcomeName}}</h2>
            <p>
                {{ topics.join(", ") }}
            </p>
         </div>
-        <div class="ml-2">
-            <v-card class="pa-2" outlined tile>
-                Current Badge
-            </v-card>
-        </div>
+        <div class="status ml-2 mt-3">
+               <v-icon
+                                small
+                                v-if="this.currentUser.onlineStatus == 'Online' "
+                                color="green"
+                                class="mr-2"
+                            >
+                                mdi-checkbox-blank-circle
+                            </v-icon>
+                            <v-icon small v-else color="red" class="mr-2">
+                                mdi-checkbox-blank-circle
+                            </v-icon>
+                            {{this.currentUser.onlineStatus}}
+                           
+           </div>
     </div>
-
-    <v-row>
-        <v-form :disabled="isDisabled">
-    <v-container>
-      <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="firstName"
-            label="First Name"
-            filled
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="lastName"
-            label="Last Name"
-            filled
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="12">
-             <v-text-field
-                    v-model="email"
-                    :rules="emailRules"
-                    label="Email"
-                    filled
-                ></v-text-field>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="country"
-            label="Country"
-            filled
-          ></v-text-field>
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="username"
-            label="Username"
-            filled
-          ></v-text-field>
-        </v-col>
-        <v-col v-if="notSameUser()" cols="auto">
-            <v-btn v-if="isDisabled" @click="()=>isDisabled=false">{{edit}}</v-btn>
-            <v-btn v-if="!isDisabled" @click="editUser()">{{save}}</v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
-    </v-row>
-</v-container>
+    <div class="d-flex flex-row justify-start ml-3 mt-3">
+      <v-btn class="toggle ml-3" @click="toggle1">Profile</v-btn>
+      <v-btn class="toggle ml-3" @click="toggle2">{{notSameUser()?'Settings':'User Info'}}</v-btn>
+    </div>
+ 
+   <Setting :currentUser="currentUser" v-if="isShow2"/>
+   
+    <div v-if="isShow1" class="d-flex flex-column mt-4 profile">
+       <Badges :currentUser="currentUser"/>
+       <Reviews :currentUser="currentUser"/>
+     <QuestionTab :currentUser="currentUser"/>
+     </div>
+</div>
 </template>
+
+<style>
+@import url('https://fonts.googleapis.com/css? family=Oxygen:300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
+
+.infocard
+h2{
+text-align: left;  
+font-family: 'Inter', sans-serif;
+font-weight: 500;
+font-size: 24px;
+line-height: 29.05px;
+color: #000000;
+}
+
+.status{
+    border: 1px solid grey;
+    border-radius: 15px;
+    padding-top: 3px;
+}
+.cont{
+  min-width: 60rem;
+}
+.toggle{
+background: rgba(255, 204, 109, 0.55);
+border: 1px solid #FFB21E;
+box-shadow: 0px 2px 4px rgba(157, 155, 155, 0.06);
+border-radius: 12px;
+}
+</style>
 
 <script>
 import DataService from '@/services/DataService';
 import UserAvatar from '@/components/User/Avatar.vue'
-export default{
-    data(){
+import QuestionTab from './QuestionTab.vue';
+import Setting from './Setting.vue'
+import Badges from './Badges.vue'
+import Reviews from './Reviews.vue';
+export default{data(){
        return{
            welcomeName:this.notSameUser()? "Hello, "+this.currentUser.name.split(" ")[0]+"!":this.currentUser.name.split(" ")[0],
            firstName:this.currentUser.name.split(" ")[0],
@@ -102,16 +94,34 @@ export default{
            topics: this.currentUser.topic,
            isDisabled:true,
            edit:"Edit",
-           save:"Save"
+           save:"Save",
+           isShow1:true,
+           isShow2:false,
        };
     },
     components:{
-      UserAvatar
-    },
+    UserAvatar,
+    QuestionTab,
+    Setting,
+    Badges,
+    Reviews
+},
     props:{
         currentUser:Object
     },
+    mounted(){
+      console.log(this.currentUser)
+    },
     methods:{
+      toggle1(){
+         this.isShow1=true;
+         this.isShow2=false;
+      },
+      toggle2(){
+
+         this.isShow1=false;
+         this.isShow2=true;
+      },
         notSameUser(){
             return this.$store.getters.currentUser._id == this.currentUser._id 
         },

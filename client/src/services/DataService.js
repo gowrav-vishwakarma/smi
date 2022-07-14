@@ -66,7 +66,7 @@ class DataService {
         });
     }
 
-    getQuestions(filter, page, limit, sort) {
+    getQuestions(filter, page, limit, sortBy,filterBy,tagBy) {
         const topics = filter.topics || [];
         const languages = filter.languages || [];
         const tags = filter.tags || [];
@@ -77,7 +77,8 @@ class DataService {
                 : filter.isPaid === false
                 ? false
                 : undefined;
-
+           
+                
         const query = {
             topics,
             languages,
@@ -85,9 +86,10 @@ class DataService {
             isPaid,
             page,
             limit,
-            sort,
+            sortBy,
+            filterBy,
+            tagBy
         };
-
         return http.get(`/questions`, {
             params: query,
         });
@@ -152,6 +154,13 @@ class DataService {
     QuestionVote(questionId,type){
         
         return http.post(`/vote/quesVote`, {
+            questionId,type
+        });
+    
+    }
+    QuestionReport(questionId,type){
+        
+        return http.post(`/report/quesVote`, {
             questionId,type
         });
     

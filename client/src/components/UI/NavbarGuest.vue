@@ -15,7 +15,7 @@
         </v-toolbar-items>
         <v-toolbar-items>
             <!-- search field -->
-                 <v-combobox
+                 <!-- <v-combobox
                     class="sBar mt-3 mr-2 text-dark"
                     v-model="topic"
                     :items="topics"
@@ -30,7 +30,7 @@
                     clearable
                     :delimiters="[',']"
                     deletable-chips
-                ></v-combobox>   
+                ></v-combobox>    -->
         </v-toolbar-items>
 
         <v-spacer></v-spacer>
