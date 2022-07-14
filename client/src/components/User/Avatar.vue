@@ -24,7 +24,7 @@ import Gravatar from "vue-gravatar";
 export default {
     props: {
         user: {
-            type: Object,
+            type: Array,
             required: true,
         },
         SIZE:{

@@ -117,7 +117,9 @@ export default {
                         tags: [],
                         languages: this.user.languagesSpeaks,
                         isPaid: undefined,
-                        sortBy: "newest",
+                        sortBy: 1,
+                        filterBy: 0,
+                        tagBy: 0,
                     };
                     this.$store.commit("updateFilters", filter);
                     this.$router.push("/");

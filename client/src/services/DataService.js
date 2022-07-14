@@ -66,7 +66,7 @@ class DataService {
         });
     }
 
-    getQuestions(filter, page, limit, sort) {
+    getQuestions(filter, page, limit, sortBy,filterBy,tagBy) {
         const topics = filter.topics || [];
         const languages = filter.languages || [];
         const tags = filter.tags || [];
@@ -86,9 +86,10 @@ class DataService {
             isPaid,
             page,
             limit,
-            sort
+            sortBy,
+            filterBy,
+            tagBy
         };
-
         return http.get(`/questions`, {
             params: query,
         });

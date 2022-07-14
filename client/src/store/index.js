@@ -16,7 +16,9 @@ export default new Vuex.Store({
             tags: [],
             languages: [],
             isPaid: undefined,
-            sortBy: "newest",
+            sortBy: 1,
+            filterBy:0,
+            tagBy:0
         },
         notifications: [],
         currentQuestion: null,
@@ -43,6 +45,15 @@ export default new Vuex.Store({
         setCurrentTopic(state,topic){
               state.filters.topics = topic
         },
+        setCurrentsortBy(state,val){
+            state.filters.sortBy = val
+        },
+        setCurrentfilterBy(state,val){
+            state.filters.filterBy = val
+        },
+        setCurrenttagBy(state,val){
+            state.filters.tagBy = val
+        },
         // mutation to update notifications
         showNotification(state, notification) {
             state.notifications.push(notification);
@@ -67,6 +78,15 @@ export default new Vuex.Store({
         },
         setCurrentTopic({commit},topic) {
             commit("setCurrentTopic",topic)
+        },
+        setCurrentsortBy({commit},val){
+            commit("setCurrentsortBy",val)
+        },
+        setCurrentfilterBy({commit},val){
+            commit("setCurrentfilterBy",val)
+        },
+        setCurrenttagBy({commit},val){
+            commit("setCurrenttagBy",val)
         }
     },
     getters: {
@@ -86,6 +106,8 @@ export default new Vuex.Store({
         },
         filters: (state) => state.filters,
         sortBy: (state) => state.filters.sortBy,
+        filterBy: (state) => state.filters.filterBy,
+        tagBy: (state) => state.filters.tagBy,
         notifications: (state) => state.notifications,
         currentQuestion: (state) => state.currentQuestion,
         CurrentError : (state)=>state.CurrentError

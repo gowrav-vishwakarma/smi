@@ -28,7 +28,7 @@
     </div>
     <div class="d-flex flex-row justify-start ml-3 mt-3">
       <v-btn class="toggle ml-3" @click="toggle1">Profile</v-btn>
-      <v-btn class="toggle ml-3" @click="toggle2">Settings</v-btn>
+      <v-btn class="toggle ml-3" @click="toggle2">{{notSameUser()?'Settings':'User Info'}}</v-btn>
     </div>
  
    <Setting :currentUser="currentUser" v-if="isShow2"/>

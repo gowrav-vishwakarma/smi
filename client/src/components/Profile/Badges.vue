@@ -5,7 +5,7 @@
         <small>View all badges</small>
       </div>
         <div class="d-flex flex-row justify-space-between pl-2 pr-2 mb-3 mt-4">
-      <div v-for="badge in badges" :key="badge" class="badge d-flex flex-column">
+      <div v-for="(badge,key) in badges" :key="key" class="badge d-flex flex-column">
           <h2 class="text-dark mb-3 mt-3"><v-icon class="mr-4" v-bind:style="{ 'color': badge.color,'border': `1px solid ${badge.color}`,'border-radius': '12px','padding':'4px' }" large>mdi-trophy-award</v-icon> {{badge.num}}</h2>
            <h3>{{badge.name}} Badge</h3>
            <h6>{{badge.content}}</h6>
