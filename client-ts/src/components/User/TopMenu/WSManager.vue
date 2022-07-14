@@ -7,8 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import socket, { SocketOn, SocketEmit } from "@/services/socket";
-import SocketAuthDto from "@/types/ws/socket-auth.dto";
-import InitiateCallDTO from "@/types/ws/initiate-call.dto";
+import { SocketAuthDTO, InitiateCallDTO } from "@/types/ws.dto";
 
 @Component({
   name: "WSManager",
@@ -36,7 +35,7 @@ export default class WSManager extends Vue {
         socket.auth = { username };
         this.isConnected = true;
       },
-      SocketAuthDto
+      SocketAuthDTO
     );
     // socket.on("session", ({ username }) => {
     //   socket.auth = { username };
