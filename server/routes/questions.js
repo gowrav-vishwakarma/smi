@@ -109,16 +109,18 @@ router.get(
             tagBy
         } = req.query;
 
-        console.log(sortBy,filterBy,tagBy)
+        console.log(sortBy,filterBy,tagBy,"these 3 values from filter which are number value")
 
         try {
             const query = {
                 isPaid: isPaid === "true",
             };
 
-            if (topics)
-                query.topic =
-                    typeof topics === "string" ? topics.split(",") : topics;
+            //topics also not working
+
+            // if (topics)
+            //     query.topic =
+            //         typeof topics === "string" ? topics.split(",") : topics;
             
             // if (languages)
             //     query.languages =
@@ -129,9 +131,9 @@ router.get(
             //     query.tags = typeof tags === "string" ? tags.split(",") : tags;
 
             const questions = await Question.aggregate([
-                // {
-                //     $match: query,
-                // },
+                {
+                    $match: query,
+                },
                 {
                     $addFields: {
                         didIVoted: {
@@ -151,6 +153,7 @@ router.get(
                 {
                     $sort: {
                         [sortBy ]: -1,
+                        
                     },
                 },
                 {
