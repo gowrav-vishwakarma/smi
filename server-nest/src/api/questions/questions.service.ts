@@ -47,14 +47,24 @@ export class QuestionsService {
       {
         $match: matchCondition,
       },
-      // {
-      //   $lookup: {
-      //     from: 'comments',
-      //     localField: '_id',
-      //     foreignField: 'questionId',
-      //     as: 'comments',
-      //   },
-      // },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'questionerId',
+          foreignField: '_id',
+          as: 'byUser',
+          pipeline: [
+            {
+              $project: {
+                name: 1,
+                languagesSpeaks: 1,
+                reputationAsQuestioner: 1,
+              },
+            },
+          ],
+        },
+      },
+      { $unwind: '$byUser' },
       // {
       //   $lookup: {
       //     from: 'votes',
@@ -75,6 +85,7 @@ export class QuestionsService {
       // { $addFields: { votesCount: { $size: '$votes' } } },
       // { $addFields: { offersCount: { $size: '$offers' } } },
     ]);
+
     return questions;
   }
 

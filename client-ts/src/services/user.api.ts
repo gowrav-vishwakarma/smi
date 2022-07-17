@@ -27,8 +27,7 @@ class UserAPIService extends APIService {
         url: "/auth/register",
         data: registerDetail,
       },
-      RegisterUserDTO,
-      RegisterUserResponseDTO
+      RegisterUserDTO
     );
     return response;
   }

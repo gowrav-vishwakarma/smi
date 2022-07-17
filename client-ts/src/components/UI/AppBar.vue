@@ -8,10 +8,11 @@
         src="@/assets/logo.png"
         transition="scale-transition"
         width="40"
+        to="/"
       />
 
       <h3 alt="SMI Name" class="shrink mt-1 hidden-sm-and-down" contain>
-        Frendy 4.0
+        <v-btn text :ripple="false" to="/">Frendy 4.0</v-btn>
       </h3>
     </div>
 

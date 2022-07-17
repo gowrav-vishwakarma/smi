@@ -33,5 +33,5 @@ export default class RegisterUserResponseDTO {
   user!: UserDetails;
 
   @IsNotEmpty()
-  accessToken!: string;
+  message!: string;
 }

@@ -2,11 +2,8 @@ import { Type } from "class-transformer";
 import {
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsObject,
-  IsOptional,
   IsString,
-  Min,
   ValidateNested,
 } from "class-validator";
 import "reflect-metadata";
