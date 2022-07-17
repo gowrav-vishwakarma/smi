@@ -108,15 +108,23 @@ router.get(
       tagBy,
     } = req.query;
 
-    console.log(sortBy, filterBy, tagBy);
+    console.log(
+      sortBy,
+      filterBy,
+      tagBy,
+      "these 3 values from filter which are number value"
+    );
 
     try {
       const query = {
         isPaid: isPaid === "true",
       };
 
-      if (topics)
-        query.topic = typeof topics === "string" ? topics.split(",") : topics;
+      //topics also not working
+
+      // if (topics)
+      //     query.topic =
+      //         typeof topics === "string" ? topics.split(",") : topics;
 
       // if (languages)
       //     query.languages =
