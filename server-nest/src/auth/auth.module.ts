@@ -5,6 +5,7 @@ import { ApiModule } from 'src/api/api.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt-strategy';
+import { JwtStrategyOptional } from './jwt-strategy-optional';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { JwtStrategy } from './jwt-strategy';
     forwardRef(() => ApiModule),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  providers: [AuthService, JwtStrategy, JwtStrategyOptional],
+  exports: [JwtStrategy, JwtStrategyOptional, PassportModule],
 })
 export class AuthModule {}
