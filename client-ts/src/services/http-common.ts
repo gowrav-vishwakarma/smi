@@ -1,5 +1,5 @@
 import { validatorDto } from "@/helper/validateDto";
-import store from "@/store";
+import { AuthStoreModule } from "@/store";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { ClassConstructor } from "class-transformer";
 
@@ -14,18 +14,22 @@ export default class APIService {
       },
     });
 
-    this.axiosInstance.interceptors.request.use(async (config) => {
-      const token =
-        store.state.auth.currentUser &&
-        store.state.auth.currentUser.accessToken;
-      if (token) {
-        if (config && config.headers) {
-          config.headers.Authorization = "Bearer " + token;
+    this.axiosInstance.interceptors.request.use(
+      async (config) => {
+        const token = AuthStoreModule.isAuthenticated
+          ? AuthStoreModule.token
+          : null;
+        if (token) {
+          if (config && config.headers) {
+            config.headers.Authorization = "Bearer " + token;
+          }
         }
-
         return config;
+      },
+      (error) => {
+        return Promise.reject(error);
       }
-    });
+    );
   }
 
   protected async axiosCall<T>(

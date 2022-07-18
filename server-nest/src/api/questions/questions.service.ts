@@ -43,48 +43,61 @@ export class QuestionsService {
       matchCondition['tags'] = { $in: filterOptions.tags };
     }
 
-    const questions = await this.questionModel.aggregate([
-      {
-        $match: matchCondition,
-      },
-      {
+    const pipeline = [];
+    pipeline.push({ $match: matchCondition });
+    if (user) {
+      // Include my vode
+      pipeline.push({
         $lookup: {
-          from: 'users',
-          localField: 'questionerId',
-          foreignField: '_id',
-          as: 'byUser',
+          from: 'votes',
+          localField: '_id',
+          foreignField: 'questionId',
+          as: 'myVote',
           pipeline: [
             {
-              $project: {
-                name: 1,
-                languagesSpeaks: 1,
-                reputationAsQuestioner: 1,
+              $match: {
+                userId: user._id,
               },
+            },
+            {
+              $project: { vote: 1, _id: 0 },
             },
           ],
         },
+      });
+
+      pipeline.push({
+        $set: {
+          myVote: {
+            $first: '$myVote',
+          },
+        },
+      });
+
+      // include my Offers
+    }
+
+    pipeline.push({
+      $lookup: {
+        from: 'users',
+        localField: 'questionerId',
+        foreignField: '_id',
+        as: 'byUser',
+        pipeline: [
+          {
+            $project: {
+              name: 1,
+              languagesSpeaks: 1,
+              reputationAsQuestioner: 1,
+            },
+          },
+        ],
       },
-      { $unwind: '$byUser' },
-      // {
-      //   $lookup: {
-      //     from: 'votes',
-      //     localField: '_id',
-      //     foreignField: 'questionId',
-      //     as: 'votes',
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     from: 'offers',
-      //     localField: '_id',
-      //     foreignField: 'questionId',
-      //     as: 'offers',
-      //   },
-      // },
-      // { $addFields: { commentsCount: { $size: '$comments' } } },
-      // { $addFields: { votesCount: { $size: '$votes' } } },
-      // { $addFields: { offersCount: { $size: '$offers' } } },
-    ]);
+    });
+
+    pipeline.push({ $unwind: '$byUser' });
+
+    const questions = await this.questionModel.aggregate(pipeline);
 
     return questions;
   }
