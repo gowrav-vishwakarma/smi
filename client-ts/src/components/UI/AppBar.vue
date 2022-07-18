@@ -12,7 +12,7 @@
       />
 
       <h3 alt="SMI Name" class="shrink mt-1 hidden-sm-and-down" contain>
-        <v-btn text :ripple="false" to="/">Frendy 4.0</v-btn>
+        <v-btn text :ripple="false" to="/" plain>Frendy 4.0</v-btn>
       </h3>
     </div>
 
