@@ -23,7 +23,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/question/:id",
     name: "question",
-    component: () => import("../views/AskQuestionView.vue"),
+    component: () => import("../views/QuestionDetailView.vue"),
   },
   {
     path: "/ask-question",

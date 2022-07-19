@@ -1,26 +1,16 @@
 import SolutionChannelsDTO from "../solution-channels.dto";
 
-class ReputationAsQuestioner {
-  totalQuestionsAsked!: number;
-
-  totalMarkedSolved!: number;
-
-  totalRatingsCount!: number;
-
-  totalRatingsSum!: number;
-}
-
-class ByUser {
+class Votes {
   _id!: string;
 
-  name!: string;
+  questionId!: string;
 
-  languagesSpeaks!: string[];
+  userId!: string;
 
-  reputationAsQuestioner!: ReputationAsQuestioner;
+  vote!: number;
 }
 
-export class QuestionValue {
+class QuestionValue {
   totalOfferingCount!: number;
 
   totalVoteCount!: number;
@@ -28,7 +18,7 @@ export class QuestionValue {
   totalCommentsCount!: number;
 }
 
-export default class QuestionListResponseDTO {
+export default class QuestionDetailResponseDTO {
   _id!: string;
 
   topic!: string;
@@ -53,5 +43,9 @@ export default class QuestionListResponseDTO {
 
   __v!: number;
 
-  byUser!: ByUser;
+  comments!: undefined[];
+
+  votes!: Votes[];
+
+  offers!: undefined[];
 }
