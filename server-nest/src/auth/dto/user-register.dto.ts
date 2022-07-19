@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class RegisterUserDTO {
   @IsNotEmpty()
@@ -26,4 +26,9 @@ export class RegisterUserDTO {
   @IsNotEmpty()
   @ApiProperty({ default: ['IT', 'Media'] })
   topicsInterestedIn: string[];
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ default: 'India' })
+  country: string[];
 }

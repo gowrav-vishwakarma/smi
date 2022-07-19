@@ -1,7 +1,7 @@
-import LoginDTO from "@/types/request/login.dto";
-import RegisterUserDTO from "@/types/request/register.dto";
-import LoginResponseDTO from "@/types/response/login-response.dto";
-import RegisterUserResponseDTO from "@/types/response/register-response.dto";
+import LoginDTO from "@/dto/request/login.dto";
+import RegisterUserDTO from "@/dto/request/register.dto";
+import LoginResponseDTO from "@/dto/response/login-response.dto";
+import RegisterUserResponseDTO from "@/dto/response/register-response.dto";
 import APIService from "./http-common";
 
 class UserAPIService extends APIService {
@@ -27,8 +27,7 @@ class UserAPIService extends APIService {
         url: "/auth/register",
         data: registerDetail,
       },
-      RegisterUserDTO,
-      RegisterUserResponseDTO
+      RegisterUserDTO
     );
     return response;
   }

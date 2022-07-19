@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import socket, { SocketOn, SocketEmit } from "@/services/socket";
-import { SocketAuthDTO, InitiateCallDTO } from "@/types/ws.dto";
+import { SocketAuthDTO, InitiateCallDTO } from "@/dto/ws.dto";
 
 @Component({
   name: "WSManager",

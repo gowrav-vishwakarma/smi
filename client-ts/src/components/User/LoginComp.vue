@@ -97,7 +97,7 @@ export default class LoginComponent extends Vue {
       //   sortBy: "newest",
       // };
       //   this.$store.commit("updateFilters", filter);
-      //   this.$router.push("/");
+      this.$router.push("/");
     }
   }
 }

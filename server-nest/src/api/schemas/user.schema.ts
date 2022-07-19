@@ -81,6 +81,9 @@ export class User {
   @Prop({ required: true })
   languagesSpeaks: string[];
 
+  @Prop({ required: true })
+  country: string;
+
   @Prop({
     required: true,
     enum: UserOnlineStatus,
@@ -89,7 +92,7 @@ export class User {
   onlineStatus: string;
 
   @Prop({
-    required: true,
+    required: false,
     enum: AccountTypes,
     default: AccountTypes.INDIVIDUAL,
   })

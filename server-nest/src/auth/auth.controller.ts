@@ -21,8 +21,9 @@ export class AuthController {
 
   @Post('register')
   @UsePipes(ValidationPipe)
-  registerUser(@Body() registerUserDTO: RegisterUserDTO): Promise<User> {
-    return this.authService.registerUser(registerUserDTO);
+  async registerUser(@Body() registerUserDTO: RegisterUserDTO): Promise<any> {
+    await this.authService.registerUser(registerUserDTO);
+    return { message: 'User created successfully' };
   }
 
   @Post('login')

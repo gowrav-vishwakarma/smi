@@ -13,9 +13,12 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "types": [
       "webpack-env",
-      "vuetify"
+      "vuetify",
     ],
     "paths": {
       "@/*": [

@@ -15,6 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/get-user.decorator';
+import { OptionalJwtAuthGuard } from 'src/auth/optionalJwtAuthGyard';
 import { CreateQuestionDTO } from '../dto/create-question.dto';
 import { GetQuestionsDTO } from '../dto/question-filter-query.dto';
 import { QuestionOfferSolutionDTO } from '../dto/question-offersolution.dto';
@@ -34,6 +35,8 @@ export class QuestionsController {
 
   @Get()
   @UsePipes(ValidationPipe)
+  @ApiBearerAuth()
+  @UseGuards(OptionalJwtAuthGuard)
   getQuestions(
     @GetUser() user: UserDocument,
     @Query() filterOptions: GetQuestionsDTO,

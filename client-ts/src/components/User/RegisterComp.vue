@@ -8,7 +8,7 @@
       lazy-validation
     >
       <v-text-field
-        v-model="regForm.Name"
+        v-model="regForm.name"
         placeholder="Name"
         required
         outlined
@@ -49,7 +49,7 @@
         :rules="confirmPasswordRules"
       />
       <v-select
-        v-model="regForm.language"
+        v-model="regForm.languages"
         :items="languages"
         single-line
         auto
@@ -61,7 +61,7 @@
       ></v-select>
 
       <v-select
-        v-model="regForm.topic"
+        v-model="regForm.topics"
         :items="topics"
         single-line
         auto
@@ -126,6 +126,7 @@ import { topics, languages, countries } from "@/services/staticValues";
 import { Component, Vue } from "vue-property-decorator";
 
 import UserAPIService from "../../services/user.api";
+import RegisterUserDTO from "../../dto/request/register.dto";
 
 @Component
 export default class RegisterComponent extends Vue {
@@ -139,7 +140,7 @@ export default class RegisterComponent extends Vue {
     confirmPassword: "",
     languages: [],
     topics: [],
-    countries: [],
+    country: "",
   };
   emailRules = [
     (v: string) =>
@@ -161,35 +162,19 @@ export default class RegisterComponent extends Vue {
   countries = countries;
 
   register() {
-    var data = {
+    var data: RegisterUserDTO = {
       email: this.regForm.email,
-      name: this.regForm.Name,
-      username: this.regForm.email, //email as username also
+      name: this.regForm.name,
       password: this.regForm.password,
-      languagesSpeaks: this.regForm.language,
+      languagesSpeaks: this.regForm.languages,
       country: this.regForm.country,
-      topic: this.regForm.topic,
+      topicsInterestedIn: this.regForm.topics,
+      accountType: "INDIVIDUAL",
     };
-    // DataService.Register(data)
-    //     .then((response) => {
-    //         this.regForm = {
-    //             email: "",
-    //             name: "",
-    //             username: "",
-    //             password: "",
-    //             confirmPassword: "",
-    //             languages: [],
-    //             topics: [],
-    //             countries: [],
-    //         };
-    //         this.$vToastify.success(
-    //             "User has been registered, please Login"
-    //         );
-    //         console.log(response.data);
-    //     })
-    //     .catch((e) => {
-    //         console.log(e);
-    //     });
+
+    UserAPIService.register(data).then((res) => {
+      this.$router.push("/login");
+    });
   }
 }
 </script>

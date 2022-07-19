@@ -25,7 +25,7 @@ export class UserDetails {
   email!: string;
 }
 
-export default class LoginResponseDTO {
+export default class RegisterUserResponseDTO {
   @IsNotEmpty()
   @IsObject()
   @ValidateNested()
@@ -33,5 +33,5 @@ export default class LoginResponseDTO {
   user!: UserDetails;
 
   @IsNotEmpty()
-  accessToken!: string;
+  message!: string;
 }

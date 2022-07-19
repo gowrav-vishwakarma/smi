@@ -2,11 +2,8 @@ import { Type } from "class-transformer";
 import {
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsObject,
-  IsOptional,
   IsString,
-  Min,
   ValidateNested,
 } from "class-validator";
 import "reflect-metadata";
@@ -25,7 +22,7 @@ export class UserDetails {
   email!: string;
 }
 
-export default class RegisterUserResponseDTO {
+export default class LoginResponseDTO {
   @IsNotEmpty()
   @IsObject()
   @ValidateNested()

@@ -1,4 +1,5 @@
 import { validatorDto } from "@/helper/validateDto";
+import { AuthStoreModule } from "@/store";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { ClassConstructor } from "class-transformer";
 
@@ -12,6 +13,23 @@ export default class APIService {
         "Content-type": "application/json",
       },
     });
+
+    this.axiosInstance.interceptors.request.use(
+      async (config) => {
+        const token = AuthStoreModule.isAuthenticated
+          ? AuthStoreModule.token
+          : null;
+        if (token) {
+          if (config && config.headers) {
+            config.headers.Authorization = "Bearer " + token;
+          }
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
   }
 
   protected async axiosCall<T>(
