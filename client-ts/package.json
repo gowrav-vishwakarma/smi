@@ -12,6 +12,8 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "core-js": "^3.8.3",
+    "pug": "^3.0.2",
+    "pug-plain-loader": "^1.1.0",
     "reflect-metadata": "^0.1.13",
     "register-service-worker": "^1.7.2",
     "socket.io-client": "^4.5.1",

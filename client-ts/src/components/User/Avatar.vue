@@ -6,8 +6,8 @@
       :src="user.avatar"
       alt="avatar"
       class="avatar"
-      max-height="90"
-      max-width="90"
+      max-height="30"
+      max-width="30"
     />
     <gravatar
       v-else
@@ -30,7 +30,7 @@ export default {
     },
     SIZE: {
       type: Number,
-      default: 50,
+      default: 15,
     },
   },
   components: {
