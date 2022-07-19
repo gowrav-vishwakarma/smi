@@ -2,8 +2,7 @@
   v-card(class="mb-2 pa-2")
     .d-flex.flex-column
       .d-flex
-        h4
-          a(to="/ask-question") {{ question.title }}
+        .h4.blue--text(@click="gotoDetails" style="cursor:pointer") {{ question.title }}
         .ml-auto
           v-icon(class="icon mr-2" small color="green") mdi-chat
           v-icon(small v-if="question.solutionChannels.screenShare" color="green" class="mr-2") mdi-monitor
@@ -19,8 +18,8 @@
           v-icon(small) mdi-star
           | {{ question.byUser.reputationAsQuestioner.totalMarkedSolved }}
         .d-flex
-          .caption 0 Votes, 0 Answers, 0 Offers, 0 Comments
-          .caption.ml-auto {{ humanized_time_span(question.createdAt) }}
+          .caption {{ question.questionValue.totalVoteCount }} Votes, {{ question.questionValue.totalCommentsCount }} Comments, {{ question.questionValue.totalOfferingCount }} Offers
+          .caption.ml-auto.grey--text.lighten-4 asked {{ humanized_time_span(question.createdAt) }}
 
   //-     <div class="d-flex flex-column justify-start" cols="3">
   //-       <small class="d-flex flex-column justify-end text-right">
@@ -137,6 +136,10 @@ export default class QuestionSingle extends Mixins(General) {
   voted = false;
   votes = 0;
   reports = 0;
+
+  gotoDetails() {
+    this.$router.push("question/"+this.question._id);
+  }
 
   get shortdetail() {
     return S(this.question.detail).truncate(100).s;

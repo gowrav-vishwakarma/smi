@@ -21,6 +21,11 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/RegisterView.vue"),
   },
   {
+    path: "/question/:id",
+    name: "question",
+    component: () => import("../views/AskQuestionView.vue"),
+  },
+  {
     path: "/ask-question",
     name: "ask-question",
     component: () => import("../views/AskQuestionView.vue"),
