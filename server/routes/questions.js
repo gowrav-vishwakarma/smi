@@ -131,9 +131,9 @@ router.get(
             //     query.tags = typeof tags === "string" ? tags.split(",") : tags;
 
             const questions = await Question.aggregate([
-                {
-                    $match: query,
-                },
+                // {
+                //     $match: query,
+                // },
                 {
                     $addFields: {
                         didIVoted: {
