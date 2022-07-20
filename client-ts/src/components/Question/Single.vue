@@ -6,10 +6,11 @@
         solution-channels-component.ml-auto(v-if="question.solutionChannels" :solutionChannels="question.solutionChannels")
       .caption {{ shortdetail }}
       .d-flex.flex-column
-        by-user-component(:byUser="question.byUser")
+        questioner-signature(:User="question.byUser")
         .d-flex
-          .caption {{ question.questionValue.totalVoteCount }} Votes, {{ question.questionValue.totalCommentsCount }} Comments, {{ question.questionValue.totalOfferingCount }} Offers
+          question-value-component(:question="question")
           .caption.ml-auto.grey--text.lighten-4 asked {{ humanized_time_span(question.createdAt) }}
+
 </template>
 
 <script lang="ts">
@@ -19,7 +20,8 @@ import { Component, Prop, Mixins } from "vue-property-decorator";
 import QuestionListResponseDTO from "@/dto/response/question-list-response.dto";
 import { General } from "@/mixins/general";
 import SolutionChannelsComponent from "@/components/Question/SolutionChannels.vue";
-import ByUserComponent from "@/components/Question/ByQuestioner.vue";
+import QuestionerSignature from "@/components/User/Signature/AsQuestioner.vue";
+import QuestionValueComponent from "@/components/Question/QuestionValueComponent.vue";
 
 // import DataService from "@/services/DataService";
 
@@ -27,7 +29,8 @@ import ByUserComponent from "@/components/Question/ByQuestioner.vue";
   name: "QuestionSingle",
   components: {
     SolutionChannelsComponent,
-    ByUserComponent,
+    QuestionerSignature,
+    QuestionValueComponent,
   },
 })
 export default class QuestionSingle extends Mixins(General) {

@@ -7,7 +7,7 @@
 import "reflect-metadata";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import QuestionDetailResponseDTO from "@/dto/response/question-detail-response.dto";
-import SingleOffer from "@/components/Question/Offer/SingleOfferComponent.vue";
+import SingleOffer from "@/components/Offer/SingleOfferComponent.vue";
 import questionsApi from "@/services/questions.api";
 
 @Component({

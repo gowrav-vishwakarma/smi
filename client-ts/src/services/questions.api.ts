@@ -42,6 +42,38 @@ class QuestionsAPIService extends APIService {
     });
     return response;
   }
+
+  async createOffer(questionId: string, notes: string): Promise<any> {
+    const response = await this.axiosCall<any>({
+      method: "POST",
+      url: "/questions/offer-solution",
+      data: {
+        questionId,
+        notes,
+      },
+    });
+    return response;
+  }
+
+  async getComments(id: string): Promise<any> {
+    const response = await this.axiosCall<any>({
+      method: "GET",
+      url: `/questions/${id}/comments`,
+    });
+    return response;
+  }
+
+  async createComment(questionId: string, comment: string): Promise<any> {
+    const response = await this.axiosCall<any>({
+      method: "POST",
+      url: "/comments/create",
+      data: {
+        questionId,
+        comment,
+      },
+    });
+    return response;
+  }
 }
 
 export default new QuestionsAPIService();
