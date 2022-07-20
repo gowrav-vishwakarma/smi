@@ -50,6 +50,12 @@ export class QuestionsController {
     return this.questionsService.getdetailedQuestion(id, user);
   }
 
+  @Get('/:id/offers')
+  @UsePipes(ValidationPipe)
+  questionOffers(@Param('id') id: string) {
+    return this.questionsService.getQuestionOffers(id);
+  }
+
   @Post('/create')
   @UsePipes(ValidationPipe)
   @ApiConsumes('multipart/form-data')

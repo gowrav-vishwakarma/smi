@@ -16,7 +16,7 @@ import { Component, Vue } from "vue-property-decorator";
   },
 })
 export default class QuestionDetailView extends Vue {
-  question: QuestionDetailResponseDTO = {} as QuestionDetailResponseDTO;
+  question: QuestionDetailResponseDTO | null = null;
 
   async mounted() {
     this.question = await questionsApi.getQuestion(this.$route.params.id);

@@ -75,6 +75,32 @@ export class QuestionsService {
       });
 
       // include my Offers
+      pipeline.push({
+        $lookup: {
+          from: 'solutionoffers',
+          localField: '_id',
+          foreignField: 'questionId',
+          as: 'myOffer',
+          pipeline: [
+            {
+              $match: {
+                userId: user._id,
+              },
+            },
+            {
+              $project: { notes: 1, _id: 0 },
+            },
+          ],
+        },
+      });
+
+      pipeline.push({
+        $set: {
+          myOffer: {
+            $first: '$myOffer',
+          },
+        },
+      });
     }
 
     pipeline.push({
@@ -143,6 +169,28 @@ export class QuestionsService {
     } else {
       throw new NotFoundException('Question not found');
     }
+  }
+
+  async getQuestionOffers(questionId: string) {
+    const offers = await this.offerModel.aggregate([
+      { $match: { questionId: ObjectId(questionId) } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'user',
+          pipeline: [
+            {
+              $project: { name: 1, ratingAsSolver: 1, _id: 0 },
+            },
+          ],
+        },
+      },
+      { $unwind: '$user' },
+    ]);
+
+    return offers;
   }
 
   async voteQuestion(

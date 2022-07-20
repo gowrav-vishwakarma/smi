@@ -14,11 +14,12 @@ export class SolutionOffer {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Question' })
   question: Question;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
   userId: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  // user: User;
+
   @Prop({ required: false })
   notes: string;
 
@@ -26,4 +27,12 @@ export class SolutionOffer {
   createdAt: Date;
 }
 
-export const SolutionOfferSchema = SchemaFactory.createForClass(SolutionOffer);
+const SolutionOfferSchema = SchemaFactory.createForClass(SolutionOffer);
+
+SolutionOfferSchema.virtual('user', {
+  ref: 'User', // The model to use
+  localField: 'userId', // Find people where `localField`
+  foreignField: '_id', // is equal to `foreignField`
+});
+
+export { SolutionOfferSchema };

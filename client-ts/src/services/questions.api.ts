@@ -34,6 +34,14 @@ class QuestionsAPIService extends APIService {
     );
     return response;
   }
+
+  async getOffers(id: string): Promise<any> {
+    const response = await this.axiosCall<any>({
+      method: "GET",
+      url: `/questions/${id}/offers`,
+    });
+    return response;
+  }
 }
 
 export default new QuestionsAPIService();

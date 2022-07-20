@@ -1,24 +1,5 @@
+import ByUser from "../byUser.dto";
 import SolutionChannelsDTO from "../solution-channels.dto";
-
-class ReputationAsQuestioner {
-  totalQuestionsAsked!: number;
-
-  totalMarkedSolved!: number;
-
-  totalRatingsCount!: number;
-
-  totalRatingsSum!: number;
-}
-
-class ByUser {
-  _id!: string;
-
-  name!: string;
-
-  languagesSpeaks!: string[];
-
-  reputationAsQuestioner!: ReputationAsQuestioner;
-}
 
 export class QuestionValue {
   totalOfferingCount!: number;

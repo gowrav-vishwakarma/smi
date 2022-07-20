@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(style="width: 100%" v-if="questions")
+  div(style="width: 100%")
     question-single(v-for="(question, i) in questions" :question="question" :key="questions[i]._id")
 </template>
 
