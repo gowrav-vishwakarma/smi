@@ -30,7 +30,13 @@ export class AuthService {
     const accessToken = this.JwtService.sign(payload);
 
     return {
-      user: { _id: user._id, name: user.name, email: user.email },
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        userToppics: user.topicsInterestedIn,
+        userLanguages: user.languagesSpeaks,
+      },
       accessToken,
     };
   }

@@ -30,6 +30,11 @@ const routes: Array<RouteConfig> = [
     name: "ask-question",
     component: () => import("../views/AskQuestionView.vue"),
   },
+  {
+    path: "/my-profile",
+    name: "my-profile",
+    component: () => import("../views/MyProfileView.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -6,6 +6,9 @@ export class LoginResponseDTO {
     _id: string;
     name: string;
     email: string;
+    userToppics: string[];
+    // userTags: string[];
+    userLanguages: string[];
   };
 
   @ApiProperty()

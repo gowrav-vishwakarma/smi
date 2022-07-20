@@ -23,14 +23,33 @@ class QuestionsAPIService extends APIService {
     return response;
   }
 
-  async createQuestion(): Promise<any> {
+  async createQuestion(
+    data: any,
+    video: Blob | null,
+    onUploadProgress: (progressEvent: ProgressEvent) => void
+  ): Promise<any> {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      let v = Array.isArray(value) ? value.join(",") : value;
+      if (typeof v === "object") v = JSON.stringify(v);
+
+      formData.append(key, v as string);
+    });
+    if (video) {
+      formData.append("video", video);
+    }
     const response = await this.axiosCall<any>(
       {
         method: "POST",
-        url: "/questions",
-      },
-      CreateQuestionDTO,
-      QuestionListResponseDTO
+        url: "/questions/create",
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress,
+      }
+      // CreateQuestionDTO
+      // QuestionListResponseDTO
     );
     return response;
   }

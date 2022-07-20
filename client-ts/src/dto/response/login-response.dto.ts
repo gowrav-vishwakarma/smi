@@ -20,6 +20,9 @@ export class UserDetails {
   @IsNotEmpty()
   @IsEmail()
   email!: string;
+
+  userToppics!: string[];
+  userLanguages!: string[];
 }
 
 export default class LoginResponseDTO {
