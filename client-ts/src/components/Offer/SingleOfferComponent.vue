@@ -1,7 +1,7 @@
 <template lang="pug">
     v-alert(border="left" icon="mdi-fire" dense text type="success" colored-border color="deep-purple accent-4" elevation="2")
         .d-flex.justify-space-between
-            | {{offer.User.name}}
+            | {{offer.Offerer.name}}
             v-icon(small @click="call") mdi-phone
 </template>
 
@@ -21,9 +21,9 @@ export default class SingleOfferComponent extends Vue {
   call() {
     alert("Calling");
     SocketEmit("initiateCall", {
-      to: this.offer.questionerId,
-      from: this.$store.getters.loggedInUser._id,
-      offerer: this.offer.User,
+      to: this.offer.Offerer._id,
+      from: this.$store.getters.loggedInUser,
+      offerer: this.offer.Offerer,
       questionTitle: this.question.title,
     });
   }

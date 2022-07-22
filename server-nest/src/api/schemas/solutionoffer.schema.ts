@@ -18,7 +18,7 @@ export class SolutionOffer {
   questionerId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
-  userId: string;
+  offererId: string;
 
   @Prop({ required: false })
   notes: string;

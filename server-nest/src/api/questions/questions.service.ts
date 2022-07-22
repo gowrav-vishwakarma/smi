@@ -231,17 +231,17 @@ export class QuestionsService {
       {
         $lookup: {
           from: 'users',
-          localField: 'userId',
+          localField: 'offererId',
           foreignField: '_id',
-          as: 'User',
+          as: 'Offerer',
           pipeline: [
             {
-              $project: { name: 1, ratingAsSolver: 1, _id: 0 },
+              $project: { name: 1, ratingAsSolver: 1 },
             },
           ],
         },
       },
-      { $unwind: '$User' },
+      { $unwind: '$Offerer' },
     ]);
 
     return offers;
@@ -303,7 +303,7 @@ export class QuestionsService {
     // intert into offers collection and increment question offer count
     const offerDetails = await this.offerModel.create({
       ...offer,
-      userId: user._id,
+      offererId: user._id,
     });
     await this.questionModel.updateOne(
       { _id: offer.questionId },
