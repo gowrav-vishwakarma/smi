@@ -19,7 +19,6 @@ export default class SingleOfferComponent extends Vue {
   readonly question!: any;
 
   call() {
-    alert("Calling");
     SocketEmit("initiateCall", {
       to: this.offer.Offerer._id,
       from: this.$store.getters.loggedInUser,
