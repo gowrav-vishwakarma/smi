@@ -4,6 +4,10 @@ import { IsEnum, IsMongoId, IsNumber, IsString } from 'class-validator';
 export class QuestionOfferSolutionDTO {
   @IsMongoId()
   @ApiProperty()
+  questionerId: string;
+
+  @IsMongoId()
+  @ApiProperty()
   questionId: string;
 
   @IsString()

@@ -1,7 +1,16 @@
-import ByUser from "../byUser.dto";
 import SolutionChannelsDTO from "../solution-channels.dto";
 
-export class QuestionValue {
+class Votes {
+  _id!: string;
+
+  questionId!: string;
+
+  userId!: string;
+
+  vote!: number;
+}
+
+class QuestionValue {
   totalOfferingCount!: number;
 
   totalVoteCount!: number;
@@ -9,7 +18,7 @@ export class QuestionValue {
   totalCommentsCount!: number;
 }
 
-export default class QuestionListResponseDTO {
+export default class QuestionDetailResponseDTO {
   _id!: string;
 
   topic!: string;
@@ -34,5 +43,9 @@ export default class QuestionListResponseDTO {
 
   __v!: number;
 
-  byUser!: ByUser;
+  comments!: undefined[];
+
+  votes!: Votes[];
+
+  offers!: undefined[];
 }

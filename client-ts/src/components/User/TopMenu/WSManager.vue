@@ -42,7 +42,7 @@ export default class WSManager extends Vue {
     //   this.isConnected = true;
     // });
 
-    socket.on("call-received", (payload) => {
+    SocketOn("ringing", (payload) => {
       console.log("call-received", payload);
     });
 

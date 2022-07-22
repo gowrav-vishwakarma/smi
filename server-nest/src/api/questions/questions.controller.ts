@@ -46,8 +46,22 @@ export class QuestionsController {
 
   @Get(':id')
   @UsePipes(ValidationPipe)
+  @ApiBearerAuth()
+  @UseGuards(OptionalJwtAuthGuard)
   questionDetail(@GetUser() user: UserDocument, @Param('id') id: string) {
     return this.questionsService.getdetailedQuestion(id, user);
+  }
+
+  @Get('/:id/offers')
+  @UsePipes(ValidationPipe)
+  questionOffers(@Param('id') id: string) {
+    return this.questionsService.getQuestionOffers(id);
+  }
+
+  @Get('/:id/comments')
+  @UsePipes(ValidationPipe)
+  questionComments(@Param('id') id: string) {
+    return this.questionsService.getQuestionComments(id);
   }
 
   @Post('/create')

@@ -23,12 +23,17 @@ const routes: Array<RouteConfig> = [
   {
     path: "/question/:id",
     name: "question",
-    component: () => import("../views/AskQuestionView.vue"),
+    component: () => import("../views/QuestionDetailView.vue"),
   },
   {
     path: "/ask-question",
     name: "ask-question",
     component: () => import("../views/AskQuestionView.vue"),
+  },
+  {
+    path: "/my-profile",
+    name: "my-profile",
+    component: () => import("../views/MyProfileView.vue"),
   },
 ];
 

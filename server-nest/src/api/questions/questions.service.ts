@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { pipe } from 'rxjs';
 import { CreateQuestionDTO } from '../dto/create-question.dto';
 import { GetQuestionsDTO } from '../dto/question-filter-query.dto';
 import { QuestionOfferSolutionDTO } from '../dto/question-offersolution.dto';
 import { VoteQuestionDTO } from '../dto/vote-question.dto';
+import { Comment } from '../schemas/comment.schema';
 import { Question, QuestionDocument } from '../schemas/question.schema';
 import {
   SolutionOffer,
@@ -23,6 +25,8 @@ export class QuestionsService {
     private readonly voteModel: Model<VoteDocument>,
     @InjectModel(SolutionOffer.name)
     private readonly offerModel: Model<SolutionOfferDocument>,
+    @InjectModel(Comment.name)
+    private readonly commentModel: Model<Comment>,
   ) {}
 
   async createQuestion(question: CreateQuestionDTO): Promise<QuestionDocument> {
@@ -75,6 +79,32 @@ export class QuestionsService {
       });
 
       // include my Offers
+      pipeline.push({
+        $lookup: {
+          from: 'solutionoffers',
+          localField: '_id',
+          foreignField: 'questionId',
+          as: 'myOffer',
+          pipeline: [
+            {
+              $match: {
+                userId: user._id,
+              },
+            },
+            {
+              $project: { notes: 1, _id: 0 },
+            },
+          ],
+        },
+      });
+
+      pipeline.push({
+        $set: {
+          myOffer: {
+            $first: '$myOffer',
+          },
+        },
+      });
     }
 
     pipeline.push({
@@ -106,43 +136,137 @@ export class QuestionsService {
     id: string,
     user?: UserDocument,
   ): Promise<QuestionDocument> {
-    const questions = await this.questionModel.aggregate([
-      {
-        $match: { _id: ObjectId(id) },
-      },
-      {
-        $lookup: {
-          from: 'comments',
-          localField: '_id',
-          foreignField: 'questionId',
-          as: 'comments',
-        },
-      },
-      {
+    const pipeline = [];
+
+    pipeline.push({ $match: { _id: ObjectId(id) } });
+    if (user) {
+      // Include my vode
+      pipeline.push({
         $lookup: {
           from: 'votes',
           localField: '_id',
           foreignField: 'questionId',
-          as: 'votes',
+          as: 'myVote',
+          pipeline: [
+            {
+              $match: {
+                userId: user._id,
+              },
+            },
+            {
+              $project: { vote: 1, _id: 0 },
+            },
+          ],
         },
-      },
-      {
+      });
+
+      pipeline.push({
+        $set: {
+          myVote: {
+            $first: '$myVote',
+          },
+        },
+      });
+
+      // include my Offers
+      pipeline.push({
         $lookup: {
-          from: 'offers',
+          from: 'solutionoffers',
           localField: '_id',
           foreignField: 'questionId',
-          as: 'offers',
+          as: 'myOffer',
+          pipeline: [
+            {
+              $match: {
+                offererId: user._id,
+              },
+            },
+            {
+              $project: { notes: 1, _id: 0 },
+            },
+          ],
         },
+      });
+
+      pipeline.push({
+        $set: {
+          myOffer: {
+            $first: '$myOffer',
+          },
+        },
+      });
+    }
+
+    pipeline.push({
+      $lookup: {
+        from: 'users',
+        localField: 'questionerId',
+        foreignField: '_id',
+        as: 'byUser',
+        pipeline: [
+          {
+            $project: {
+              name: 1,
+              languagesSpeaks: 1,
+              reputationAsQuestioner: 1,
+            },
+          },
+        ],
       },
-      // { $addFields: { commentsCount: { $size: '$comments' } } },
-      // { $addFields: { votesCount: { $size: '$votes' } } },
-      // { $addFields: { offersCount: { $size: '$offers' } } },
-    ]);
+    });
+
+    pipeline.push({ $unwind: '$byUser' });
+
+    const questions = await this.questionModel.aggregate(pipeline);
     if (questions.length > 0) {
       return questions[0];
     } else {
       throw new NotFoundException('Question not found');
     }
+  }
+
+  async getQuestionOffers(questionId: string) {
+    const offers = await this.offerModel.aggregate([
+      { $match: { questionId: ObjectId(questionId) } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'offererId',
+          foreignField: '_id',
+          as: 'Offerer',
+          pipeline: [
+            {
+              $project: { name: 1, ratingAsSolver: 1 },
+            },
+          ],
+        },
+      },
+      { $unwind: '$Offerer' },
+    ]);
+
+    return offers;
+  }
+
+  async getQuestionComments(questionId: string) {
+    const comments = await this.commentModel.aggregate([
+      { $match: { questionId: ObjectId(questionId) } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'commenterId',
+          foreignField: '_id',
+          as: 'User',
+          pipeline: [
+            {
+              $project: { name: 1, ratingAsSolver: 1, _id: 0 },
+            },
+          ],
+        },
+      },
+      { $unwind: '$User' },
+    ]);
+
+    return comments;
   }
 
   async voteQuestion(
@@ -179,7 +303,7 @@ export class QuestionsService {
     // intert into offers collection and increment question offer count
     const offerDetails = await this.offerModel.create({
       ...offer,
-      userId: user._id,
+      offererId: user._id,
     });
     await this.questionModel.updateOne(
       { _id: offer.questionId },

@@ -41,19 +41,14 @@
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
-                <v-checkbox label="Via chat" input-value="true"></v-checkbox>
-                <v-checkbox
-                  label="Via community comments"
-                  input-value="true"
-                ></v-checkbox>
                 <v-checkbox
                   label="I can share-screen also if needed"
-                  v-model="question.canShareScreen"
+                  v-model="question.solutionChannels.screenShare"
                 >
                 </v-checkbox>
                 <v-checkbox
                   label="Open for Video call if needed"
-                  v-model="question.canDoVideoCall"
+                  v-model="question.solutionChannels.videoCall"
                 >
                 </v-checkbox>
               </v-card-text>
@@ -98,6 +93,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 import { VueEditor } from "vue2-editor";
 import MulticorderUI from "@/components/Multicorder/MulticorderUI.vue";
+import questionsApi from "@/services/questions.api";
 
 @Component({
   components: {
@@ -113,17 +109,14 @@ export default class AskQuestionView extends Vue {
     title: "",
     detail: "",
     tags: [],
-    payment: {
-      amount: 0,
-      currency: "",
-      payPer: "",
+    languages: [],
+    solutionChannels: {
+      comments: true,
+      chat: true,
+      screenShare: true,
+      audioCall: true,
+      videoCall: true,
     },
-    isPaid: false,
-    canShareScreen: true,
-    canDoVideoCall: true,
-    createdAt: new Date(),
-    status: "open",
-    totalBids: 0,
   };
   topics: string[] = topics;
   valid: false = false;
@@ -135,21 +128,18 @@ export default class AskQuestionView extends Vue {
   recorderOndataavailable(blob: any) {
     this.blob = blob;
   }
-  createQuestion() {
+  async createQuestion() {
     this.progress = 0;
     var data = this.question;
-    // data.languages = this.$store.state.currentUser.languagesSpeaks;
-    // DataService.CreateQuestion(data, this.blob, (event) => {
-    //   this.progress = Math.round((100 * event.loaded) / event.total);
-    // })
-    //   .then((response) => {
-    //     Object.assign(this.$data, this.$options.data());
-    //     console.log(response);
-    //     this.$vToastify.success("Question added");
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
+    data.languages = this.$store.getters.loggedInUser.userLanguages;
+    const newQuestion = await questionsApi.createQuestion(
+      this.question,
+      this.blob,
+      (event) => {
+        this.progress = Math.round((100 * event.loaded) / event.total);
+      }
+    );
+    this.$router.push("question/" + newQuestion._id);
   }
 }
 </script>

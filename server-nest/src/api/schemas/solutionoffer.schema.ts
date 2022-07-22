@@ -14,11 +14,12 @@ export class SolutionOffer {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Question' })
   question: Question;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
-  userId: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  questionerId: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  offererId: string;
+
   @Prop({ required: false })
   notes: string;
 

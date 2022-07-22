@@ -12,6 +12,8 @@ export class CurrentUserI {
   email!: string;
   name!: string;
   accessToken!: string;
+  userToppics!: string[];
+  userLanguages!: string[];
 }
 
 export interface IAuthState {
@@ -35,7 +37,7 @@ export default class Auth extends VuexModule implements IAuthState {
   }
 
   @Mutation
-  async setCurrentUser(currentUser: CurrentUserI) {
+  setCurrentUser(currentUser: CurrentUserI) {
     this.currentUser = currentUser;
   }
 

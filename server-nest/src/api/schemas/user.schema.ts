@@ -54,6 +54,9 @@ class solverRating {
 
   @Prop({ type: Number, default: 0 })
   totalCommentsVoteCount: number;
+
+  @Prop({ type: Number, default: 0 })
+  totalAcceptedCount: number;
 }
 
 const solverRatingDefaults = {
@@ -62,6 +65,7 @@ const solverRatingDefaults = {
   totalRatingSum: 0,
   totalCommentsCount: 0,
   totalCommentsVoteCount: 0,
+  totalAcceptedCount: 0,
 };
 
 @Schema()

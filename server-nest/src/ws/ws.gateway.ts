@@ -34,6 +34,6 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection {
     @ConnectedSocket() client: Socket,
     @MessageBody() payload: any,
   ): void {
-    this.server.to(payload.to).emit('call-received', payload.content);
+    this.server.to(payload.to).emit('ringing', payload);
   }
 }
