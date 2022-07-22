@@ -16,7 +16,9 @@ export default class Filter extends VuexModule implements IFilterState {
   filterState: FiltersI | null = null;
 
   get filters(): FiltersI | null {
-    return this.filterState;
+    return this.filterState
+      ? this.filterState
+      : { query: "", topics: [], tags: [], languages: [] };
   }
 
   @Mutation
