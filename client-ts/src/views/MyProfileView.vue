@@ -1,19 +1,11 @@
 <template lang="pug">
 v-container(grid-list-xs="")
   v-tabs(v-model="tab")
-    v-tab(v-for="tab in availableTabs" :key="tab")
-      | {{ tab }}
+    v-tab(v-for="(lable, component) in availableTabs" :key="lable")
+      | {{ lable }}
     v-tabs-items(v-model="tab")
-      v-tab-item
-        profile-component
-      v-tab-item
-        questions-component
-      v-tab-item
-        offers-component
-      v-tab-item
-        comments-component
-      v-tab-item
-        settings-component
+      v-tab-item(v-for="(label, component) in availableTabs" :key="label")
+        component(:is="`${component}Component`")
 </template>
 
 <script lang="ts">
@@ -36,16 +28,12 @@ import SettingsComponent from "@/components/User/Settings.vue";
 })
 export default class MyProfileView extends Vue {
   tab = 0;
-  availableTabs = [
-    "Profile",
-    "MyQuestions",
-    "MyOffers",
-    "MyComments",
-    "Settings",
-  ];
-
-  getTabComponent() {
-    return this.availableTabs[this.tab];
-  }
+  availableTabs = {
+    Questions: "My Questions",
+    Offers: "My Offers",
+    Comments: " MyComments",
+    Settings: "Settings",
+    // Profile: "Profile",
+  };
 }
 </script>

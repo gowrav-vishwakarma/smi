@@ -1,7 +1,13 @@
 <template>
   <div class="d-flex">
     <ws-manager></ws-manager>
-    Hello User
+    <v-btn text plain to="/ask-question">
+      <v-icon>mdi-plus</v-icon>
+      Ask Question
+    </v-btn>
+    <v-btn text plain to="/my-profile">
+      {{ $store.getters.loggedInUser.name }}
+    </v-btn>
   </div>
 </template>
 

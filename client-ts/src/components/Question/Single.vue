@@ -42,7 +42,7 @@ export default class QuestionSingle extends Mixins(General) {
   }
 
   get shortdetail() {
-    return S(this.question.detail).truncate(100).s;
+    return S(this.question.detail).stripTags().truncate(100).s;
   }
 }
 </script>
