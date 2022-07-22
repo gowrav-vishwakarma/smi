@@ -1,6 +1,6 @@
 <template lang="pug">
     div(style="width: 100%" v-if="question")
-        single-offer(v-for="offer in questionOffers" :offer="offer" :key="offer._id")
+        single-offer(v-for="offer in questionOffers" :offer="offer" :key="offer._id" :question="question")
 </template>
 
 <script lang="ts">

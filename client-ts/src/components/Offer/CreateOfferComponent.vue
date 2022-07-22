@@ -19,7 +19,11 @@ export default class CreateOfferSolutionComponent extends Vue {
       alert("You have already offered your solution");
       return;
     }
-    await questionsApi.createOffer(this.question._id, "Interested");
+    await questionsApi.createOffer(
+      this.$store.getters.loggedInUser._id,
+      this.question._id,
+      "Interested"
+    );
   }
 }
 </script>

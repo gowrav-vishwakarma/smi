@@ -62,11 +62,16 @@ class QuestionsAPIService extends APIService {
     return response;
   }
 
-  async createOffer(questionId: string, notes: string): Promise<any> {
+  async createOffer(
+    questionerId: string,
+    questionId: string,
+    notes: string
+  ): Promise<any> {
     const response = await this.axiosCall<any>({
       method: "POST",
       url: "/questions/offer-solution",
       data: {
+        questionerId,
         questionId,
         notes,
       },

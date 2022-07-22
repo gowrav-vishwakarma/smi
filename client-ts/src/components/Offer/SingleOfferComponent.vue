@@ -15,11 +15,16 @@ export default class SingleOfferComponent extends Vue {
   @Prop({ default: null })
   readonly offer!: any;
 
+  @Prop({ default: null })
+  readonly question!: any;
+
   call() {
     alert("Calling");
-    SocketEmit("calling", {
-      to: this.offer.User.id,
-      from: this.offer.User.id,
+    SocketEmit("initiateCall", {
+      to: this.offer.questionerId,
+      from: this.$store.getters.loggedInUser._id,
+      offerer: this.offer.User,
+      questionTitle: this.question.title,
     });
   }
 }
