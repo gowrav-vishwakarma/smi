@@ -88,7 +88,7 @@ export class QuestionsService {
           pipeline: [
             {
               $match: {
-                userId: user._id,
+                offererId: user._id,
               },
             },
             {
