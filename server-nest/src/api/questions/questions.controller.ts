@@ -60,8 +60,10 @@ export class QuestionsController {
 
   @Get('/:id/comments')
   @UsePipes(ValidationPipe)
-  questionComments(@Param('id') id: string) {
-    return this.questionsService.getQuestionComments(id);
+  @ApiBearerAuth()
+  @UseGuards(OptionalJwtAuthGuard)
+  questionComments(@GetUser() user: UserDocument, @Param('id') id: string) {
+    return this.questionsService.getQuestionComments(id, user);
   }
 
   @Post('/create')
