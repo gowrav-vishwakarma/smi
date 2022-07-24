@@ -8,7 +8,8 @@ export type CommentDocument = Comment & Document;
 
 @Schema({ _id: false })
 class commentValue {
-  totalVoteCount: { type: Number; default: 0 };
+  @Prop({ required: true, default: 0 })
+  totalVoteCount: number;
 }
 
 const commentValueDefault = {

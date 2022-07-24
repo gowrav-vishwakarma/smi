@@ -24,7 +24,7 @@
         hide-details="true"
       >
       </v-text-field>
-      <v-chip-group>
+      <v-chip-group v-if="$store.getters.filters">
         <v-chip
           disabled
           x-small

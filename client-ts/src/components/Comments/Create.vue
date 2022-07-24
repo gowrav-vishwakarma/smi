@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-import questionsApi from "@/services/questions.api";
 import "reflect-metadata";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { VueEditor } from "vue2-editor";
+import commentsAPIService from "@/services/comments.api";
 
 @Component({
   name: "CreateCommentComponent",
@@ -25,9 +25,11 @@ export default class CreateCommentComponent extends Vue {
   comment = "";
 
   submitComment() {
-    questionsApi.createComment(this.question._id, this.comment).then(() => {
-      this.comment = "";
-    });
+    commentsAPIService
+      .createComment(this.question._id, this.comment)
+      .then(() => {
+        this.comment = "";
+      });
   }
 }
 </script>

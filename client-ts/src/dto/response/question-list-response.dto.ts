@@ -28,6 +28,8 @@ export default class QuestionListResponseDTO {
 
   questionValue!: QuestionValue;
 
+  myVote?: number;
+
   createdAt!: string;
 
   questionerId!: string;
