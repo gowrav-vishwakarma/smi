@@ -88,7 +88,7 @@ export class QuestionsService {
           pipeline: [
             {
               $match: {
-                userId: user._id,
+                offererId: user._id,
               },
             },
             {
@@ -247,24 +247,60 @@ export class QuestionsService {
     return offers;
   }
 
-  async getQuestionComments(questionId: string) {
-    const comments = await this.commentModel.aggregate([
-      { $match: { questionId: ObjectId(questionId) } },
-      {
+  async getQuestionComments(questionId: string, user?: UserDocument) {
+    const pipeline = [];
+
+    pipeline.push({ $match: { questionId: ObjectId(questionId) } });
+
+    pipeline.push({
+      $lookup: {
+        from: 'users',
+        localField: 'commenterId',
+        foreignField: '_id',
+        as: 'User',
+        pipeline: [
+          {
+            $project: { name: 1, ratingAsSolver: 1, _id: 0 },
+          },
+        ],
+      },
+    });
+
+    pipeline.push({ $unwind: '$User' });
+
+    console.log('user found ??? ', user);
+    if (user) {
+      console.log('user found ====== ', user);
+      // Include my vote
+      pipeline.push({
         $lookup: {
-          from: 'users',
-          localField: 'commenterId',
-          foreignField: '_id',
-          as: 'User',
+          from: 'votes',
+          localField: '_id',
+          foreignField: 'commentId',
+          as: 'myVote',
           pipeline: [
             {
-              $project: { name: 1, ratingAsSolver: 1, _id: 0 },
+              $match: {
+                userId: user._id,
+              },
+            },
+            {
+              $project: { vote: 1, _id: 0 },
             },
           ],
         },
-      },
-      { $unwind: '$User' },
-    ]);
+      });
+
+      pipeline.push({
+        $set: {
+          myVote: {
+            $first: '$myVote',
+          },
+        },
+      });
+    }
+
+    const comments = await this.commentModel.aggregate(pipeline);
 
     return comments;
   }

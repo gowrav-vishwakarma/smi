@@ -10,6 +10,7 @@
         .d-flex
           question-value-component(:question="question")
           .caption.ml-auto.grey--text.lighten-4 asked {{ humanized_time_span(question.createdAt) }}
+    voting-component(:question="question")
 
 </template>
 
@@ -22,6 +23,7 @@ import { General } from "@/mixins/general";
 import SolutionChannelsComponent from "@/components/Question/SolutionChannels.vue";
 import QuestionerSignature from "@/components/User/Signature/AsQuestioner.vue";
 import QuestionValueComponent from "@/components/Question/QuestionValueComponent.vue";
+import VotingComponent from "@/components/Common/VotingComponent.vue";
 
 // import DataService from "@/services/DataService";
 
@@ -31,6 +33,7 @@ import QuestionValueComponent from "@/components/Question/QuestionValueComponent
     SolutionChannelsComponent,
     QuestionerSignature,
     QuestionValueComponent,
+    VotingComponent,
   },
 })
 export default class QuestionSingle extends Mixins(General) {

@@ -98,6 +98,14 @@ class QuestionsAPIService extends APIService {
     });
     return response;
   }
+
+  async vote(questionId: string, vote: "up" | "down"): Promise<any> {
+    const response = await this.axiosCall<any>({
+      method: "GET",
+      url: "/questions/vote/" + questionId + "/" + vote,
+    });
+    return response;
+  }
 }
 
 export default new QuestionsAPIService();
