@@ -37,6 +37,7 @@ export class QuestionsService {
   async searchQuestions(
     filterOptions: GetQuestionsDTO,
     user?: any,
+    filterMyQuestionsOnly: boolean = false,
   ): Promise<QuestionDocument[] | any> {
     const { page = 1, sort = false } = filterOptions;
     const matchCondition = {};
@@ -45,6 +46,11 @@ export class QuestionsService {
     }
     if (filterOptions.tags) {
       matchCondition['tags'] = { $in: filterOptions.tags };
+    }
+
+    if (filterMyQuestionsOnly) {
+      console.log('filterMyQuestionsOnly', filterMyQuestionsOnly);
+      matchCondition['questionerId'] = user._id;
     }
 
     const pipeline = [];

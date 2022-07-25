@@ -1,6 +1,8 @@
 import LoginDTO from "@/dto/request/login.dto";
 import RegisterUserDTO from "@/dto/request/register.dto";
 import LoginResponseDTO from "@/dto/response/login-response.dto";
+import QuestionDetailResponseDTO from "@/dto/response/question-detail-response.dto";
+import QuestionListResponseDTO from "@/dto/response/question-list-response.dto";
 import RegisterUserResponseDTO from "@/dto/response/register-response.dto";
 import APIService from "./http-common";
 
@@ -29,6 +31,14 @@ class UserAPIService extends APIService {
       },
       RegisterUserDTO
     );
+    return response;
+  }
+
+  async getMyQuestions(): Promise<QuestionListResponseDTO[]> {
+    const response = await this.axiosCall<QuestionListResponseDTO[]>({
+      method: "GET",
+      url: `/questions/my-questions`,
+    });
     return response;
   }
 }
