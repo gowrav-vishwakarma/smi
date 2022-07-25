@@ -1,5 +1,5 @@
 <template lang="pug">
-    v-btn(color="primary" block rounded @click="createOffer") Offer Solution
+    v-btn(color="primary" block rounded @click="createOffer" :disabled="myOffer") {{caption}}
 </template>
 
 <script lang="ts">
@@ -24,6 +24,14 @@ export default class CreateOfferSolutionComponent extends Vue {
       this.question._id,
       "Interested"
     );
+  }
+
+  get myOffer() {
+    return this.question.myOffer ? true : false;
+  }
+
+  get caption() {
+    return this.question.myOffer ? "Already offered" : "Offer your solution";
   }
 }
 </script>
