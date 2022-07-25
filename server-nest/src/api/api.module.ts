@@ -15,6 +15,8 @@ import { MediaController } from './media/media.controller';
 import { VoteSchema } from './schemas/vote.schema';
 import { ConfigModule } from '@nestjs/config';
 import { SolutionOfferSchema } from './schemas/solutionoffer.schema';
+import { OffersController } from './solution-offers/offers.controllers';
+import { OffersService } from './solution-offers/offers.service';
 
 @Module({
   imports: [
@@ -33,8 +35,15 @@ import { SolutionOfferSchema } from './schemas/solutionoffer.schema';
     CommentsController,
     UsersController,
     MediaController,
+    OffersController,
   ],
-  providers: [QuestionsService, CommentsService, UsersService, MediaService],
+  providers: [
+    QuestionsService,
+    CommentsService,
+    UsersService,
+    MediaService,
+    OffersService,
+  ],
   exports: [UsersService, MongooseModule],
 })
 export class ApiModule {}
