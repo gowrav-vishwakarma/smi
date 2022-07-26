@@ -36,4 +36,20 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection {
   ): void {
     this.server.to(payload.to).emit('ringing', payload);
   }
+
+  @SubscribeMessage('acceptCall')
+  handleAcceptCall(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    this.server.to(payload.to).emit('callAccepted', payload);
+  }
+
+  @SubscribeMessage('denyCall')
+  handleDenyCall(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    this.server.to(payload.to).emit('callDenied', payload);
+  }
 }

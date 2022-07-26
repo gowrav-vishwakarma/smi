@@ -6,6 +6,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import socket, { SocketOn, SocketEmit } from "@/services/socket";
 import { SocketAuthDTO, InitiateCallDTO } from "@/dto/ws.dto";
+import solutionsApi from "@/services/solutions.api";
 
 @Component({
   name: "WSManager",
@@ -48,9 +49,26 @@ export default class WSManager extends Vue {
           body: `for "${payload.questionTitle}"`,
           answers: { Accept: true, Denied: false },
         })
-        .then((callAccept: boolean) => {
-          if (callAccept) console.log("Call accpted");
-          else console.log("Call denied");
+        .then(async (callAccept: boolean) => {
+          const newPayload = {
+            to: payload.from,
+            from: payload.to,
+            callAccept,
+          };
+          if (callAccept) {
+            const { solutionOfferId } =
+              await solutionsApi.createSolutionAttempt({
+                questionId: payload.questionId,
+                questionerId: payload.from._id,
+                offererId: payload.to,
+              });
+            SocketEmit("acceptCall", {
+              ...newPayload,
+              solutionOfferId: solutionOfferId,
+            });
+          } else {
+            SocketEmit("denyCall", newPayload);
+          }
         });
     });
 

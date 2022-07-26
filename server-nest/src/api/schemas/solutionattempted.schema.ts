@@ -30,7 +30,7 @@ export class SolutionAttempted {
   @Prop({
     required: true,
     default: SolutionAttemptedStatus.ATTEMPTED,
-    type: SolutionAttemptedStatus,
+    type: String,
   })
   status: string;
 }

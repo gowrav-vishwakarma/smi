@@ -17,6 +17,9 @@ import { ConfigModule } from '@nestjs/config';
 import { SolutionOfferSchema } from './schemas/solutionoffer.schema';
 import { OffersController } from './solution-offers/offers.controllers';
 import { OffersService } from './solution-offers/offers.service';
+import { SolutionAttemptController } from './solution-attempt/attempt.controllers';
+import { SolutionAttemptService } from './solution-attempt/attempt.service';
+import { SolutionAttemptedSchema } from './schemas/solutionattempted.schema';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { OffersService } from './solution-offers/offers.service';
       { name: 'Comment', schema: CommentSchema },
       { name: 'Vote', schema: VoteSchema },
       { name: 'SolutionOffer', schema: SolutionOfferSchema },
+      { name: 'SolutionAttempted', schema: SolutionAttemptedSchema },
     ]),
     forwardRef(() => AuthModule),
     ConfigModule,
@@ -36,6 +40,7 @@ import { OffersService } from './solution-offers/offers.service';
     UsersController,
     MediaController,
     OffersController,
+    SolutionAttemptController,
   ],
   providers: [
     QuestionsService,
@@ -43,6 +48,7 @@ import { OffersService } from './solution-offers/offers.service';
     UsersService,
     MediaService,
     OffersService,
+    SolutionAttemptService,
   ],
   exports: [UsersService, MongooseModule],
 })
