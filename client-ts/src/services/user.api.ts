@@ -41,6 +41,22 @@ class UserAPIService extends APIService {
     });
     return response;
   }
+
+  async getMyOffers(): Promise<any[]> {
+    const response = await this.axiosCall<any[]>({
+      method: "GET",
+      url: `/offers/my-offers`,
+    });
+    return response;
+  }
+
+  async getMyComments(): Promise<any[]> {
+    const response = await this.axiosCall<any[]>({
+      method: "GET",
+      url: `/comments/my-comments`,
+    });
+    return response;
+  }
 }
 
 export default new UserAPIService();

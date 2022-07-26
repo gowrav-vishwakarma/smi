@@ -15,6 +15,7 @@ export default class UserQuestionsComponent extends Vue {
 
   async mounted() {
     this.questions = await userApi.getMyQuestions();
+    console.log(this.questions)
   }
 }
 </script>
