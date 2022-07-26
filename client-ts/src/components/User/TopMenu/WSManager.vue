@@ -1,7 +1,5 @@
 <template>
-  <v-icon small @click="call" :color="isConnected ? 'green' : 'red'"
-    >mdi-circle</v-icon
-  >
+  <v-icon small :color="isConnected ? 'green' : 'red'">mdi-circle</v-icon>
 </template>
 
 <script lang="ts">
@@ -43,7 +41,17 @@ export default class WSManager extends Vue {
     // });
 
     SocketOn("ringing", (payload) => {
-      console.log("call-received", payload);
+      // console.log("call-received", payload);
+      this.$vToastify
+        .prompt({
+          title: `${payload.offerer.name} calling`,
+          body: `for "${payload.questionTitle}"`,
+          answers: { Accept: true, Denied: false },
+        })
+        .then((callAccept: boolean) => {
+          if (callAccept) console.log("Call accpted");
+          else console.log("Call denied");
+        });
     });
 
     // socket.on("call-received", ({ from, content }) => {
@@ -95,17 +103,6 @@ export default class WSManager extends Vue {
     socket.on("connect_error", (err) => {
       console.error(err);
     });
-  }
-
-  call() {
-    SocketEmit(
-      "initiateCall",
-      {
-        content: "Hi There",
-        to: "62bb11d860a89d6ed2a56596",
-      },
-      InitiateCallDTO
-    );
   }
 }
 </script>

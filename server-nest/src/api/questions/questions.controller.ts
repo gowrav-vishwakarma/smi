@@ -44,6 +44,17 @@ export class QuestionsController {
     return this.questionsService.searchQuestions(filterOptions, user);
   }
 
+  @Get('/my-questions')
+  @UsePipes(ValidationPipe)
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  getMyQuestions(
+    @GetUser() user: UserDocument,
+    @Query() filterOptions: GetQuestionsDTO,
+  ): QuestionDocument[] | any {
+    return this.questionsService.searchQuestions(filterOptions, user, true);
+  }
+
   @Get(':id')
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
