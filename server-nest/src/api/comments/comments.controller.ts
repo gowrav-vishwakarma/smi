@@ -39,4 +39,11 @@ export class CommentsController {
   async vote(@GetUser() user: UserDocument, @Param() voteDto: VoteCommentDTO) {
     return this.commentsService.voteCommentQuestion(voteDto, user);
   }
+  @Get('/my-comments')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  async getAllMyComments(@GetUser() user: UserDocument) {
+    return this.commentsService.getAllMyComments(user);
+  }
+  
 }

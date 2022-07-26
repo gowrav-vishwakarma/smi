@@ -60,4 +60,13 @@ export class CommentsService {
     }
     return updateDetails;
   }
+
+  async getAllMyComments(
+    user:UserDocument
+  ):Promise<any> {
+    return await this.commentModel.find({
+      commenterId : user._id,
+    });
+
+  }
 }
