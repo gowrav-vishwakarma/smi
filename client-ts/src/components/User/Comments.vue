@@ -25,6 +25,11 @@ export default class UserCommentsComponent extends Mixins(General){
     this.comments = await userApi.getMyComments();
     console.log(this.comments);
   }
+
+  gotoDetails(questionId:string) {
+    this.$router.push("question/" + questionId);
+  } 
+  
   shortdetail(detail:string) {
     return S(detail).stripTags().truncate(100).s;
   }
