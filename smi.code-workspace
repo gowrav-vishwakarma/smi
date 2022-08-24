@@ -1,17 +1,8 @@
 {
-	"folders": [
-		{
-			"path": "client-ts"
-		},
-		{
-			"path": "server-nest"
-		},
-		{
-			"path": "client"
-		},
-		{
-			"path": "server"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {}
 }
