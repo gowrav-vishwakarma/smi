@@ -1,8 +1,8 @@
 <template lang="pug">
     .d-flex
-      v-icon(@click="voteUp" ) mdi-cog
-      | {{ currentVoteCount }}
-      v-icon(@click="voteDown") mdi-cog
+      v-icon.mx-2(@click="voteUp" x-small) mdi-thumb-up
+      span.text-caption {{ currentVoteCount }}
+      v-icon.mx-2(@click="voteDown" x-small) mdi-thumb-down
 </template>
 
 <script lang="ts">
