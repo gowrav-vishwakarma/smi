@@ -48,4 +48,9 @@ export default class Auth extends VuexModule implements IAuthState {
       await validatorDto(CurrentUserI, { ...currentUser })
     );
   }
+
+  @Action
+  async resetCurrentUserAction() {
+    await this.context.commit("setCurrentUser", {});
+  }
 }
