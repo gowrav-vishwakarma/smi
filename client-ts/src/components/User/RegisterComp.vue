@@ -83,7 +83,7 @@
         label="Country"
       ></v-select>
     </v-form>
-    <v-btn class="lgnbtn mt-2" @click="register">Register </v-btn>
+    <v-btn class="lgnbtn mt-2" block @click="register" primary>Register </v-btn>
     <p>
       Already have an account ?
       <router-link class="text-decoration-none" to="/login">Login</router-link>
