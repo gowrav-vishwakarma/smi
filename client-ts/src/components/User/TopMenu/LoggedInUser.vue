@@ -8,7 +8,9 @@
     <v-btn text plain to="/my-profile">
       {{ $store.getters.loggedInUser.name }}
     </v-btn>
-    <v-btn text plain @click="logout"> logout </v-btn>
+    <v-btn text plain @click="logout" v-if="$store.getters.isAuthenticated">
+      logout
+    </v-btn>
   </div>
 </template>
 
