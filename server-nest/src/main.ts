@@ -42,6 +42,6 @@ async function bootstrap() {
       persistAuthorization: true,
     },
   });
-  await app.listen(3001);
+  await app.listen(configService.get('PORT') || '3001');
 }
 bootstrap();

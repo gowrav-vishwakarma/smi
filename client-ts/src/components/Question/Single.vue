@@ -11,7 +11,6 @@
           //- question-value-component(:question="question")
           //- .caption.ml-auto.grey--text.lighten-4 asked {{ humanized_time_span(question.createdAt) }}
     //- voting-component(:question="question")
-
     .d-flex
       v-list-item(three-line)
         v-list-item-avatar(tile size="50" color="grey")
@@ -22,7 +21,7 @@
         questioner-signature(:User="question.byUser")
     .d-flex.mt-3
       .caption.grey--text.lighten-4 asked {{ humanized_time_span(question.createdAt) }}
-      .caption.primary--text.lighten-4.ml-auto #Vue #ui #product #new 
+      .caption.primary--text.lighten-4.ml-auto {{convertTotag(question.tags)}} 
     v-divider
     .d-flex.mt-1
       div
@@ -31,7 +30,7 @@
       .ml-auto
         .d-flex
           solution-channels-component(v-if="question.solutionChannels" :solutionChannels="question.solutionChannels")
-          v-btn.success Answer
+          v-btn.success(@click="gotoDetails") Answer
 
 
 
@@ -69,6 +68,16 @@ export default class QuestionSingle extends Mixins(General) {
 
   get shortdetail() {
     return S(this.question.detail).stripTags().truncate(100).s;
+  }
+
+  convertTotag(inArr: [string]) {
+    return inArr.length > 0
+      ? inArr
+          .map((i: string) => {
+            return "#" + i;
+          })
+          .join(" ")
+      : "";
   }
 }
 </script>
