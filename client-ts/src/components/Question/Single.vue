@@ -31,9 +31,6 @@
         .d-flex
           solution-channels-component(v-if="question.solutionChannels" :solutionChannels="question.solutionChannels")
           v-btn.success(@click="gotoDetails") Answer
-
-
-
 </template>
 
 <script lang="ts">
