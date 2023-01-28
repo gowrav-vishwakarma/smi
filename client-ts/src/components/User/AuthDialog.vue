@@ -9,21 +9,27 @@
                 v-btn(color="primary" to="/login" @click="showDialogState=false") Login
 </template>
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch, PropSync } from "vue-property-decorator";
 
 @Component({
   name: "AuthDialog",
 })
 export default class AuthDialog extends Vue {
-  @Prop({ default: false })
-  showDialog!: boolean;
+  // @Prop({ default: false })
+  // showDialog!: boolean;
 
-  showDialogState = false;
+  // showDialogState = false;
+
+  @PropSync("showDialog") showDialogState!: boolean;
 
   @Watch("showDialog")
-  onDataChanged(n: boolean, o: boolean) {
+  onshowDialog(n: boolean, o: boolean) {
     console.log("dialog");
-    this.showDialogState = this.showDialog;
+    this.showDialogState = n;
+    // this.showDialog = !n;
+  }
+  mounted() {
+    console.log("showDialog");
   }
 }
 </script>

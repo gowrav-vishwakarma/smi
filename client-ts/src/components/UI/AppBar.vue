@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app color="white" flat>
     <div class="d-flex align-center">
       <v-img
         alt="SMI Logo"
@@ -9,6 +9,7 @@
         transition="scale-transition"
         width="40"
         to="/"
+        bgcolor="primary"
       />
 
       <h3 alt="SMI Name" class="shrink mt-1 hidden-sm-and-down" contain>
@@ -22,6 +23,8 @@
         prepend-inner-icon="mdi-magnify"
         append-outer-icon="mdi-filter-multiple"
         hide-details="true"
+        clearable
+        filled
       >
       </v-text-field>
       <v-chip-group v-if="$store.getters.filters">

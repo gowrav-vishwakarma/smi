@@ -1,7 +1,7 @@
 <template lang="pug">
   v-app
     ui-app-bar
-    v-main
+    v-main(class="grey lighten-3")
       router-view
 </template>
 

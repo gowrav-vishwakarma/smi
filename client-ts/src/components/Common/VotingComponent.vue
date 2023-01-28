@@ -10,7 +10,7 @@
             template( v-slot:activator="{ on, attrs }")
               v-icon.mx-2(@click="voteDown" x-small v-bind="attrs" v-on="on") mdi-thumb-down
             span unhappy with question, vote dowm
-      auth-dialog(:showDialog="AuthDialogState")
+      auth-dialog(:showDialog.sync="AuthDialogState")
 </template>
 
 <script lang="ts">
