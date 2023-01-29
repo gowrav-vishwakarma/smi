@@ -30,7 +30,7 @@ export default {
     },
     SIZE: {
       type: Number,
-      default: 15,
+      default: 45,
     },
   },
   components: {

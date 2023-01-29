@@ -1,15 +1,20 @@
 <template lang="pug">
-    div
+    div.text-center.voting-component
       .d-flex
-          v-tooltip(top)
-            template( v-slot:activator="{ on, attrs }")
-              v-icon.mx-2(@click="voteUp" x-small v-bind="attrs" v-on="on") mdi-thumb-up
-            span happy with question, vote up
-          span.text-caption {{ currentVoteCount }}
-          v-tooltip(top)
-            template( v-slot:activator="{ on, attrs }")
-              v-icon.mx-2(@click="voteDown" x-small v-bind="attrs" v-on="on") mdi-thumb-down
-            span unhappy with question, vote dowm
+          div
+            v-tooltip(top)
+              template( v-slot:activator="{ on, attrs }")
+                v-icon.mx-2(small @click="voteUp" v-bind="attrs" v-on="on") mdi-thumb-up
+                p.pa-0.ma-0.icon-text up
+              span happy with question, vote up
+          div
+            span.text-caption {{ currentVoteCount }}
+          div
+            v-tooltip(top)
+              template( v-slot:activator="{ on, attrs }")
+                v-icon.mx-2(small @click="voteDown" v-bind="attrs" v-on="on") mdi-thumb-down
+                p.pa-0.ma-0.icon-text down
+              span unhappy with question, vote dowm
       auth-dialog(:showDialog.sync="AuthDialogState")
 </template>
 
@@ -133,3 +138,9 @@ export default class VoteingComponent extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.voting-component .icon-text {
+  font-size: 0.6em;
+}
+</style>
