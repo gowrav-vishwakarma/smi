@@ -22,7 +22,7 @@ import ByUser from "@/dto/byUser.dto";
 export default class ByUserComponent extends Vue {
   @Prop({ default: null, required: true }) User!: ByUser;
 
-  get reputation(): string {
+  get reputation(): number {
     const accpectedRatio =
       this.User.reputationAsQuestioner.totalMarkedSolved /
       this.User.reputationAsQuestioner.totalQuestionsAsked;
