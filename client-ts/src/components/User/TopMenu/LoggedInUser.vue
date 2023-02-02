@@ -1,14 +1,15 @@
 <template>
   <div class="d-flex">
     <ws-manager></ws-manager>
-    <v-btn text plain to="/ask-question">
+    <!-- <v-btn text plain to="/ask-question">
       <v-icon>mdi-plus</v-icon>
       Ask Question
-    </v-btn>
+    </v-btn> -->
     <v-btn text plain to="/my-profile">
       {{ $store.getters.loggedInUser.name }}
     </v-btn>
     <v-btn text plain @click="logout" v-if="$store.getters.isAuthenticated">
+      <v-icon> mdi-logout</v-icon>
       logout
     </v-btn>
   </div>

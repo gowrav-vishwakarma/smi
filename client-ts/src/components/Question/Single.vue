@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-card.mb-2.pa-2.question-single-card(v-if="question")
+  v-card.mb-2.pa-5.question-single-card(v-if="question")
     //- .d-flex.flex-column
       //- .d-flex
         //- .h4.blue--text(@click="gotoDetails" style="cursor:pointer") {{ question.title }}

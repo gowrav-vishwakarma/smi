@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app color="white" flat>
     <div class="d-flex align-center">
-      <v-img
+      <!-- <v-img
         alt="SMI Logo"
         class="shrink mr-2"
         contain
@@ -10,21 +10,22 @@
         width="40"
         to="/"
         bgcolor="primary"
-      />
-
+      /> -->
       <h3 alt="SMI Name" class="shrink mt-1 hidden-sm-and-down" contain>
+        <v-avatar color="orange" size="46" dark><small>Q/A</small></v-avatar>
         <v-btn text :ripple="false" to="/" plain>Solve My Issue</v-btn>
       </h3>
     </div>
     <v-spacer></v-spacer>
-    <v-layout :column="true">
+    <v-layout>
       <v-text-field
         class="mt-1 white--text lighten-4"
         prepend-inner-icon="mdi-magnify"
-        append-outer-icon="mdi-filter-multiple"
-        hide-details="true"
+        append-icon="mdi-filter-multiple"
+        hide-details="auto"
         clearable
         filled
+        rounded
       >
       </v-text-field>
       <v-chip-group v-if="$store.getters.filters">
@@ -47,19 +48,48 @@
       </v-chip-group>
     </v-layout>
     <v-spacer></v-spacer>
+
+    <v-btn
+      rounded
+      color="orange"
+      v-if="!$store.getters.isAuthenticated"
+      dark
+      @click="askquestion"
+    >
+      <v-icon> mdi-plus </v-icon>
+      Ask Question
+    </v-btn>
+    <v-btn rounded color="orange" v-else dark to="/ask-question">
+      <v-icon> mdi-plus </v-icon>
+      Ask Question
+    </v-btn>
+
+    <v-spacer></v-spacer>
     <top-menu></top-menu>
+    <auth-dialog :showDialog.sync="AuthDialogState"></auth-dialog>
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import TopMenu from "@/components/User/TopMenu/index.vue";
+import AuthDialog from "@/components/User/AuthDialog.vue";
 
 @Component({
   name: "AppBar",
   components: {
     TopMenu,
+    AuthDialog,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  AuthDialogState = false;
+
+  askquestion() {
+    if (!this.$store.getters.isAuthenticated) {
+      this.AuthDialogState = true;
+      return;
+    }
+  }
+}
 </script>
