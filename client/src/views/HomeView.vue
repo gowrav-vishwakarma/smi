@@ -218,115 +218,113 @@ import DataService from "../services/DataService";
 import { topics } from "@/services/staticValues";
 
 export default {
-    components: {
-        QuestionList,
-        DockerVue,
-        TopAdsenseVue,
-    },
-    data() {
-        return {
-            filters:[
-                {
-                    name:'No Answers',
-                    val:1
-                },
-                {
-                    name:'No Accepted Answers',
-                    val:2
-                },
-                {
-                    name:'Only Video Questions',
-                    val:3
-                },
-                {
-                    name:'Without Video',
-                    val:4
-                },
-             ],
-            sorts:[
-                {
-                    name:'Newest',
-                    val:1
-                },
-                {
-                    name:'No Voted Questions',
-                    val:2
-                },
-                {
-                    name:'Most viewed Questions',
-                    val:3
-                },
-             ],
-            tags:[
-                {
-                    name:'Question with my tags',
-                    val:1
-                },
-                {
-                    name:'Question without my tags',
-                    val:2
-                },
-             ],
-             filterval:this.$store.state.filters.filterBy,
-             sortval:this.$store.state.filters.sortBy,
-             tagval:this.$store.state.filters.tagBy,
-            isShow2:false,
-            questions: [],
-            showNext: false,
-            showPrevious: false,
-            currentPage: 1,
-            questionsPerPage: 10,
-            hasNextPage: false,
-            hasPrevPage: false,
-            topic: this.$store.state.currentUser
-                ? this.$store.state.currentUser.topic
-                : [],
-            topics,
-        };
-    },
-    mounted() {
-        this.getQuestionsFromApi();
-    },
-    methods: {
-        getQuestionsFromApi() {
-            DataService.getQuestions(
-                this.$store.getters.filters,
-                this.currentPage,
-                this.questionsPerPage,
-                this.$store.getters.sortBy,
-                this.$store.getters.filterBy,
-                this.$store.getters.tagBy,
-            )
-                .then((response) => {
-                    console.log(response.data);
-                    this.questions = response.data;
-                    this.hasNextPage =
-                        response.data.length === this.questionsPerPage;
-                    this.hasPrevPage = this.currentPage > 1;
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+  components: {
+    QuestionList,
+    DockerVue,
+    TopAdsenseVue,
+  },
+  data() {
+    return {
+      filters: [
+        {
+          name: "No Answers",
+          val: 1,
         },
-        nextPage() {
-            this.currentPage++;
-            this.getQuestionsFromApi();
+        {
+          name: "No Accepted Answers",
+          val: 2,
         },
-        prevPage() {
-            this.currentPage--;
-            this.getQuestionsFromApi();
+        {
+          name: "Only Video Questions",
+          val: 3,
         },
-        updateFilter(){
-        this.$store.commit("setCurrentTopic", this.topic);
-        this.$store.commit("setCurrentsortBy", this.sortval);
-        this.$store.commit("setCurrentfilterBy", this.filterval);
-        this.$store.commit("setCurrenttagBy", this.tagval);
-
+        {
+          name: "Without Video",
+          val: 4,
         },
-        apply(){
-            this.getQuestionsFromApi();
-            this.isShow2 = false;
-        }
+      ],
+      sorts: [
+        {
+          name: "Newest",
+          val: 1,
+        },
+        {
+          name: "No Voted Questions",
+          val: 2,
+        },
+        {
+          name: "Most viewed Questions",
+          val: 3,
+        },
+      ],
+      tags: [
+        {
+          name: "Question with my tags",
+          val: 1,
+        },
+        {
+          name: "Question without my tags",
+          val: 2,
+        },
+      ],
+      filterval: this.$store.state.filters.filterBy,
+      sortval: this.$store.state.filters.sortBy,
+      tagval: this.$store.state.filters.tagBy,
+      isShow2: false,
+      questions: [],
+      showNext: false,
+      showPrevious: false,
+      currentPage: 1,
+      questionsPerPage: 10,
+      hasNextPage: false,
+      hasPrevPage: false,
+      topic: this.$store.state.currentUser
+        ? this.$store.state.currentUser.topic
+        : [],
+      topics,
+    };
+  },
+  mounted() {
+    this.getQuestionsFromApi();
+  },
+  methods: {
+    getQuestionsFromApi() {
+      DataService.getQuestions(
+        this.$store.getters.filters,
+        this.currentPage,
+        this.questionsPerPage,
+        this.$store.getters.sortBy,
+        this.$store.getters.filterBy,
+        this.$store.getters.tagBy
+      )
+        .then((response) => {
+          console.log(response.data);
+          this.questions = response.data;
+          this.hasNextPage = response.data.length === this.questionsPerPage;
+          this.hasPrevPage = this.currentPage > 1;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
+    nextPage() {
+      this.currentPage++;
+      this.getQuestionsFromApi();
+    },
+    prevPage() {
+      this.currentPage--;
+      this.getQuestionsFromApi();
+    },
+    updateFilter() {
+      this.$store.commit("setCurrentTopic", this.topic);
+      this.$store.commit("setCurrentsortBy", this.sortval);
+      this.$store.commit("setCurrentfilterBy", this.filterval);
+      this.$store.commit("setCurrenttagBy", this.tagval);
+    },
+    apply() {
+      this.getQuestionsFromApi();
+      this.isShow2 = false;
+    },
+  },
 };
 </script>

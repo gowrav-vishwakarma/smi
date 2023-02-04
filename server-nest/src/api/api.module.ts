@@ -20,6 +20,9 @@ import { OffersService } from './solution-offers/offers.service';
 import { SolutionAttemptController } from './solution-attempt/attempt.controllers';
 import { SolutionAttemptService } from './solution-attempt/attempt.service';
 import { SolutionAttemptedSchema } from './schemas/solutionattempted.schema';
+import { TopicSchema } from './schemas/topic.schema';
+import { TopicsController } from './topic/topics.controller';
+import { TopicsService } from './topic/topics.service';
 
 @Module({
   imports: [
@@ -30,6 +33,7 @@ import { SolutionAttemptedSchema } from './schemas/solutionattempted.schema';
       { name: 'Vote', schema: VoteSchema },
       { name: 'SolutionOffer', schema: SolutionOfferSchema },
       { name: 'SolutionAttempted', schema: SolutionAttemptedSchema },
+      { name: 'Topic', schema: TopicSchema },
     ]),
     forwardRef(() => AuthModule),
     ConfigModule,
@@ -41,6 +45,7 @@ import { SolutionAttemptedSchema } from './schemas/solutionattempted.schema';
     MediaController,
     OffersController,
     SolutionAttemptController,
+    TopicsController,
   ],
   providers: [
     QuestionsService,
@@ -49,6 +54,7 @@ import { SolutionAttemptedSchema } from './schemas/solutionattempted.schema';
     MediaService,
     OffersService,
     SolutionAttemptService,
+    TopicsService,
   ],
   exports: [UsersService, MongooseModule],
 })

@@ -5,6 +5,11 @@
         <v-sheet rounded="lg" min-height="268">
           <topic-list></topic-list>
         </v-sheet>
+
+        <v-sheet rounded="lg" min-height="268" class="mt-3">
+          Topics
+          <topic-list getTopic="true"></topic-list>
+        </v-sheet>
       </v-col>
       <v-col cols="12" sm="7" md="7" lg="7">
         <question-list></question-list>
