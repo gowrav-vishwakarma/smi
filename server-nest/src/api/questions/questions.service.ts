@@ -326,13 +326,18 @@ export class QuestionsService {
       { upsert: true },
     );
 
-    if (voteDto.vote === 'up') {
+    // update vote up OR vote down only when either new vote OR changed from up to down
+    let updateCount =
+      (updateDetails.modifiedCount && updateDetails.matchedCount) ||
+      updateDetails.upsertedCount;
+
+    if (voteDto.vote === 'up' && updateCount) {
       await this.questionModel.updateOne(
         { _id: voteDto.questionId },
         { $inc: { 'questionValue.totalVoteCount': 1 } },
       );
     }
-    if (voteDto.vote === 'down') {
+    if (voteDto.vote === 'down' && updateCount) {
       await this.questionModel.updateOne(
         { _id: voteDto.questionId },
         { $inc: { 'questionValue.totalVoteCount': -1 } },

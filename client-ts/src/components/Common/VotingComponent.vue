@@ -95,9 +95,12 @@ export default class VoteingComponent extends Vue {
       return;
     }
 
-    questionsApi.vote(this.question._id, "up").then(() => {
-      this.question.questionValue.totalVoteCount++;
-      this.question.myVote = 1;
+    questionsApi.vote(this.question._id, "up").then((res) => {
+      // checking if new vote or changing from up to down or viseversa
+      if ((res.matchedCount && res.modifiedCount) || res.upsertedId) {
+        this.question.questionValue.totalVoteCount++;
+        this.question.myVote = 1;
+      }
     });
   }
 
@@ -107,9 +110,11 @@ export default class VoteingComponent extends Vue {
       return;
     }
 
-    questionsApi.vote(this.question._id, "down").then(() => {
-      this.question.questionValue.totalVoteCount--;
-      this.question.myVote = -1;
+    questionsApi.vote(this.question._id, "down").then((res) => {
+      if ((res.matchedCount && res.modifiedCount) || res.upsertedId) {
+        this.question.questionValue.totalVoteCount--;
+        this.question.myVote = -1;
+      }
     });
   }
 
