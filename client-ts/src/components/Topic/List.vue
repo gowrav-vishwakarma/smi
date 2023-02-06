@@ -27,8 +27,7 @@ export default class TopicList extends Vue {
   selectedItem = 1;
   items: TopicInterface[] = [];
 
-  // @Prop({ default: false })
-  getTopicList = false;
+  @Prop({ default: false }) getTopicList: any;
 
   sideMenuList(): TopicInterface[] {
     return [

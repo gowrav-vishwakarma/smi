@@ -56,20 +56,15 @@ export default class QuestionSingle extends Mixins(General) {
   @Prop({ default: null })
   readonly question!: QuestionListResponseDTO;
 
-  @Prop({ default: false })
-  disableAnswerBtn = false;
+  @Prop({ default: false }) disableAnswerBtn: any;
 
-  @Prop({ default: false })
-  disableAnswerSection = false;
+  @Prop({ default: false }) disableAnswerSection: any;
 
-  @Prop({ default: false })
-  disableShareAction = false;
+  @Prop({ default: false }) disableShareAction: any;
 
-  @Prop({ default: false })
-  disableBookmarkAction = false;
+  @Prop({ default: false }) disableBookmarkAction: any;
 
-  @Prop({ default: false })
-  disableVotingAction = false;
+  @Prop({ default: false }) disableVotingAction: any;
 
   gotoDetails() {
     this.$router.push("question/" + this.question._id);

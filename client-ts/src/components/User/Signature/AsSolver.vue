@@ -33,11 +33,9 @@ import UserAvatar from "@/components/User/Avatar.vue";
 export default class ByUserComponent extends Vue {
   @Prop({ default: null, required: true }) User: any;
 
-  @Prop({ default: false })
-  disableAvatar = false;
+  @Prop({ default: false }) disableAvatar: any;
 
-  @Prop({ default: false })
-  disableName = false;
+  @Prop({ default: false }) disableName: any;
 
   get reputation(): string {
     const totalSolutionsAttempted =

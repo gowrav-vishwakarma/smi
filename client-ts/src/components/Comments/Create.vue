@@ -2,7 +2,7 @@
     v-card.d-flex.flex-column(flat tile)
         v-card-text Your answer/comment
           vue-editor.mt-2(v-model="comment")
-        v-card-action.pl-3.pr-3
+        v-card-actions.pl-3.pr-3
           v-btn(block @click="submitComment" color="primary") Submit Answer
     //- <v-btn v-if="!userData" @click="goToLog">Login to Answer</v-btn>
 </template>
