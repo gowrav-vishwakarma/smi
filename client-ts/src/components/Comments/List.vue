@@ -1,9 +1,8 @@
 <template lang="pug">
-  div.mt-10(style="width: 100%" v-if="questionComments")
-    v-divider
+  v-sheet(v-if="questionComments")
+    comment-create(:question="question")
+    v-divider.mt-3
     comment-single(v-for="singleComment in questionComments" :comment="singleComment" :key="singleComment._id")
-    v-divider
-    comment-create.mt-10(:question="question")
 </template>
 
 <script lang="ts">

@@ -46,27 +46,41 @@ export class CommentsService {
       { upsert: true },
     );
 
-    if (voteDto.vote === 'up') {
+    // update vote up OR vote down only when either new vote OR changed from up to down
+    let updateCount =
+      (updateDetails.modifiedCount && updateDetails.matchedCount) ||
+      updateDetails.upsertedCount;
+
+    if (voteDto.vote === 'up' && updateCount) {
       await this.commentModel.updateOne(
         { _id: voteDto.commentId },
-        { $inc: { 'commentValue.totalVoteCount': 1 } },
+        {
+          $inc: {
+            'commentValue.totalVoteCount': 1,
+            'commentValue.totalVoteDownCount': updateDetails.upsertedCount
+              ? 0
+              : 1,
+          },
+        },
       );
     }
-    if (voteDto.vote === 'down') {
+    if (voteDto.vote === 'down' && updateCount) {
       await this.commentModel.updateOne(
         { _id: voteDto.commentId },
-        { $inc: { 'commentValue.totalVoteCount': -1 } },
+        {
+          $inc: {
+            'commentValue.totalVoteDownCount': -1,
+            'commentValue.totalVoteCount': updateDetails.upsertedCount ? 0 : -1,
+          },
+        },
       );
     }
     return updateDetails;
   }
 
-  async getAllMyComments(
-    user:UserDocument
-  ):Promise<any> {
+  async getAllMyComments(user: UserDocument): Promise<any> {
     return await this.commentModel.find({
-      commenterId : user._id,
+      commenterId: user._id,
     });
-
   }
 }

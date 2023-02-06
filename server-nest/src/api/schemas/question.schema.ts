@@ -19,12 +19,15 @@ class questionValue {
   @Prop({ required: true, default: 0 })
   totalVoteCount: number;
   @Prop({ required: true, default: 0 })
+  totalVoteDownCount: number;
+  @Prop({ required: true, default: 0 })
   totalCommentsCount: number;
 }
 
 const questionValueDefault = {
   totalOfferingCount: 0,
   totalVoteCount: 0,
+  totalVoteDownCount: 0,
   totalCommentsCount: 0,
 };
 

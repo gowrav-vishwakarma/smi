@@ -4,16 +4,14 @@
           div
             v-tooltip(top)
               template( v-slot:activator="{ on, attrs }")
-                v-icon.mx-2(small @click="voteUp" v-bind="attrs" v-on="on") mdi-thumb-up
-                p.pa-0.ma-0.icon-text up
+                v-icon.mx-4(small @click="voteUp" v-bind="attrs" v-on="on") mdi-thumb-up
+                p.pa-0.ma-0.icon-text {{ currentVoteUpCount }} up
               span happy with question, vote up
-          div
-            span.text-caption {{ currentVoteCount }}
           div
             v-tooltip(top)
               template( v-slot:activator="{ on, attrs }")
-                v-icon.mx-2(small @click="voteDown" v-bind="attrs" v-on="on") mdi-thumb-down
-                p.pa-0.ma-0.icon-text down
+                v-icon.mx-4(small @click="voteDown" v-bind="attrs" v-on="on") mdi-thumb-down
+                p.pa-0.ma-0.icon-text {{ currentVoteDownCount }} down
               span unhappy with question, vote dowm
       auth-dialog(:showDialog.sync="AuthDialogState")
 </template>
@@ -41,11 +39,19 @@ export default class VoteingComponent extends Vue {
 
   AuthDialogState = false;
 
-  get currentVoteCount() {
+  get currentVoteUpCount() {
     if (this.question) {
       return this.question.questionValue.totalVoteCount;
     } else {
       return this.comment.commentValue.totalVoteCount;
+    }
+  }
+
+  get currentVoteDownCount() {
+    if (this.question) {
+      return this.question.questionValue.totalVoteDownCount;
+    } else {
+      return this.comment.commentValue.totalVoteDownCount;
     }
   }
 
@@ -124,9 +130,11 @@ export default class VoteingComponent extends Vue {
       return;
     }
 
-    commentsApi.vote(this.comment._id, "up").then(() => {
-      this.comment.commentValue.totalVoteCount++;
-      this.comment.myVote = 1;
+    commentsApi.vote(this.comment._id, "up").then((res) => {
+      if ((res.matchedCount && res.modifiedCount) || res.upsertedId) {
+        this.comment.commentValue.totalVoteCount++;
+        this.comment.myVote = 1;
+      }
     });
   }
 
@@ -136,9 +144,11 @@ export default class VoteingComponent extends Vue {
       return;
     }
 
-    commentsApi.vote(this.comment._id, "down").then(() => {
-      this.comment.commentValue.totalVoteCount--;
-      this.comment.myVote = -1;
+    commentsApi.vote(this.comment._id, "down").then((res) => {
+      if ((res.matchedCount && res.modifiedCount) || res.upsertedId) {
+        this.comment.commentValue.totalVoteCount--;
+        this.comment.myVote = -1;
+      }
     });
   }
 }

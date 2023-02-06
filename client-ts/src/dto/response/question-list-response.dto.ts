@@ -3,9 +3,8 @@ import SolutionChannelsDTO from "../solution-channels.dto";
 
 export class QuestionValue {
   totalOfferingCount!: number;
-
   totalVoteCount!: number;
-
+  totalVoteDownCount!: number;
   totalCommentsCount!: number;
 }
 

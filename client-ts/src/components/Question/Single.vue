@@ -1,16 +1,5 @@
 <template lang="pug">
   v-card.mb-2.pa-5.question-single-card(v-if="question")
-    //- .d-flex.flex-column
-      //- .d-flex
-        //- .h4.blue--text(@click="gotoDetails" style="cursor:pointer") {{ question.title }}
-        //- solution-channels-component.ml-auto(v-if="question.solutionChannels" :solutionChannels="question.solutionChannels")
-      //- .caption {{ shortdetail }}
-      //- .d-flex.flex-column
-        //- questioner-signature(:User="question.byUser")
-        //- .d-flex
-          //- question-value-component(:question="question")
-          //- .caption.ml-auto.grey--text.lighten-4 asked {{ humanized_time_span(question.createdAt) }}
-    //- voting-component(:question="question")
     questioner-signature(:User="question.byUser")
     v-card.pa-0.ma-0.question-detail-card(flat)
       h4.text-subtitle-1.question-heading(@click="gotoDetails" style="cursor:pointer") Q. {{question.title}}
@@ -28,13 +17,13 @@
       div
         question-value-component(:question="question")
         .d-flex
-          voting-component(:question="question")
-          booking-component(:question="question")
-          share-button(:question="question")
-      .ml-auto
+          voting-component(v-if="!disableVotingAction" :question="question")
+          booking-component(v-if="!disableBookmarkAction" :question="question")
+          share-button(v-if="!disableShareAction" :question="question")
+      .ml-auto(v-if="!disableAnswerSection")
         .d-flex
           solution-channels-component(v-if="question.solutionChannels" :solutionChannels="question.solutionChannels")
-          v-btn.primary(rounded small @click="gotoDetails") Answer
+          v-btn.primary(v-if="!disableAnswerBtn" rounded small @click="gotoDetails") Answer
 </template>
 
 <script lang="ts">
@@ -66,6 +55,21 @@ import ShareButton from "@/components/Common/ShareButton.vue";
 export default class QuestionSingle extends Mixins(General) {
   @Prop({ default: null })
   readonly question!: QuestionListResponseDTO;
+
+  @Prop({ default: false })
+  disableAnswerBtn = false;
+
+  @Prop({ default: false })
+  disableAnswerSection = false;
+
+  @Prop({ default: false })
+  disableShareAction = false;
+
+  @Prop({ default: false })
+  disableBookmarkAction = false;
+
+  @Prop({ default: false })
+  disableVotingAction = false;
 
   gotoDetails() {
     this.$router.push("question/" + this.question._id);

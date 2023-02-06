@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.signature
+  div.signature.asquestioner
     .d-flex.justify-space-between
       v-card.questioner-avatar-card(flat tile style="max-width:70%")
         v-list.pa-0

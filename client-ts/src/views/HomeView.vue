@@ -8,7 +8,7 @@
 
         <v-sheet rounded="lg" min-height="268" class="mt-3">
           Topics
-          <topic-list getTopic="true"></topic-list>
+          <topic-list getTopicList="true"></topic-list>
         </v-sheet>
       </v-col>
       <v-col cols="12" sm="7" md="7" lg="7">

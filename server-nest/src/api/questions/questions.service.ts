@@ -334,13 +334,27 @@ export class QuestionsService {
     if (voteDto.vote === 'up' && updateCount) {
       await this.questionModel.updateOne(
         { _id: voteDto.questionId },
-        { $inc: { 'questionValue.totalVoteCount': 1 } },
+        {
+          $inc: {
+            'questionValue.totalVoteCount': 1,
+            'questionValue.totalVoteDownCount': updateDetails.upsertedCount
+              ? 0
+              : -1,
+          },
+        },
       );
     }
     if (voteDto.vote === 'down' && updateCount) {
       await this.questionModel.updateOne(
         { _id: voteDto.questionId },
-        { $inc: { 'questionValue.totalVoteCount': -1 } },
+        {
+          $inc: {
+            'questionValue.totalVoteDownCount': 1,
+            'questionValue.totalVoteCount': updateDetails.upsertedCount
+              ? 0
+              : -1,
+          },
+        },
       );
     }
     return updateDetails;

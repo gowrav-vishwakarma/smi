@@ -10,10 +10,14 @@ export type CommentDocument = Comment & Document;
 class commentValue {
   @Prop({ required: true, default: 0 })
   totalVoteCount: number;
+
+  @Prop({ required: true, default: 0 })
+  totalVoteDownCount: number;
 }
 
 const commentValueDefault = {
   totalVoteCount: 0,
+  totalVoteDownCount: 0,
 };
 
 @Schema()

@@ -27,8 +27,8 @@ export default class TopicList extends Vue {
   selectedItem = 1;
   items: TopicInterface[] = [];
 
-  @Prop({ default: false })
-  getTopic = false;
+  // @Prop({ default: false })
+  getTopicList = false;
 
   sideMenuList(): TopicInterface[] {
     return [
@@ -79,7 +79,7 @@ export default class TopicList extends Vue {
   }
 
   async mounted() {
-    if (this.getTopic) {
+    if (this.getTopicList) {
       this.items = await TopicApiService.getTopics();
     } else {
       this.items = this.sideMenuList();
