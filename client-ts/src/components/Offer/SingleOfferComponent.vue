@@ -31,7 +31,10 @@ export default class SingleOfferComponent extends Vue {
     SocketOn("denyCall", (payload) => {
       console.log("call-denied", payload);
     });
-    SocketOn("acceptCall", (payload) => {
+    // SocketOn("acceptCall", (payload) => {
+    //   console.log("call-accepted", payload);
+    // });
+    SocketOn("callAccepted", (payload) => {
       console.log("call-accepted", payload);
     });
   }
