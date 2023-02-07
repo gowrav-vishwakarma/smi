@@ -18,6 +18,18 @@ class QuestionValue {
   totalCommentsCount!: number;
 }
 
+class ByUser {
+  languagesSpeaks!: string[];
+  name!: string;
+  reputationAsQuestioner!: any;
+  // {
+  //   totalQuestionsAsked: 0;
+  //   totalMarkedSolved: 0;
+  //   totalRatingsCount: 0;
+  //   totalRatingsSum: 0;
+  // };
+  _id!: string;
+}
 export default class QuestionDetailResponseDTO {
   _id!: string;
 
@@ -48,4 +60,6 @@ export default class QuestionDetailResponseDTO {
   votes!: Votes[];
 
   offers!: undefined[];
+
+  byUser!: ByUser;
 }

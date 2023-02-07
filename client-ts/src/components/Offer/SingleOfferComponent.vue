@@ -2,7 +2,7 @@
     v-alert(border="left" icon="mdi-fire" dense text type="success" colored-border color="deep-purple accent-4" elevation="2")
         .d-flex.justify-space-between
             | {{offer.Offerer.name}}
-            v-icon(small @click="call") mdi-phone
+            v-icon(small @click="call" v-if="questionBelongsToMe") mdi-phone
 </template>
 
 <script lang="ts">
@@ -17,6 +17,15 @@ export default class SingleOfferComponent extends Vue {
 
   @Prop({ default: null })
   readonly question!: any;
+
+  get offerBelongsToMe() {
+    return this.offer.offererId == this.$store.getters.loggedInUser._id;
+  }
+
+  //toMe here logged in user
+  get questionBelongsToMe() {
+    return this.offer.questionerId == this.$store.getters.loggedInUser._id;
+  }
 
   mounted() {
     SocketOn("denyCall", (payload) => {

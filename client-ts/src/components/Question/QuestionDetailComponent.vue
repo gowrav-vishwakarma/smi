@@ -3,7 +3,8 @@
     v-row.no-gutter
       //- offer section
       v-col.col-md-3.col-sm-12.col-xs-12
-        create-offer-component(:question="question")
+        create-offer-component(:question="question" v-if="!isQuestionBelongsToLoginUser")
+        div(v-else) Your Offered Solution by others
         question-offer-list.mt-3(:question="question")
       //- question section
       v-col.col-md-9.col-sm-12.col-xs-12
@@ -50,5 +51,9 @@ import QuestionSingle from "@/components/Question/Single.vue";
 })
 export default class QuestionDetailComponent extends Mixins(General) {
   @Prop({ required: true }) readonly question!: QuestionDetailResponseDTO;
+
+  get isQuestionBelongsToLoginUser(): boolean {
+    return this.question.byUser._id == this.$store.getters.loggedInUser._id;
+  }
 }
 </script>

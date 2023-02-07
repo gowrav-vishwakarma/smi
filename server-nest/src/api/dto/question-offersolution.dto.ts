@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsMongoId, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsMongoId,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 export class QuestionOfferSolutionDTO {
   @IsMongoId()
@@ -17,7 +23,7 @@ export class QuestionOfferSolutionDTO {
   })
   notes: string;
 
-  @IsString()
+  @IsArray()
   @ApiProperty({
     type: [],
     default: [],
