@@ -22,6 +22,9 @@ export class SolutionOffer {
   @Prop({ required: false })
   notes: string;
 
+  @Prop({ required: true })
+  solutionChannel: [];
+
   @Prop({ required: true, default: Date.now() })
   createdAt: Date;
 }

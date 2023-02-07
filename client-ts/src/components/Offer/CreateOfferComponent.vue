@@ -1,29 +1,64 @@
 <template lang="pug">
-    v-btn(color="primary" block rounded @click="createOffer" :disabled="myOffer") {{caption}}
+    v-card.pa-2
+      v-card-title Offer Your Solution
+      v-form(ref="createOfferForm" v-model="offerFormValid" @submit.prevent="createOffer")
+        v-textarea(v-model="offerFormData.offerAnswerDesc" label="Offer Answer" required outlined auto-grow rows="3" :rules="descRules")
+        div
+          v-label In which form would you be comfortable in answering the question?
+          .d-flex.justify-space-between
+            v-switch(v-model="offerFormData.solutionChannelMode" color="primary" label="Chat" value="Chat")
+            v-switch(v-model="offerFormData.solutionChannelMode" color="primary" label="Video" value="Video")
+          .d-flex
+            v-switch(v-model="offerFormData.solutionChannelMode" color="primary" label="Screen Share" value="ScreenShare")
+          //- v-alert(border="top" color="red lighten-2" dark v-if="!offerFormData.solutionChannelMode.length") | Please Select at least one mode
+        v-btn(color="primary" block rounded :disabled="myOffer" type="submit" ) {{caption}}
+        //- v-btn(color="primary" block rounded @click="createOffer" :disabled="myOffer" type="submit" ) {{caption}}
 </template>
 
 <script lang="ts">
 import questionsApi from "@/services/questions.api";
 import "reflect-metadata";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Ref } from "vue-property-decorator";
 
 @Component({
   name: "CreateOfferSolutionComponent",
 })
 export default class CreateOfferSolutionComponent extends Vue {
+  @Ref("createOfferForm") private createOfferForm!: HTMLFormElement;
+
+  descRules = [(v: string) => !!v || "Description is required"];
+
   @Prop({ default: null })
   readonly question!: any;
 
+  offerFormValid = false;
+  offerFormData = {
+    offerAnswerDesc: null,
+    solutionChannelMode: [],
+  };
+
   async createOffer() {
-    if (this.question.myOffer) {
-      alert("You have already offered your solution");
-      return;
+    // let xyz = this.createOfferForm.validate();
+    // console.log(xyz);
+    (this.createOfferForm as any).validate();
+    if (!(this.createOfferForm as any).valid) {
+      // manually set an error on the email field
     }
-    await questionsApi.createOffer(
-      this.$store.getters.loggedInUser._id,
-      this.question._id,
-      "Interested"
-    );
+
+    if ((this.createOfferForm as any).valid) {
+      if (this.question.myOffer) {
+        alert("You have already offered your solution");
+        return;
+      }
+      await questionsApi.createOffer(
+        this.$store.getters.loggedInUser._id,
+        this.question._id,
+        this.offerFormData.offerAnswerDesc
+          ? this.offerFormData.offerAnswerDesc
+          : "Interested",
+        this.offerFormData.solutionChannelMode
+      );
+    }
   }
 
   get myOffer() {

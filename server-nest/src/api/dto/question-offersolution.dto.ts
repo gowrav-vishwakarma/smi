@@ -16,4 +16,11 @@ export class QuestionOfferSolutionDTO {
     default: 'Intersted in this question',
   })
   notes: string;
+
+  @IsString()
+  @ApiProperty({
+    type: [],
+    default: [],
+  })
+  solutionChannel: [];
 }
