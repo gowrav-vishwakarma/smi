@@ -1,8 +1,24 @@
 <template lang="pug">
-    v-alert(border="left" icon="mdi-fire" dense text type="success" colored-border color="deep-purple accent-4" elevation="2")
+    v-card
+      v-alert(border="left" icon="mdi-fire" dense type="success" colored-border color="deep-purple accent-4")
         .d-flex.justify-space-between
             | {{offer.Offerer.name}}
-            v-icon(small @click="call" v-if="questionBelongsToMe") mdi-phone
+            v-icon(small @click="call" v-if="questionBelongsToMe && !offerCallConnected") mdi-phone
+            v-icon(small @click="callDisconnect" v-if="offerCallConnected") mdi-phone-cancel
+      v-card(flat v-if="offerCallConnected")
+        div
+          v-list-item(two-line)
+            v-list-item-content
+              v-list-item-title
+                v-icon mdi-signal
+                | Voice Connected
+              v-list-item-subtitle {{offer.Offerer.name}}
+        .d-flex
+          //- v-btn-toggle(group block)
+          v-btn(text style="width:50%")
+            v-icon mdi-video-box
+          v-btn(text style="width:50%")
+            v-icon mdi-monitor-share
 </template>
 
 <script lang="ts">
@@ -27,15 +43,36 @@ export default class SingleOfferComponent extends Vue {
     return this.offer.questionerId == this.$store.getters.loggedInUser._id;
   }
 
+  offerCallConnected = false;
+
+  callRingingToastId!: any;
+
   mounted() {
     SocketOn("denyCall", (payload) => {
+      this.$vToastify.removeToast();
       console.log("call-denied", payload);
     });
     // SocketOn("acceptCall", (payload) => {
     //   console.log("call-accepted", payload);
     // });
     SocketOn("callAccepted", (payload) => {
-      console.log("call-accepted", payload);
+      if (
+        payload.offerId == this.offer._id &&
+        payload.questionId == this.question._id &&
+        this.questionBelongsToMe
+      ) {
+        // console.log("this.callRingingToastId", this.callRingingToastId);
+        // this.$vToastify.removeToast(this.callRingingToastId);
+        //todo remove specific toast based on id
+        // temp removing all toast
+        this.$vToastify.removeToast();
+        this.offerCallConnected = true;
+      }
+    });
+
+    SocketOn("callDisconnected", (payload) => {
+      this.$vToastify.removeToast();
+      console.log("callDisconnected", payload);
     });
   }
 
@@ -49,12 +86,34 @@ export default class SingleOfferComponent extends Vue {
       .then((hangup: boolean) => {
         console.log(hangup);
       });
+
     SocketEmit("initiateCall", {
       to: this.offer.Offerer._id,
       from: this.$store.getters.loggedInUser,
       offerer: this.offer.Offerer,
       questionId: this.question._id,
       questionTitle: this.question.title,
+      offerId: this.offer._id,
+      eventDetail: {
+        name: "OfferInitiateCall",
+        for: "Offer",
+      },
+    });
+  }
+
+  callDisconnect() {
+    this.offerCallConnected = false;
+    SocketEmit("disconnectCall", {
+      to: this.offer.Offerer._id,
+      from: this.$store.getters.loggedInUser,
+      offerer: this.offer.Offerer,
+      questionId: this.question._id,
+      questionTitle: this.question.title,
+      offerId: this.offer._id,
+      eventDetail: {
+        name: "OfferDisconnectCall",
+        for: "Offer",
+      },
     });
   }
 }

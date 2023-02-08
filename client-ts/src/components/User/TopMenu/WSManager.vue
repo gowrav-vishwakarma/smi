@@ -42,7 +42,7 @@ export default class WSManager extends Vue {
     // });
 
     SocketOn("ringing", (payload) => {
-      // console.log("call-received", payload);
+      console.log("call-receive", payload);
       this.$vToastify
         .prompt({
           title: `${payload.offerer.name} calling`,
@@ -50,11 +50,18 @@ export default class WSManager extends Vue {
           answers: { Accept: true, Denied: false },
         })
         .then(async (callAccept: boolean) => {
-          const newPayload = {
-            to: payload.from,
-            from: payload.to,
-            callAccept,
-          };
+          // let newFrom = Object.assign({}, payload.from);
+          let newPayload = Object.assign({}, payload);
+
+          newPayload.to = payload.from._id;
+          newPayload.from = payload.to;
+          newPayload.callAccept = callAccept;
+          // newFrom._id = payload.to;
+          // const newPayload = {
+          //   to: payload.from._id,
+          //   from:payload.to,
+          //   callAccept,
+          // };
           if (callAccept) {
             const { solutionOfferId } =
               await solutionsApi.createSolutionAttempt({
@@ -72,6 +79,9 @@ export default class WSManager extends Vue {
         });
     });
 
+    SocketOn("callAccepted", (payload) => {
+      console.log("payload Call Accepted client side at ws manager", payload);
+    });
     // socket.on("call-received", ({ from, content }) => {
     //   if (this.$store.getters.onlineStatus === "busy") {
     //     this.sendBusy();

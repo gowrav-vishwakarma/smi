@@ -24,6 +24,9 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection {
   handleConnection(@ConnectedSocket() client: Socket): void {
     this.logger.log(`WS Client connected: ${client.id}`);
     client.join(client.handshake.auth.username);
+    this.logger.log(
+      `WS Client connected username: ${client.handshake.auth.username}`,
+    );
     client.emit('session', {
       username: client.handshake.auth.username,
     });
@@ -42,7 +45,16 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection {
     @ConnectedSocket() client: Socket,
     @MessageBody() payload: any,
   ): void {
+    console.log('server Call Accepted');
     this.server.to(payload.to).emit('callAccepted', payload);
+  }
+
+  @SubscribeMessage('disconnectCall')
+  handleDisconnectCall(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    this.server.to(payload.to).emit('callDisconnected', payload);
   }
 
   @SubscribeMessage('denyCall')
