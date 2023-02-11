@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/webpack-env": "^1.18.0",
     "axios": "^0.27.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",

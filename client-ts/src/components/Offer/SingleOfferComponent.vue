@@ -19,15 +19,25 @@
             v-icon mdi-video-box
           v-btn(text style="width:50%")
             v-icon mdi-monitor-share
+      div.extra-component
+        div.call-dial-ringing
+          audio(ref="callDialPlayer" loop)
+            source(src="@/assets/audio/callDialTone.mp3" type="audio/mpeg")
+        div.call-receive-ringing
+          audio(ref="callRingingPlayer" loop)
+            source(src="@/assets/audio/callRingingTone.mp3" type="audio/mpeg")
 </template>
 
 <script lang="ts">
 import { SocketEmit, SocketOn } from "@/services/socket";
 import "reflect-metadata";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Ref } from "vue-property-decorator";
 
 @Component
 export default class SingleOfferComponent extends Vue {
+  @Ref() callRingingPlayer!: HTMLAudioElement;
+  @Ref() callDialPlayer!: HTMLAudioElement;
+
   @Prop({ default: null })
   readonly offer!: any;
 
@@ -49,34 +59,40 @@ export default class SingleOfferComponent extends Vue {
 
   mounted() {
     SocketOn("denyCall", (payload) => {
-      this.$vToastify.removeToast();
+      this.callReset();
       console.log("call-denied", payload);
     });
-    // SocketOn("acceptCall", (payload) => {
-    //   console.log("call-accepted", payload);
-    // });
+
     SocketOn("callAccepted", (payload) => {
       if (
         payload.offerId == this.offer._id &&
         payload.questionId == this.question._id &&
-        this.questionBelongsToMe
+        (this.questionBelongsToMe || this.offerBelongsToMe)
       ) {
         // console.log("this.callRingingToastId", this.callRingingToastId);
         // this.$vToastify.removeToast(this.callRingingToastId);
         //todo remove specific toast based on id
         // temp removing all toast
-        this.$vToastify.removeToast();
+        this.callReset();
         this.offerCallConnected = true;
       }
     });
 
     SocketOn("callDisconnected", (payload) => {
-      this.$vToastify.removeToast();
+      this.callReset();
       console.log("callDisconnected", payload);
     });
   }
 
+  callReset() {
+    this.$vToastify.removeToast();
+    // this.callRingingPlayer.pause();
+    // this.callDialPlayer.pause();
+  }
+
   call() {
+    // this.callRingingPlayer.play();
+
     this.$vToastify
       .prompt({
         title: `calling ${this.offer.Offerer.name}`,
@@ -102,9 +118,12 @@ export default class SingleOfferComponent extends Vue {
   }
 
   callDisconnect() {
+    this.callReset();
     this.offerCallConnected = false;
     SocketEmit("disconnectCall", {
-      to: this.offer.Offerer._id,
+      to: this.offerBelongsToMe
+        ? this.$store.getters.loggedInUser
+        : this.offer.Offerer._id,
       from: this.$store.getters.loggedInUser,
       offerer: this.offer.Offerer,
       questionId: this.question._id,
