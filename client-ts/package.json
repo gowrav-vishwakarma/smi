@@ -34,6 +34,7 @@
     "webrtc-adapter": "^8.2.0"
   },
   "devDependencies": {
+    "@types/simple-peer": "^9.11.5",
     "@types/string": "0.0.31",
     "@types/vue2-editor": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",

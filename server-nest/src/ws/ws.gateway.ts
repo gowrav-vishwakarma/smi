@@ -104,4 +104,13 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection {
     console.log('RtcDisconnect', payload);
     this.server.to(payload.to).emit('RtcDisconnect', client.id, payload);
   }
+
+  @SubscribeMessage('RtcStream')
+  handleRtcStreamData(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    console.log('RtcStream', payload);
+    // this.server.to(payload.to).emit('RtcDisconnect', client.id, payload);
+  }
 }

@@ -5,6 +5,7 @@
         | Destination
         video(ref="remoteVideo" autoplay style="width:100%")
         v-btn(@click="start") Start
+        v-btn(@click="createDataChannel") Start with data channle
         v-btn(@click="disconnect") disconnect
         //- v-btn(@click="hangup") disconnect
 </template>
@@ -12,8 +13,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Ref } from "vue-property-decorator";
 import { SocketEmit, SocketOn } from "@/services/socket";
-// import SimplePeer from "simple-peer";
-import adapter from "webrtc-adapter";
+import SimplePeer from "simple-peer";
+// import adapter from "webrtc-adapter";
 
 @Component({
   name: "videocall",
@@ -29,11 +30,19 @@ export default class MulticorderVideoCall extends Vue {
   @Prop({ default: null })
   readonly question!: any;
 
-  localStream!: MediaStream | null;
-  remoteStream!: MediaStream | null;
+  localStream!: MediaStream | undefined;
+  remoteStream!: MediaStream | undefined;
   localPeerConnection!: RTCPeerConnection | null;
   remotePeerConnection!: RTCPeerConnection | null;
   otherId: any = "";
+
+  configuration = {
+    iceServers: [
+      {
+        urls: "stun:stun.l.google.com:19302",
+      },
+    ],
+  };
 
   mounted() {
     SocketOn("videocallstream", (payload) => {
@@ -42,7 +51,7 @@ export default class MulticorderVideoCall extends Vue {
 
     SocketOn("RtcOffer", (payload) => {
       console.log("RTC Offer receive", payload);
-      this.remotePeerConnection = new RTCPeerConnection();
+      this.remotePeerConnection = new RTCPeerConnection(this.configuration);
       if (this.remotePeerConnection) {
         this.remotePeerConnection
           .setRemoteDescription(
@@ -107,8 +116,16 @@ export default class MulticorderVideoCall extends Vue {
 
     //calling
     // create local peerconnection
-    this.localPeerConnection = new RTCPeerConnection();
+    this.localPeerConnection = new RTCPeerConnection(this.configuration);
 
+    this.localPeerConnection.onicecandidate = (event) => {
+      console.log("onicecandidate", event);
+
+      if (event.candidate) {
+        console.log("onicecandidate", event);
+        // send the ice candidate to the other peer
+      }
+    };
     this.localPeerConnection.ontrack = (event) => {
       console.log("hello ontrack ...");
       this.remoteStream = event.streams[0];
@@ -153,25 +170,54 @@ export default class MulticorderVideoCall extends Vue {
   createDataChannel() {
     console.log("createDataChannel");
 
-    this.localPeerConnection!.ondatachannel = (event) => {
-      let receivedDataChannel = event.channel;
-      receivedDataChannel.onopen = () => {
-        console.log("Data channel opened");
-        receivedDataChannel.send("Hello from the other side!");
-      };
-    };
+    // this.localPeerConnection!.ondatachannel = (event) => {
+    //   let receivedDataChannel = event.channel;
+    //   receivedDataChannel.onopen = () => {
+    //     console.log("Data channel opened");
+    //     receivedDataChannel.send("Hello from the other side!");
+    //   };
+    // };
 
-    const dataChannel =
-      this.localPeerConnection!.createDataChannel("myDataChannel");
-    console.log(dataChannel);
-    dataChannel.onmessage = (event) => {
-      console.log("Data channel message received: ", event.data);
-    };
+    // const dataChannel =
+    //   this.localPeerConnection!.createDataChannel("myDataChannel");
+    // console.log(dataChannel);
+    // dataChannel.onmessage = (event) => {
+    //   console.log("Data channel message received: ", event.data);
+    // };
 
-    dataChannel.onopen = () => {
-      console.log("Data channel opened");
-      dataChannel.send("Hello from the other side!");
-    };
+    // dataChannel.onopen = () => {
+    //   console.log("Data channel opened");
+    //   dataChannel.send("Hello from the other side!");
+    // };
+
+    var localpeer = new SimplePeer({
+      initiator: true,
+      stream: this.localStream,
+    });
+    var remotePeer = new SimplePeer();
+
+    console.log("both peer created");
+    localpeer.on("signal", (data) => {
+      remotePeer.signal(data);
+      console.log("local peer signal", data);
+    });
+
+    remotePeer.on("signal", (data) => {
+      localpeer.signal(data);
+      console.log("remote peer signal", data);
+    });
+
+    remotePeer.on("stream", (stream) => {
+      // got remote video stream, now let's show it in a video tag
+      console.log("remote stream", stream);
+      if (this.remoteVideo) {
+        this.remoteVideo.srcObject = stream;
+        SocketEmit("RtcStream", stream);
+      }
+      // this.remoteVideo.src = window.URL.createObjectURL(stream); // for older browsers
+
+      this.remoteVideo.play();
+    });
   }
 }
 </script>
