@@ -5,6 +5,8 @@
             | {{offer.Offerer.name}}
             v-icon(small @click="call" v-if="questionBelongsToMe && !offerCallConnected") mdi-phone
             v-icon(small @click="callDisconnect" v-if="offerCallConnected") mdi-phone-cancel
+      
+      videocall(:offer="offer" :question="question")
       v-card(flat v-if="offerCallConnected")
         div
           v-list-item(two-line)
@@ -13,6 +15,7 @@
                 v-icon mdi-signal
                 | Voice Connected
               v-list-item-subtitle {{offer.Offerer.name}}
+        MulticorderUI( ref="MulticoderUI" @recorderOndataavailable="recorderOndataavailable" @delete-recording="deleteRecording" )
         .d-flex
           //- v-btn-toggle(group block)
           v-btn(text style="width:50%")
@@ -32,8 +35,16 @@
 import { SocketEmit, SocketOn } from "@/services/socket";
 import "reflect-metadata";
 import { Component, Prop, Vue, Ref } from "vue-property-decorator";
+import MulticorderUI from "@/components/Multicorder/MulticorderUI.vue";
+import videocall from "@/components/Multicorder/videocall.vue";
 
-@Component
+@Component({
+  name: "SingleOfferComponent",
+  components: {
+    MulticorderUI,
+    videocall,
+  },
+})
 export default class SingleOfferComponent extends Vue {
   @Ref() callRingingPlayer!: HTMLAudioElement;
   @Ref() callDialPlayer!: HTMLAudioElement;
@@ -43,6 +54,17 @@ export default class SingleOfferComponent extends Vue {
 
   @Prop({ default: null })
   readonly question!: any;
+
+  blob = null;
+
+  recorderOndataavailable(blob: any) {
+    this.blob = blob;
+    console.log("recorded data blob", blob);
+  }
+
+  deleteRecording(index: number) {
+    if (index === 0) this.blob = null;
+  }
 
   get offerBelongsToMe() {
     return this.offer.offererId == this.$store.getters.loggedInUser._id;

@@ -66,4 +66,42 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection {
   ): void {
     this.server.to(payload.to).emit('callDenied', payload);
   }
+
+  @SubscribeMessage('RtcOffer')
+  handleRtcOffer(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    console.log('RtcOffer', payload);
+    payload.connectionId = client.id;
+    this.server.to(payload.to).emit('RtcOffer', payload);
+  }
+
+  @SubscribeMessage('RtcAnswer')
+  handleRtcAnswerData(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    payload.connectionId = client.id;
+    console.log('RTC Answer', payload);
+    this.server.to(payload.to).emit('RtcAnswer', payload);
+  }
+
+  @SubscribeMessage('RtcCandidate')
+  handleRtcCandidateData(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    console.log('Rtccandidate', payload);
+    this.server.to(payload.to).emit('RtcCandidate', client.id, payload);
+  }
+
+  @SubscribeMessage('RtcDisconnect')
+  handleRtcDisconnectData(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() payload: any,
+  ): void {
+    console.log('RtcDisconnect', payload);
+    this.server.to(payload.to).emit('RtcDisconnect', client.id, payload);
+  }
 }
