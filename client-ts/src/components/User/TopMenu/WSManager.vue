@@ -75,23 +75,16 @@ export default class WSManager extends Vue {
           newPayload.to = payload.from._id;
           newPayload.from = payload.to;
           newPayload.callAccept = callAccept;
-          // newFrom._id = payload.to;
-          // const newPayload = {
-          //   to: payload.from._id,
-          //   from:payload.to,
-          //   callAccept,
-          // };
           if (callAccept) {
-            const { solutionOfferId } =
-              await solutionsApi.createSolutionAttempt({
-                questionId: payload.questionId,
-                questionerId: payload.from._id,
-                offererId: payload.to,
-              });
-            SocketEmit("acceptCall", {
-              ...newPayload,
-              solutionOfferId: solutionOfferId,
+            const solutionOffer = await solutionsApi.createSolutionAttempt({
+              questionId: payload.questionId,
+              questionerId: payload.from._id,
+              offererId: payload.to,
             });
+
+            newPayload.solutionOfferId = solutionOffer._id;
+            console.log("newPayload", newPayload);
+            SocketEmit("acceptCall", newPayload);
           } else {
             SocketEmit("denyCall", newPayload);
           }

@@ -35,6 +35,11 @@ const routes: Array<RouteConfig> = [
     name: "my-profile",
     component: () => import("../views/MyProfileView.vue"),
   },
+  {
+    path: "/solution-attempt/:solutionId",
+    name: "solution-attempt",
+    component: () => import("../views/SolutionAttempt.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -45,7 +45,7 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection {
     @ConnectedSocket() client: Socket,
     @MessageBody() payload: any,
   ): void {
-    console.log('server Call Accepted');
+    console.log('server Call Accepted', payload);
     this.server.to(payload.to).emit('callAccepted', payload);
     // todo remove this emit to who accepted the call todo manage at client side
     this.server.to(payload.from).emit('callAccepted', payload);

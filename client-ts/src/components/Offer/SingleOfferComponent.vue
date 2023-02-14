@@ -6,7 +6,7 @@
             v-icon(small @click="call" v-if="questionBelongsToMe && !offerCallConnected") mdi-phone
             v-icon(small @click="callDisconnect" v-if="offerCallConnected") mdi-phone-cancel
       
-      videocall(:offer="offer" :question="question")
+      //- videocall(:offer="offer" :question="question")
       v-card(flat v-if="offerCallConnected")
         div
           v-list-item(two-line)
@@ -15,7 +15,7 @@
                 v-icon mdi-signal
                 | Voice Connected
               v-list-item-subtitle {{offer.Offerer.name}}
-        MulticorderUI( ref="MulticoderUI" @recorderOndataavailable="recorderOndataavailable" @delete-recording="deleteRecording" )
+        //- MulticorderUI( ref="MulticoderUI" @recorderOndataavailable="recorderOndataavailable" @delete-recording="deleteRecording" )
         .d-flex
           //- v-btn-toggle(group block)
           v-btn(text style="width:50%")
@@ -35,14 +35,14 @@
 import { SocketEmit, SocketOn } from "@/services/socket";
 import "reflect-metadata";
 import { Component, Prop, Vue, Ref } from "vue-property-decorator";
-import MulticorderUI from "@/components/Multicorder/MulticorderUI.vue";
-import videocall from "@/components/Multicorder/videocall.vue";
+// import MulticorderUI from "@/components/Multicorder/MulticorderUI.vue";
+// import videocall from "@/components/Multicorder/videocall.vue";
 
 @Component({
   name: "SingleOfferComponent",
   components: {
-    MulticorderUI,
-    videocall,
+    // MulticorderUI,
+    // videocall,
   },
 })
 export default class SingleOfferComponent extends Vue {
@@ -86,6 +86,7 @@ export default class SingleOfferComponent extends Vue {
     });
 
     SocketOn("callAccepted", (payload) => {
+      console.log("callAccepted at single offer component", payload);
       if (
         payload.offerId == this.offer._id &&
         payload.questionId == this.question._id &&
@@ -97,6 +98,7 @@ export default class SingleOfferComponent extends Vue {
         // temp removing all toast
         this.callReset();
         this.offerCallConnected = true;
+        this.$router.push("/solution-attempt/" + payload.solutionOfferId);
       }
     });
 
