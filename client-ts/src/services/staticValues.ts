@@ -446,3 +446,20 @@ export const languages = [
   "Yoruba",
   "Zhuang, Chuang",
 ];
+
+export const skills = [
+  "Accounting",
+  "Advertising",
+  "Aerospace",
+  "Agriculture",
+  "Architecture",
+  "Banking",
+  "Technology",
+  "Other",
+  "Utilities",
+  "UX Design",
+  "UI Design",
+  "Product Design",
+  "Research",
+  "Programming",
+];

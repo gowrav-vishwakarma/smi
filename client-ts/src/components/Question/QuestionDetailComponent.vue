@@ -53,7 +53,10 @@ export default class QuestionDetailComponent extends Mixins(General) {
   @Prop({ required: true }) readonly question!: QuestionDetailResponseDTO;
 
   get isQuestionBelongsToLoginUser(): boolean {
-    return this.question.byUser._id == this.$store.getters.loggedInUser._id;
+    return this.$store.getters.loggedInUser &&
+      this.$store.getters.loggedInUser._id
+      ? this.question.byUser._id == this.$store.getters.loggedInUser._id
+      : false;
   }
 }
 </script>

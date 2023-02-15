@@ -67,12 +67,16 @@ export default class SingleOfferComponent extends Vue {
   }
 
   get offerBelongsToMe() {
-    return this.offer.offererId == this.$store.getters.loggedInUser._id;
+    return this.$store.getters.loggedInUser
+      ? this.offer.offererId == this.$store.getters.loggedInUser._id
+      : false;
   }
 
   //toMe here logged in user
   get questionBelongsToMe() {
-    return this.offer.questionerId == this.$store.getters.loggedInUser._id;
+    return this.$store.getters.loggedInUser
+      ? this.offer.questionerId == this.$store.getters.loggedInUser._id
+      : false;
   }
 
   offerCallConnected = false;

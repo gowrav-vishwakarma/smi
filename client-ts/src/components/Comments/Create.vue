@@ -1,10 +1,11 @@
 <template lang="pug">
-    v-card.d-flex.flex-column(flat tile)
-        v-card-text Your answer/comment
-          vue-editor.mt-2(v-model="comment")
-        v-card-actions.pl-3.pr-3
-          v-btn(block @click="submitComment" color="primary") Submit Answer
-    //- <v-btn v-if="!userData" @click="goToLog">Login to Answer</v-btn>
+    div
+      v-card.d-flex.flex-column(flat tile)
+          v-card-text Your answer/comment
+            vue-editor.mt-2(v-model="comment")
+          v-card-actions.pl-3.pr-3
+            v-btn(block v-if="this.$store.getters.loggedInUser" @click="submitComment" color="primary") Submit Answer
+            v-btn(v-else block color="secondary" to="/login" ) Login to Answer
 </template>
 
 <script lang="ts">

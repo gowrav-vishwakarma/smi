@@ -29,7 +29,7 @@ export default class AuthDialog extends Vue {
     // this.showDialog = !n;
   }
   mounted() {
-    console.log("showDialog");
+    console.log("auth showDialog");
   }
 }
 </script>

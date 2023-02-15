@@ -29,11 +29,11 @@ import SettingsComponent from "@/components/User/Settings.vue";
 export default class MyProfileView extends Vue {
   tab = 0;
   availableTabs = {
+    Profile: "Profile",
     Questions: "My Questions",
     Offers: "My Offers",
     Comments: " MyComments",
     Settings: "Settings",
-    // Profile: "Profile",
   };
 }
 </script>
