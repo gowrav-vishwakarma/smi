@@ -6,9 +6,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins, Prop, Vue, Ref } from "vue-property-decorator";
+import { Component, Mixins, Ref } from "vue-property-decorator";
 import { General } from "@/mixins/general";
-import { JitsiMeet } from "@mycure/vue-jitsi-meet";
+// import { JitsiMeet } from "@mycure/vue-jitsi-meet";
+
+import JitsiMeet from "@/components/Multicorder/JitsiMeet.vue";
 
 @Component({
   name: "SolutionAttempt",
@@ -17,7 +19,8 @@ import { JitsiMeet } from "@mycure/vue-jitsi-meet";
   },
 })
 export default class SolutionAttempt extends Mixins(General) {
-  @Ref("jitsiRef") private jitsiRefComponent: HTMLIFrameElement;
+  // eslint-disable-next-line
+  @Ref("jitsiRef") private jitsiRefComponent!: HTMLIFrameElement;
 
   get jitsiOptions() {
     return {
@@ -68,7 +71,6 @@ export default class SolutionAttempt extends Mixins(General) {
         ],
       },
       onload: this.onIFrameLoad,
-      videoconferenceterminated: this.onVideoConferenceLeft,
     };
   }
 
@@ -80,7 +82,7 @@ export default class SolutionAttempt extends Mixins(General) {
     // );
   }
 
-  onIFrameLoad(event) {
+  onIFrameLoad(event: any) {
     console.log("callbackevent on iframe loaded callback function ", event);
     this.jitsiRefComponent.addEventListener(
       "participantJoined",
@@ -96,7 +98,7 @@ export default class SolutionAttempt extends Mixins(General) {
     );
   }
 
-  onParticipantLeft(event) {
+  onParticipantLeft(event: any) {
     alert("hello");
     console.log("callbackevent onParticipant Left roomName", event);
     this.$router.push("/");
