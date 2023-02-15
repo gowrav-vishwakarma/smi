@@ -12,7 +12,7 @@ import { WsGateway } from './ws/ws.gateway';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/nest'),
+    MongooseModule.forRoot(process.env.DATABASE),
     AuthModule,
     ApiModule,
   ],
