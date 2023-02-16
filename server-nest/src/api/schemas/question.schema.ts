@@ -22,6 +22,8 @@ class questionValue {
   totalVoteDownCount: number;
   @Prop({ required: true, default: 0 })
   totalCommentsCount: number;
+  @Prop({ required: true, default: 0 })
+  totalSolutionAttemptsCount: number;
 }
 
 const questionValueDefault = {
@@ -29,6 +31,7 @@ const questionValueDefault = {
   totalVoteCount: 0,
   totalVoteDownCount: 0,
   totalCommentsCount: 0,
+  totalSolutionAttemptsCount: 0,
 };
 
 // defines questions possible solutions channels

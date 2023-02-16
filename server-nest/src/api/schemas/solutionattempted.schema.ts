@@ -15,11 +15,17 @@ export class SolutionAttempted {
   @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   questionId: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   questionerId: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  questioner: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
   offererId: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  offerer: string;
 
   @Prop({ required: false })
   notes: string;

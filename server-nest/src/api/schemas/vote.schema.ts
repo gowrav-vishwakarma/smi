@@ -11,23 +11,29 @@ export class Vote {
   @Prop({ required: true, default: 1 })
   vote: number;
 
+  @Prop()
+  remark: string;
+
   @Prop({ required: true, default: Date.now() })
   createdAt: Date;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  createdBy: User;
+
+  //for comment id
+  @Prop({ type: mongoose.Schema.Types.ObjectId })
   commentId: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  // for question id
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Question',
+  })
   questionId: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Question' })
-  question: Question;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
-  userId: string;
-
+  // for user id
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  user: User;
+  userId: string;
 }
 
 export const VoteSchema = SchemaFactory.createForClass(Vote);
