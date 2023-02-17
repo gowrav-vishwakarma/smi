@@ -23,8 +23,8 @@ export class UsersService {
     }
   }
 
-  async getUser(userId: string): Promise<UserDocument> {
-    return await this.userModel.findById(userId);
+  async getUser(userId: string, excludeFields: {} = {}): Promise<UserDocument> {
+    return await this.userModel.findById(userId, excludeFields);
   }
 
   async findUserByUsername(username: string): Promise<UserDocument> {

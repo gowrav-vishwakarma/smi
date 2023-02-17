@@ -9,30 +9,48 @@
               v-icon(dark) mdi-pencil
       v-row
         v-col(cols="8")
-          v-card(flat)
-            v-card-title Rakesh 
-              v-btn(small text)
-                v-icon(color="red") mdi-map-marker
-                | Ahmedabad
-            v-card-subtitle
-              .d-flex
-                span.text-subtitle-1 Ux-Designer &  Current working  
-                span.text-subtitle-1.ml-4 
-                  small . Full Time
-              v-divider
-              .d-flex.mt-2
-                div 845 Followers
-                div.ml-4(style="width:10px;")
-                  v-divider(vertical)
-                div 500 + connection
-
+          div
+            v-card(flat)
+              v-btn(small icon rounted @click="editProfile=true")
+                v-icon mdi-pencil
+              v-card-title {{this.profile.name}} 
+                v-btn(small text)
+                  v-icon(color="red") mdi-map-marker
+                  | {{this.profile.city}} {{this.profile.state}} {{this.profile.country}}
+              v-card-subtitle
+                .d-flex
+                  span.text-subtitle-1 {{this.profile.post}}  
+                  span.text-subtitle-1.ml-4 
+                    small . {{this.profile.jobType}}
+                v-divider
+                .d-flex.mt-2
+                  div(v-if="this.profile.asFollowers") {{this.profile.asFollowers.totalFollowers}} Followers
+                  div.ml-4(style="width:10px;")
+                    v-divider(vertical)
+                  div(v-if="this.profile.asFollowing") {{this.profile.asFollowing.totalFollowing}}  Connections
+            v-dialog.editing-dialog(v-model="editProfile" persistent)
+              v-edit-dialog(:open.sync="editProfile" @save="saveProfile" @cancel="cancelProfile")
+                v-card
+                  v-card-title Edit Profile
+                  v-card-text
+                    v-form
+                      v-text-field(v-model="profile.name" label="name")
+                      v-text-field(v-model="profile.city" label="city")
+                      v-text-field(v-model="profile.state" label="state")
+                      v-text-field(v-model="profile.country" label="country")
+                      v-text-field(v-model="profile.post" label="post")
+                      v-text-field(v-model="profile.jobType" label="jobType")
+                  v-card-actions
+                    v-spacer
+                    v-btn(@click="editProfile = false") Cancel
+                    v-btn(color="primary" @click="saveProfile") Save
           v-container
             v-form(ref="userSkillForm")
               .d-flex
               h5.mb-2(class="text-h5 font-weight-regular ") Top Skills
                 v-btn.ml-4(icon color="primary")
                   v-icon mdi-pencil  
-              v-combobox( v-model="userSkills" :items="skillList" label="" multiple chips filled)
+              v-combobox( v-model="profile.skills" :items="skillList" label="" multiple chips filled)
             .userExperienceContainer
             v-form(ref="userExperienceForm")
               .d-flex
@@ -40,7 +58,7 @@
                 v-btn.ml-4(icon color="primary")
                   v-icon mdi-plus
             div.mt-4
-              v-card.mb-4(v-for="(experience, index) in userExperienceList" :key="index")
+              v-card.mb-4(v-for="(experience, index) in profile.experiences" :key="index")
                 v-list-item.ma-0(three-line)
                   v-list-item-content
                     v-list-item-title  {{experience.companyName}}
@@ -60,67 +78,49 @@
                 v-divider
 
         v-col(cols="4")
-          v-card
+          v-card.mt-4
             v-card-title Todo Rating as Questioner
-          v-card
+          v-card.mt-4
             v-card-title Todo Rating as Answer
-          v-card(class="mx-auto")
-            //- v-img(src="https://cdn.vuetifyjs.com/images/lists/ali.png", height="300px", dark)
-              v-row(class="fill-height")
-                v-card-title
-                  v-btn(dark, icon)
-                    v-icon mdi-chevron-left
-                  v-spacer
-                  v-btn(dark, icon, class="mr-4")
-                    v-icon mdi-pencil
-                  v-btn(dark, icon)
-                    v-icon mdi-dots-vertical
-                v-spacer
-                v-card-title.white--text.pl-12.pt-12
-                  div.text-h4.pl-12.pt-12 Ali Conners
-            v-list(two-line)
+          v-card.mt-4
+            v-list
               v-list-item
                 v-list-item-icon
-                  v-icon(color="indigo") mdi-phone
+                  v-icon(color="indigo" small) mdi-phone
                 v-list-item-content
-                  v-list-item-title (650) 555-1234
-                  v-list-item-subtitle Mobile
-                v-list-item-icon
-                  v-icon mdi-message-text
-              v-list-item
-                v-list-item-action
-                v-list-item-content
-                  v-list-item-title (323) 555-6789
-                  v-list-item-subtitle Work
+                  v-list-item-title {{profile.contactNo}}
+                  v-list-item-subtitle contactNo
                 v-list-item-icon
                   v-icon mdi-message-text
               v-divider(inset)
               v-list-item
                 v-list-item-icon
-                  v-icon(color="indigo") mdi-email
+                  v-icon(color="indigo" small) mdi-email
                 v-list-item-content
-                  v-list-item-title aliconnors@example.com
-                  v-list-item-subtitle Personal
-              v-list-item
-                v-list-item-action
-                v-list-item-content
-                  v-list-item-title ali_connors@example.com
-                  v-list-item-subtitle Work
-              v-divider(inset)
-              v-list-item
-                v-list-item-icon
-                  v-icon(color="indigo") mdi-map-marker
-                v-list-item-content
-                  v-list-item-title 1400 Main Street
-                  v-list-item-subtitle Orlando, FL 79938
+                  v-list-item-title {{profile.email}}
+                  v-list-item-subtitle work
+          v-card.mt-4
+            v-list
+              div(v-for="(profileId, name) in profile.socialProfile" :key="name")
+                v-list-item
+                  v-list-item-icon
+                    v-icon(color="indigo") mdi-{{name.toLowerCase()}}
+                  v-list-item-content
+                    v-list-item-title {{profileId}}
+                    v-list-item-subtitle {{name}}
+                  v-list-item-icon
+                    v-icon(small) mdi-pencil
+                v-divider(inset)
 </template>
 
 <script lang="ts">
 import { Component, Vue, Ref } from "vue-property-decorator";
 import { skills } from "@/services/staticValues";
 import userExperience from "../../dto/user/experience.dto";
+// import profileDto from "../../dto/user/profile.dto";
 // import QuestionerSignature from "@/components/User/Signature/AsQuestioner.vue";
 import UserRating from "@/components/User/Rating.vue";
+import UserApiService from "@/services/user.api";
 
 @Component({
   name: "UserProfile",
@@ -130,6 +130,8 @@ import UserRating from "@/components/User/Rating.vue";
 })
 export default class UserProfileComponent extends Vue {
   @Ref() userSkillForm!: HTMLFormElement;
+  //Editing Form
+  editProfile = false;
 
   userSkills: string[] = [];
   skillList: string[] = skills;
@@ -162,5 +164,33 @@ export default class UserProfileComponent extends Vue {
         "<p>Full Stack Developer </p> <h2>Creating all Frontend & backend</h2>",
     },
   ];
+
+  profile: object = {};
+
+  async mounted() {
+    this.profile = await UserApiService.getProfile(
+      this.$store.getters.loggedInUser._id
+    );
+
+    // if (!this.profile.hasOwnProperty("experiences")) {
+    // this.profile["experiences"] = [];
+    // }
+  }
+
+  saveProfile() {
+    console.log("save profile methods");
+    this.editProfile = false;
+  }
+
+  cancelProfile() {
+    console.log("cancel profile methods");
+    this.editProfile = false;
+  }
 }
 </script>
+
+<style>
+.v-dialog {
+  width: auto;
+}
+</style>

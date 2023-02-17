@@ -264,9 +264,10 @@ export class User {
   @Prop(
     raw({
       type: experienceType,
+      default: [],
     }),
   )
-  experiences: Record<string, any>;
+  experiences: Record<string, any> = [];
 
   @Prop({ type: [], default: [] })
   skills: String[]; //as topic data

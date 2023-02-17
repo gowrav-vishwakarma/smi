@@ -57,6 +57,14 @@ class UserAPIService extends APIService {
     });
     return response;
   }
+
+  async getProfile(id: string): Promise<any[]> {
+    const response = await this.axiosCall<any[]>({
+      method: "GET",
+      url: `/users/profile/${id}`,
+    });
+    return response;
+  }
 }
 
 export default new UserAPIService();

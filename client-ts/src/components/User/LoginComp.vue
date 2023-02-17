@@ -36,7 +36,9 @@
         </div>
       </v-form>
     </div>
-    <v-btn class="lgnbtn" @click="login"> Login </v-btn>
+    <v-btn class="lgnbtn" @click="login" block color="primary" rounded>
+      Login
+    </v-btn>
     <p>
       Not having an account ?
       <router-link class="text-decoration-none" to="/register"
@@ -124,11 +126,11 @@ export default class LoginComponent extends Vue {
   line-height: 24.2px;
   color: #777777;
 }
-.lgnbtn {
+/* .lgnbtn {
   width: 388px;
   height: 52px;
   border-radius: 12px;
   background-color: #69aefe !important;
   margin-bottom: 1rem;
-}
+} */
 </style>

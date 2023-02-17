@@ -25,6 +25,18 @@ export class UsersController {
     return user;
   }
 
+  @Get('profile/:id')
+  async getProfile(@Param('id') id: string): Promise<UserDocument> {
+    const user = await this.usersService.getUser(id, {
+      password: 0,
+      _id: 0,
+      __v: 0,
+    });
+    delete user.password;
+    delete user._id;
+    return user;
+  }
+
   @Post('update-me')
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
