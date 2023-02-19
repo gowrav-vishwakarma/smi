@@ -1,6 +1,7 @@
 import LoginDTO from "@/dto/request/login.dto";
 import RegisterUserDTO from "@/dto/request/register.dto";
 import LoginResponseDTO from "@/dto/response/login-response.dto";
+import UserProfileDTO from "@/dto/user/profile.dto";
 import QuestionDetailResponseDTO from "@/dto/response/question-detail-response.dto";
 import QuestionListResponseDTO from "@/dto/response/question-list-response.dto";
 import RegisterUserResponseDTO from "@/dto/response/register-response.dto";
@@ -58,10 +59,19 @@ class UserAPIService extends APIService {
     return response;
   }
 
-  async getProfile(id: string): Promise<any[]> {
-    const response = await this.axiosCall<any[]>({
+  async getProfile(id: string): Promise<UserProfileDTO> {
+    const response = await this.axiosCall<UserProfileDTO>({
       method: "GET",
       url: `/users/profile/${id}`,
+    });
+    return response;
+  }
+
+  async updateProfile(updateValue: any): Promise<any> {
+    const response = await this.axiosCall<any>({
+      method: "POST",
+      url: `/users/updateme`,
+      data: updateValue,
     });
     return response;
   }

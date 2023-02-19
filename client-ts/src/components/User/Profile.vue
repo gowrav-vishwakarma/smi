@@ -11,7 +11,7 @@
         v-col(cols="8")
           div
             v-card(flat)
-              v-btn(small icon rounted @click="editProfile=true")
+              v-btn(small icon rounted @click="editProfile=true, editingProfileSection='basicInfo'")
                 v-icon mdi-pencil
               v-card-title {{this.profile.name}} 
                 v-btn(small text)
@@ -132,6 +132,7 @@ export default class UserProfileComponent extends Vue {
   @Ref() userSkillForm!: HTMLFormElement;
   //Editing Form
   editProfile = false;
+  editingProfileSection: string | null = null;
 
   userSkills: string[] = [];
   skillList: string[] = skills;
@@ -165,7 +166,7 @@ export default class UserProfileComponent extends Vue {
     },
   ];
 
-  profile: object = {};
+  profile: any = {};
 
   async mounted() {
     this.profile = await UserApiService.getProfile(
@@ -173,13 +174,40 @@ export default class UserProfileComponent extends Vue {
     );
 
     // if (!this.profile.hasOwnProperty("experiences")) {
-    // this.profile["experiences"] = [];
+    this.profile["experiences"] = [];
     // }
   }
 
-  saveProfile() {
-    console.log("save profile methods");
+  async saveProfile() {
+    console.log("save profile methods", this.editingProfileSection);
     this.editProfile = false;
+
+    // let postData: any;
+    // switch (this.editingProfileSection) {
+    // case "basicInfo":
+    let postData = {
+      userId: this.$store.getters.loggedInUser._id,
+      name: this.profile.name,
+      city: this.profile.city,
+      state: this.profile.state,
+      country: this.profile.country,
+      post: this.profile.post,
+      jobType: this.profile.jobType,
+    };
+    //     break;
+    //   default:
+    //     break;
+    // }
+
+    const data = await UserApiService.updateProfile(postData).catch(
+      (err: any) => {
+        if (err.response?.status === 401) {
+          console.log("Username or password is incorrect");
+        } else {
+          console.log(err);
+        }
+      }
+    );
   }
 
   cancelProfile() {

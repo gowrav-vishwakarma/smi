@@ -30,4 +30,20 @@ export class UsersService {
   async findUserByUsername(username: string): Promise<UserDocument> {
     return await this.userModel.findOne({ username });
   }
+
+  async updateUser(updateUserDto: any): Promise<any> {
+    console.log(updateUserDto);
+    try {
+      return await this.userModel.updateOne(
+        { _id: updateUserDto.userId },
+        updateUserDto,
+      );
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new ConflictException('Username already exists');
+      } else {
+        throw error;
+      }
+    }
+  }
 }

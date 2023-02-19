@@ -37,11 +37,12 @@ export class UsersController {
     return user;
   }
 
-  @Post('update-me')
+  @Post('updateme')
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   updateUser(@Body() user: any) {
-    return 'TODO';
+    console.log('update me', user);
+    return this.usersService.updateUser(user);
   }
 }

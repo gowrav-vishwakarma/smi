@@ -274,6 +274,12 @@ export class User {
 
   @Prop(raw({ type: socialProfileType, default: socialProfileDefaults }))
   socialProfile: Record<string, any>;
+
+  @Prop({ type: String })
+  post: string;
+
+  @Prop({ type: String })
+  jobType: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

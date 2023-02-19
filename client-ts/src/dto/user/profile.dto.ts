@@ -41,6 +41,10 @@ export default class userProfile {
   skills: string[] = [];
   socialProfile!: asSocialProfile;
   name!: string;
+  city!: string;
+  state!: string;
+  post!: string;
+  jobType!: string;
   email!: string | null;
   languagesSpeaks!: string[];
   country!: string;
