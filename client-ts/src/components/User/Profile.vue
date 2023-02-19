@@ -11,9 +11,11 @@
         v-col(cols="8")
           div
             v-card(flat)
-              v-btn(small icon rounted @click="editProfile=true, editingProfileSection='basicInfo'")
+              v-btn(color="primary" small icon rounted @click="editProfile=true, editingProfileSection='basicInfo'")
                 v-icon mdi-pencil
-              v-card-title {{this.profile.name}} 
+              //- v-card-title(v-if="editProfile") 
+                //- v-text-field(v-model="profile.name" :hide-details="true" dense single-line :autofocus="true" v-if="editingProfileSection ==='basicInfo' ")
+              v-card-title {{this.profile.name}}
                 v-btn(small text)
                   v-icon(color="red") mdi-map-marker
                   | {{this.profile.city}} {{this.profile.state}} {{this.profile.country}}
@@ -31,15 +33,24 @@
             v-dialog.editing-dialog(v-model="editProfile" persistent)
               v-edit-dialog(:open.sync="editProfile" @save="saveProfile" @cancel="cancelProfile")
                 v-card
-                  v-card-title Edit Profile
+                  v-card-title Update Profile
                   v-card-text
                     v-form
-                      v-text-field(v-model="profile.name" label="name")
-                      v-text-field(v-model="profile.city" label="city")
-                      v-text-field(v-model="profile.state" label="state")
-                      v-text-field(v-model="profile.country" label="country")
-                      v-text-field(v-model="profile.post" label="post")
-                      v-text-field(v-model="profile.jobType" label="jobType")
+                      v-row
+                        v-col
+                          v-text-field(v-model="profile.name" label="name")
+                        v-col
+                          v-text-field(v-model="profile.city" label="city")
+                      v-row
+                        v-col
+                          v-text-field(v-model="profile.state" label="state")
+                        v-col
+                          v-text-field(v-model="profile.country" label="country")
+                      v-row
+                        v-col
+                          v-text-field(v-model="profile.post" label="post")
+                        v-col
+                          v-text-field(v-model="profile.jobType" label="jobType")
                   v-card-actions
                     v-spacer
                     v-btn(@click="editProfile = false") Cancel
@@ -47,17 +58,59 @@
           v-container
             v-form(ref="userSkillForm")
               .d-flex
-              h5.mb-2(class="text-h5 font-weight-regular ") Top Skills
-                v-btn.ml-4(icon color="primary")
-                  v-icon mdi-pencil  
-              v-combobox( v-model="profile.skills" :items="skillList" label="" multiple chips filled)
-            .userExperienceContainer
+                h5.mb-2(class="text-h5 font-weight-regular ") Top Skills
+                div(v-if="editingProfileSection ==='skills'")
+                  v-btn.ml-4(small rounted icon color="success" @click="saveProfile"  v-if="editingProfileSection ==='skills'")
+                    v-icon mdi-content-save
+                  v-btn.ml-4(small rounted icon color="red" @click="editingProfileSection=null,editProfile=false"  )
+                    v-icon mdi-delete
+                div(v-else)
+                  v-btn.ml-4(small rounted icon color="primary" @click="editProfile=false, editingProfileSection='skills'")
+                    v-icon mdi-pencil
+              v-combobox( v-model="profile.skills" :items="skillList" label="" multiple chips :autofocus="editingProfileSection == 'skills'?true:false"  v-if="editingProfileSection ==='skills'")
+              div(v-else)
+                v-card(flat).pa-2
+                  v-chip.ma-1(v-for="(value, index) in profile.skills" :key="index") {{value}}
+          .userExperienceContainer
             v-form(ref="userExperienceForm")
               .d-flex
                 h5.mb-2(class="text-h5 font-weight-regular ") Experience
-                v-btn.ml-4(icon color="primary")
+                v-btn.ml-4(small icon color="primary" rounted @click="editingProfileSection='experience'")
                   v-icon mdi-plus
             div.mt-4
+              v-card(v-if="editingProfileSection==='experience'" color="primary" dark)
+                  v-card-title add Experience
+                  v-card-text
+                    v-form
+                      v-row
+                        v-col
+                          v-text-field(v-model="newExperience.companyName" label="company name")
+                      v-row
+                        v-col
+                          v-text-field(v-model="newExperience.post" label="post")
+                        v-col
+                          v-text-field(v-model="newExperience.jobType" label="job type")
+                      v-row
+                        v-col
+                          v-text-field(v-model="newExperience.from" label="Joining Date")
+                        v-col
+                          v-text-field(v-model="newExperience.to" label="end Date")
+                      v-row
+                        v-col
+                          v-text-field(v-model="newExperience.city" label="city")
+                        v-col
+                          v-text-field(v-model="newExperience.state" label="state")
+                        v-col
+                          v-text-field(v-model="newExperience.country" label="country")
+                      v-row
+                        v-col
+                          v-textarea(v-model="newExperience.role" label="job Role")
+                        v-col
+                          v-textarea(v-model="newExperience.description" label="job Description")
+                  v-card-actions
+                    v-spacer
+                    v-btn(@click="editProfile = false,editingProfileSection=null") Cancel
+                    v-btn(color="success" @click="saveProfile") Save
               v-card.mb-4(v-for="(experience, index) in profile.experiences" :key="index")
                 v-list-item.ma-0(three-line)
                   v-list-item-content
@@ -100,16 +153,24 @@
                   v-list-item-title {{profile.email}}
                   v-list-item-subtitle work
           v-card.mt-4
+            v-btn.ml-4(small rounted icon color="primary" @click="editProfile=false, editingProfileSection='social'" v-if="editingProfileSection==null")
+              v-icon mdi-pencil
+            v-btn.ml-4(small rounted icon color="primary" @click="saveProfile" v-if="editingProfileSection==='social'")
+              v-icon mdi-content-save
+            v-btn.ml-4(small rounted icon color="primary" @click="editProfile=false, editingProfileSection=null" v-if="editingProfileSection==='social'")
+              v-icon mdi-delete            
             v-list
               div(v-for="(profileId, name) in profile.socialProfile" :key="name")
                 v-list-item
                   v-list-item-icon
                     v-icon(color="indigo") mdi-{{name.toLowerCase()}}
-                  v-list-item-content
+                  v-list-item-content(v-if="editingProfileSection=='social'")
+                    v-text-field(v-model="profile.socialProfile[name]" :label="name")
+                  v-list-item-content(v-else)
                     v-list-item-title {{profileId}}
                     v-list-item-subtitle {{name}}
-                  v-list-item-icon
-                    v-icon(small) mdi-pencil
+                  //- v-list-item-icon
+                  //-   v-icon(small) mdi-pencil
                 v-divider(inset)
 </template>
 
@@ -134,9 +195,20 @@ export default class UserProfileComponent extends Vue {
   editProfile = false;
   editingProfileSection: string | null = null;
 
-  userSkills: string[] = [];
   skillList: string[] = skills;
 
+  newExperience = {
+    companyName: null,
+    post: null,
+    from: null,
+    to: null,
+    city: null,
+    state: null,
+    country: null,
+    jobType: null,
+    role: null,
+    description: null,
+  };
   userExperienceList: userExperience[] = [
     {
       companyName: "Areli Commerce ",
@@ -172,9 +244,8 @@ export default class UserProfileComponent extends Vue {
     this.profile = await UserApiService.getProfile(
       this.$store.getters.loggedInUser._id
     );
-
-    // if (!this.profile.hasOwnProperty("experiences")) {
-    this.profile["experiences"] = [];
+    // if (!this.profile.experiences) {
+    //   this.profile["experiences"] = this.userExperienceList;
     // }
   }
 
@@ -182,32 +253,60 @@ export default class UserProfileComponent extends Vue {
     console.log("save profile methods", this.editingProfileSection);
     this.editProfile = false;
 
-    // let postData: any;
-    // switch (this.editingProfileSection) {
-    // case "basicInfo":
-    let postData = {
-      userId: this.$store.getters.loggedInUser._id,
-      name: this.profile.name,
-      city: this.profile.city,
-      state: this.profile.state,
-      country: this.profile.country,
-      post: this.profile.post,
-      jobType: this.profile.jobType,
-    };
-    //     break;
-    //   default:
-    //     break;
-    // }
+    let postData: any;
+    switch (this.editingProfileSection) {
+      case "basicInfo":
+        postData = {
+          userId: this.$store.getters.loggedInUser._id,
+          name: this.profile.name,
+          city: this.profile.city,
+          state: this.profile.state,
+          country: this.profile.country,
+          post: this.profile.post,
+          jobType: this.profile.jobType,
+        };
+        break;
+      case "skills":
+        postData = {
+          userId: this.$store.getters.loggedInUser._id,
+          skills: this.profile.skills,
+        };
+        break;
+      case "experience":
+        if (this.profile && !this.profile.experiences) {
+          this.profile["experiences"] = [];
+        }
+        this.profile.experiences.push(this.newExperience);
+        postData = {
+          userId: this.$store.getters.loggedInUser._id,
+          experiences: this.profile.experiences,
+        };
+        break;
 
-    const data = await UserApiService.updateProfile(postData).catch(
-      (err: any) => {
+      case "social":
+        postData = {
+          userId: this.$store.getters.loggedInUser._id,
+          socialProfile: this.profile.socialProfile,
+        };
+        break;
+
+      default:
+        break;
+    }
+
+    const data = await UserApiService.updateProfile(postData)
+      .then((res) => {
+        console.log("response after saved", res);
+      })
+      .catch((err: any) => {
         if (err.response?.status === 401) {
           console.log("Username or password is incorrect");
         } else {
           console.log(err);
         }
-      }
-    );
+      });
+
+    this.editingProfileSection = null;
   }
 
   cancelProfile() {

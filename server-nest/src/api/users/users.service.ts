@@ -32,7 +32,6 @@ export class UsersService {
   }
 
   async updateUser(updateUserDto: any): Promise<any> {
-    console.log(updateUserDto);
     try {
       return await this.userModel.updateOne(
         { _id: updateUserDto.userId },
