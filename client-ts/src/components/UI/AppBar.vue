@@ -18,7 +18,8 @@
     </div>
     <v-spacer></v-spacer>
     <v-layout>
-      <v-text-field
+      <filter-component></filter-component>
+      <!-- <v-text-field
         class="mt-1 white--text lighten-4"
         prepend-inner-icon="mdi-magnify"
         append-icon="mdi-filter-multiple"
@@ -27,7 +28,7 @@
         filled
         rounded
       >
-      </v-text-field>
+      </v-text-field> -->
       <v-chip-group v-if="$store.getters.filters">
         <v-chip
           disabled
@@ -74,12 +75,14 @@
 import { Component, Vue } from "vue-property-decorator";
 import TopMenu from "@/components/User/TopMenu/index.vue";
 import AuthDialog from "@/components/User/AuthDialog.vue";
+import FilterComponent from "@/components/Common/FilterComponent.vue";
 
 @Component({
   name: "AppBar",
   components: {
     TopMenu,
     AuthDialog,
+    FilterComponent,
   },
 })
 export default class App extends Vue {

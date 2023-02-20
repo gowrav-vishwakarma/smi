@@ -12,6 +12,7 @@ import QuestionListResponseDTO from "@/dto/response/question-list-response.dto";
 import QuestionSingle from "@/components/Question/Single.vue";
 import QuestionApiService from "@/services/questions.api";
 // import AuthDialog from "@/components/User/AuthDialog.vue";
+import { eventBus } from "@/mixins/event-bus";
 
 @Component({
   name: "QuestionList",
@@ -25,6 +26,16 @@ export default class QuestionList extends Vue {
   @Prop({ default: () => ({}) }) readonly filter!: FilterQuestionsDTO;
   // showAuthDialog = false;
   async mounted() {
+    eventBus.$on("filterQuestions", async (filterData: any) => {
+      // Handle the event data
+      console.log(filterData.query);
+      await this.getQList();
+    });
+
+    this.getQList();
+  }
+
+  async getQList() {
     this.questions = await QuestionApiService.getQuestions(this.filter);
   }
 

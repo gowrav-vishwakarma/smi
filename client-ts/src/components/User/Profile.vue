@@ -136,19 +136,25 @@
             v-card-text
               User-Rating(v-if="profile.reputationAsQuestioner" :User="userAsQuestioner")
           v-card.mt-4
-            v-card-subtitle Rating as Answer
+            v-card-subtitle Rating as Solver
             v-card-text
               User-Rating-As-Solver(v-if="profile.ratingAsSolver" :User="userAsSolver")           
           v-card.mt-4
+            v-btn.ml-4(small rounted icon color="primary" @click="editProfile=false, editingProfileSection='contact'" v-if="editingProfileSection==null")
+              v-icon mdi-pencil
+            v-btn.ml-4(small rounted icon color="primary" @click="saveProfile" v-if="editingProfileSection==='contact'")
+              v-icon mdi-content-save
+            v-btn.ml-4(small rounted icon color="primary" @click="editProfile=false, editingProfileSection=null" v-if="editingProfileSection==='contact'")
+              v-icon mdi-delete
             v-list
               v-list-item
                 v-list-item-icon
                   v-icon(color="indigo" small) mdi-phone
-                v-list-item-content
+                v-list-item-content(v-if="editingProfileSection=='contact'")
+                  v-text-field(v-model="profile.contactNo" label="contact no")
+                v-list-item-content(v-else)
                   v-list-item-title {{profile.contactNo}}
-                  v-list-item-subtitle contactNo
-                v-list-item-icon
-                  v-icon mdi-message-text
+                  v-list-item-subtitle contact No
               v-divider(inset)
               v-list-item
                 v-list-item-icon
@@ -239,9 +245,8 @@ export default class UserProfileComponent extends Vue {
       state: "Gujrat",
       country: "India",
       jobType: "Full Time",
-      role: "<p>Full Stack Developer </p> <h2>Creating all Frontend & backend</h2>",
-      description:
-        "<p>Full Stack Developer </p> <h2>Creating all Frontend & backend</h2>",
+      role: "Full Stack Developer Creating all Frontend & backend",
+      description: "Full Stack Developer Creating all Frontend & backend",
     },
   ];
 
@@ -262,9 +267,9 @@ export default class UserProfileComponent extends Vue {
     this.profile = await UserApiService.getProfile(
       this.$store.getters.loggedInUser._id
     );
-    // if (!this.profile.experiences) {
-    //   this.profile["experiences"] = this.userExperienceList;
-    // }
+    if (!this.profile.experiences) {
+      this.profile["experiences"] = this.userExperienceList;
+    }
   }
 
   async saveProfile() {
@@ -305,6 +310,13 @@ export default class UserProfileComponent extends Vue {
         postData = {
           userId: this.$store.getters.loggedInUser._id,
           socialProfile: this.profile.socialProfile,
+        };
+        break;
+
+      case "contact":
+        postData = {
+          userId: this.$store.getters.loggedInUser._id,
+          contactNo: this.profile.contactNo,
         };
         break;
 
