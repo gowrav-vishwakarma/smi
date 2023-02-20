@@ -8,7 +8,7 @@
                         small Rating -
                         span.ml-1.primary--text(style="font-size:1em")  {{reputation}}
                     v-list-item-subtitle 
-                        small By {{User.reputationAsQuestioner.totalRatingsCount}} user
+                        small By {{User.ratingAsSolver.totalRatingsCount}} user
 </template>
 
 <script lang="ts">
@@ -17,26 +17,28 @@ import { Prop, Component } from "vue-property-decorator";
 import ByUser from "@/dto/byUser.dto";
 
 @Component({
-  name: "UserRating",
+  name: "UserRatingAsSolver",
 })
 export default class ByUserComponent extends Vue {
   @Prop({ default: null, required: true }) User!: ByUser;
 
   get reputation(): number {
+    const totalSolutionsAttempted =
+      this.User.ratingAsSolver.totalOfferingCount +
+      this.User.ratingAsSolver.totalCommentsCount;
     const accpectedRatio =
-      this.User.reputationAsQuestioner.totalMarkedSolved /
-      this.User.reputationAsQuestioner.totalQuestionsAsked;
+      this.User.ratingAsSolver.totalAcceptedCount / totalSolutionsAttempted;
     const accpectedRatioFixed = isNaN(accpectedRatio) ? 0 : accpectedRatio;
     const rating =
-      this.User.reputationAsQuestioner.totalRatingsSum /
-      this.User.reputationAsQuestioner.totalRatingsCount;
-    return isNaN(rating) ? 0 : rating;
-    // const ratingFixed = isNaN(rating) ? 0 : rating;
-    // return `Accpeted ${accpectedRatioFixed}% out of ${this.User.reputationAsQuestioner.totalQuestionsAsked} with ${ratingFixed} star rating`;
+      this.User.ratingAsSolver.totalRatingSum /
+      this.User.ratingAsSolver.totalRatingCount;
+    const ratingFixed = isNaN(rating) ? 0 : rating;
+    // return `(${ratingFixed}) ${accpectedRatioFixed}% accepted of ${totalSolutionsAttempted}`;
+    return ratingFixed;
   }
 
   mounted() {
-    console.log("this.User inside rating", this.User);
+    console.log("this.User inside rating as solver", this.User);
   }
 }
 </script>

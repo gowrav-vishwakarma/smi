@@ -8,6 +8,14 @@ class ReputationAsQuestioner {
   totalRatingsSum!: number;
 }
 
+class ReputationAsSolver {
+  totalOfferingCount!: number;
+  totalRatingCount!: number;
+  totalRatingSum!: number;
+  totalCommentsCount!: number;
+  totalCommentsVoteCount!: number;
+  totalAcceptedCount!: number;
+}
 export default class ByUser {
   _id!: string;
 
@@ -16,4 +24,6 @@ export default class ByUser {
   languagesSpeaks!: string[];
 
   reputationAsQuestioner!: ReputationAsQuestioner;
+
+  ratingAsSolver!: ReputationAsSolver;
 }

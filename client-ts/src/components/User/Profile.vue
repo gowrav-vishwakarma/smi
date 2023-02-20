@@ -132,9 +132,13 @@
 
         v-col(cols="4")
           v-card.mt-4
-            v-card-title Todo Rating as Questioner
+            v-card-subtitle Rating as Questioner
+            v-card-text
+              User-Rating(v-if="profile.reputationAsQuestioner" :User="userAsQuestioner")
           v-card.mt-4
-            v-card-title Todo Rating as Answer
+            v-card-subtitle Rating as Answer
+            v-card-text
+              User-Rating-As-Solver(v-if="profile.ratingAsSolver" :User="userAsSolver")           
           v-card.mt-4
             v-list
               v-list-item
@@ -182,11 +186,14 @@ import userExperience from "../../dto/user/experience.dto";
 // import QuestionerSignature from "@/components/User/Signature/AsQuestioner.vue";
 import UserRating from "@/components/User/Rating.vue";
 import UserApiService from "@/services/user.api";
+import UserRatingAsSolver from "@/components/User/RatingAsSolver.vue";
 
 @Component({
   name: "UserProfile",
   components: {
     UserRating,
+    // QuestionerSignature,
+    UserRatingAsSolver,
   },
 })
 export default class UserProfileComponent extends Vue {
@@ -239,6 +246,17 @@ export default class UserProfileComponent extends Vue {
   ];
 
   profile: any = {};
+
+  get userAsQuestioner() {
+    return {
+      reputationAsQuestioner: this.profile.reputationAsQuestioner,
+    };
+  }
+  get userAsSolver() {
+    return {
+      ratingAsSolver: this.profile.ratingAsSolver,
+    };
+  }
 
   async mounted() {
     this.profile = await UserApiService.getProfile(
