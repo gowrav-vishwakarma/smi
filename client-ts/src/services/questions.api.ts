@@ -11,6 +11,7 @@ class QuestionsAPIService extends APIService {
     const response = await this.axiosCall<QuestionListResponseDTO[]>({
       method: "GET",
       url: "/questions",
+      params: filter,
     });
     return response;
   }

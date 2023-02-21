@@ -41,6 +41,14 @@ export class QuestionsService {
   ): Promise<QuestionDocument[] | any> {
     const { page = 1, sort = false } = filterOptions;
     const matchCondition = {};
+
+    if (filterOptions.query) {
+      const searchRegex = new RegExp('.*' + filterOptions.query + '.*', 'i');
+
+      matchCondition['title'] = {
+        $regex: searchRegex,
+      };
+    }
     if (filterOptions.topics) {
       matchCondition['topic'] = { $in: filterOptions.topics };
     }

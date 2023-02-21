@@ -73,4 +73,9 @@ export class GetQuestionsDTO {
   @ApiPropertyOptional({ default: null })
   @IsString()
   sort: string;
+
+  @IsOptional()
+  @ApiPropertyOptional({ default: null })
+  @IsString()
+  query: string;
 }

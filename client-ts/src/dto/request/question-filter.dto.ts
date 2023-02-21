@@ -62,4 +62,8 @@ export class FilterQuestionsDTO {
   @IsOptional()
   @IsString()
   sort?: string;
+
+  @IsOptional()
+  @IsString()
+  query?: string;
 }

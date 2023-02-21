@@ -29,6 +29,7 @@ export default class QuestionList extends Vue {
     eventBus.$on("filterQuestions", async (filterData: any) => {
       // Handle the event data
       console.log(filterData.query);
+      this.filter.query = filterData.query;
       await this.getQList();
     });
 
