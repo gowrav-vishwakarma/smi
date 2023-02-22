@@ -39,6 +39,7 @@ export class QuestionsService {
     user?: any,
     filterMyQuestionsOnly: boolean = false,
   ): Promise<QuestionDocument[] | any> {
+    console.log('searchQuestions', filterOptions);
     const { page = 1, sort = false } = filterOptions;
     const matchCondition = {};
 
@@ -49,10 +50,16 @@ export class QuestionsService {
         $regex: searchRegex,
       };
     }
-    if (filterOptions.topics) {
+
+    if (
+      filterOptions.topics &&
+      filterOptions.topics.length > 0 &&
+      Boolean(filterOptions.topics)
+    ) {
       matchCondition['topic'] = { $in: filterOptions.topics };
     }
-    if (filterOptions.tags) {
+
+    if (filterOptions.tags && filterOptions.tags.length) {
       matchCondition['tags'] = { $in: filterOptions.tags };
     }
 

@@ -9,9 +9,10 @@ class QuestionsAPIService extends APIService {
     filter: FilterQuestionsDTO | Record<string, never>
   ): Promise<QuestionListResponseDTO[]> {
     const response = await this.axiosCall<QuestionListResponseDTO[]>({
-      method: "GET",
+      method: "POST",
+      // method: "GET",
       url: "/questions",
-      params: filter,
+      data: filter,
     });
     return response;
   }

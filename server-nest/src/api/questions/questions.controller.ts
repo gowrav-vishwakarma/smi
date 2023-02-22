@@ -33,13 +33,13 @@ export class QuestionsController {
     private readonly mediaService: MediaService,
   ) {}
 
-  @Get()
+  @Post()
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @UseGuards(OptionalJwtAuthGuard)
   getQuestions(
     @GetUser() user: UserDocument,
-    @Query() filterOptions: GetQuestionsDTO,
+    @Body() filterOptions: GetQuestionsDTO,
   ): QuestionDocument[] | any {
     return this.questionsService.searchQuestions(filterOptions, user);
   }

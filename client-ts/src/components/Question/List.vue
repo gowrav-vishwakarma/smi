@@ -28,16 +28,21 @@ export default class QuestionList extends Vue {
   async mounted() {
     eventBus.$on("filterQuestions", async (filterData: any) => {
       // Handle the event data
-      console.log(filterData.query);
-      this.filter.query = filterData.query;
-      await this.getQList();
+      // console.log(filterData.query);
+      // this.filter.query = filterData;
+      await this.getQList(filterData);
     });
 
-    this.getQList();
+    this.getQList({});
   }
 
-  async getQList() {
-    this.questions = await QuestionApiService.getQuestions(this.filter);
+  async getQList(filterData: any) {
+    let filterQuery = this.filter;
+    if (filterData != undefined) {
+      filterQuery = filterData;
+    }
+
+    this.questions = await QuestionApiService.getQuestions(filterQuery);
   }
 
   authDialogCallback(value: any) {
