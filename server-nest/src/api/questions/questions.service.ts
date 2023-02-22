@@ -51,11 +51,7 @@ export class QuestionsService {
       };
     }
 
-    if (
-      filterOptions.topics &&
-      filterOptions.topics.length > 0 &&
-      Boolean(filterOptions.topics)
-    ) {
+    if (filterOptions.topics) {
       matchCondition['topic'] = { $in: filterOptions.topics };
     }
 
