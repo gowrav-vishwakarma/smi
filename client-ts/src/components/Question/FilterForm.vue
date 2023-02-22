@@ -36,7 +36,7 @@ import questionsApi from "@/services/questions.api";
 })
 export default class AskQuestionView extends Vue {
   @Prop()
-  callback: () => void;
+  callback!: (any: any) => void;
 
   progress = 0;
   blob = null;
