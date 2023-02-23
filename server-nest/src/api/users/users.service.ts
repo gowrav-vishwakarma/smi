@@ -37,6 +37,10 @@ export class UsersService {
         { _id: updateUserDto.userId },
         updateUserDto,
       );
+
+      // const um = await this.userModel.findById(updateUserDto.userId).exec();
+      // um.experiences = updateUserDto.experiences;
+      // return um.save();
     } catch (error) {
       if (error.code === 11000) {
         throw new ConflictException('Username already exists');

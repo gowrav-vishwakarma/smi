@@ -1,5 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+
 import * as bcrypt from 'bcrypt';
 
 export type UserDocument = User & Document;
@@ -103,8 +104,11 @@ const asFollowingDefaults = {
   userFollowingIds: [],
 };
 
-@Schema({ _id: false })
+@Schema()
 class experienceType {
+  // @Prop({ type: MongooseSchema.Types.ObjectId, auto: true, required: true })
+  // _id: MongooseSchema.Types.ObjectId;
+
   @Prop({ type: String })
   companyName: string;
 
@@ -135,6 +139,8 @@ class experienceType {
   @Prop({ type: String })
   description: string;
 }
+
+export const experienceSchema = SchemaFactory.createForClass(experienceType);
 
 @Schema({ _id: false })
 class socialProfileType {
@@ -262,12 +268,14 @@ export class User {
   asFollowing: Record<string, any>;
 
   @Prop(
-    raw({
-      type: experienceType,
+    // raw(
+    {
+      type: [Object],
       default: [],
-    }),
+    },
+    // ),
   )
-  experiences: Record<string, any> = [];
+  experiences: experienceType[] = [];
 
   @Prop({ type: [], default: [] })
   skills: String[]; //as topic data
@@ -282,6 +290,7 @@ export class User {
   jobType: string;
 }
 
+// export const ExperienceType = SchemaFactory.createForClass(experienceType);
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.pre<UserDocument>('save', function (next) {
