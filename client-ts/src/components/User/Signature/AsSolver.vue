@@ -40,5 +40,7 @@ export default class ByUserComponent extends Vue {
   @Prop({ default: false }) disableAvatar: any;
 
   @Prop({ default: false }) disableName: any;
+
+  reputation = 0;
 }
 </script>

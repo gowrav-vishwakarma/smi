@@ -11,6 +11,19 @@ class SolutionsAPIService extends APIService {
       data: solutionAttempt,
     });
   }
+
+  async createSolutionRating(ratingParam: {
+    rating: number;
+    comment: string;
+    solutionAttemptId: string;
+  }): Promise<any> {
+    console.log("Rating Data", ratingParam);
+    return await this.axiosCall<any>({
+      method: "POST",
+      url: "/solution-attempt/createrating",
+      data: ratingParam,
+    });
+  }
 }
 
 export default new SolutionsAPIService();

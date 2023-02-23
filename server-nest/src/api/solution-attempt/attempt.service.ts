@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { CreateSolutionAttemptDTO } from '../dto/create-solution-attempt.dto';
+import { CreateSolutionRatingDTO } from '../dto/create-solution-rating.dto';
 import {
   SolutionAttempted,
   SolutionAttemptedDocument,
@@ -35,5 +36,13 @@ export class SolutionAttemptService {
     });
 
     return newAttempt;
+  }
+
+  async creatingRating(
+    ratingParams: CreateSolutionRatingDTO,
+  ): Promise<SolutionAttemptedDocument> {
+    return await this.solutionAttemptedModel.findById(
+      ratingParams.solutionAttemptId,
+    );
   }
 }

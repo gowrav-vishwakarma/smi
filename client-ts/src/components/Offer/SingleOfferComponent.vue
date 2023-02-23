@@ -5,7 +5,6 @@
             | {{offer.Offerer.name}}
             v-icon(small @click="call" v-if="questionBelongsToMe && !offerCallConnected") mdi-phone
             v-icon(small @click="callDisconnect" v-if="offerCallConnected") mdi-phone-cancel
-      
       //- videocall(:offer="offer" :question="question")
       v-card(flat v-if="offerCallConnected")
         div

@@ -2,13 +2,16 @@
   v-container
     P Solution Attempt 
     div(style="height: 100vh")
-        vue-jitsi-meet(ref="jitsiRef" domain="meet.jit.si" :options="jitsiOptions")
+      vue-jitsi-meet(ref="jitsiRef" domain="meet.jit.si" :options="jitsiOptions" v-if="!showRatingDialog")
+    v-dialog(v-model="showRatingDialog" max-width="400")
+      SolutionRatingForm
 </template>
 
 <script lang="ts">
 import { Component, Mixins, Ref } from "vue-property-decorator";
 import { General } from "@/mixins/general";
 // import { JitsiMeet } from "@mycure/vue-jitsi-meet";
+import SolutionRatingForm from "@/components/Common/SolutionRatingForm.vue";
 
 import JitsiMeet from "@/components/Multicorder/JitsiMeet.vue";
 
@@ -16,11 +19,14 @@ import JitsiMeet from "@/components/Multicorder/JitsiMeet.vue";
   name: "SolutionAttempt",
   components: {
     VueJitsiMeet: JitsiMeet,
+    SolutionRatingForm,
   },
 })
 export default class SolutionAttempt extends Mixins(General) {
   // eslint-disable-next-line
   @Ref("jitsiRef") private jitsiRefComponent!: HTMLIFrameElement;
+
+  showRatingDialog = false;
 
   get jitsiOptions() {
     return {
@@ -99,10 +105,16 @@ export default class SolutionAttempt extends Mixins(General) {
   }
 
   onParticipantLeft(event: any) {
-    alert("hello");
     console.log("callbackevent onParticipant Left roomName", event);
-    this.$router.push("/");
+    this.showRatingDialog = true;
+    // this.$router.push("/");
   }
+
+  videoConferenceLeft(event: any) {
+    console.log("callbackevent video conference left");
+    this.showRatingDialog = true;
+  }
+
   onParticipantJoined() {
     alert("participent joinded");
   }
