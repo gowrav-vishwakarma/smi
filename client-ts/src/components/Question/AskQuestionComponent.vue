@@ -140,7 +140,7 @@ export default class AskQuestionView extends Vue {
         this.progress = Math.round((100 * event.loaded) / event.total);
       }
     );
-    // this.$router.push("question/" + newQuestion._id);
+    this.$router.push("question/" + newQuestion._id);
   }
 }
 </script>

@@ -8,7 +8,10 @@
         v-card.question-description-image(color="primary lighten-3" flat v-if="question.image")
           v-card-body
             v-img(src="@/assets/logo.png" max-height="350" contain)
-        v-card.question-description-video(color="primary lighten-3" flat v-if="question.video")          
+        v-card.question-description-video(color="primary lighten-3" flat v-if="question.video")
+          v-card-body
+            video(width="320" height="240" controls)
+              source(:src="question.video" type="video/webm")
     .d-flex.mt-3
       .caption.grey--text.lighten-4 asked {{ humanized_time_span(question.createdAt) }}
       .caption.primary--text.lighten-4.ml-auto {{convertTotag(question.tags)}}

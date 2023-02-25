@@ -91,7 +91,7 @@ export class QuestionsController {
     const questionData = {
       ...question,
       questionerId: user._id,
-      video: video ? video.originalname : null,
+      // video: video ? video.originalname : null,
     };
 
     const createdQuestion = await this.questionsService.createQuestion(
