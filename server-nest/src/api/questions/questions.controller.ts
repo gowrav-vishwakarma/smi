@@ -99,7 +99,15 @@ export class QuestionsController {
     );
 
     if (video) {
-      await this.mediaService.createMedia(video, createdQuestion._id);
+      const mediaRes = await this.mediaService.createMedia(
+        video,
+        createdQuestion._id,
+      );
+      await this.questionsService.updateVideoURL(
+        createdQuestion._id,
+        mediaRes.Location,
+      );
+      createdQuestion.video = mediaRes.Location;
     }
     return createdQuestion;
   }

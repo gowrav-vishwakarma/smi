@@ -128,6 +128,7 @@ export default class AskQuestionView extends Vue {
   recorderOndataavailable(blob: any) {
     this.blob = blob;
   }
+
   async createQuestion() {
     this.progress = 0;
     var data = this.question;
@@ -139,7 +140,7 @@ export default class AskQuestionView extends Vue {
         this.progress = Math.round((100 * event.loaded) / event.total);
       }
     );
-    this.$router.push("question/" + newQuestion._id);
+    // this.$router.push("question/" + newQuestion._id);
   }
 }
 </script>

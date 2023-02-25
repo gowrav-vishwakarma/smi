@@ -93,8 +93,10 @@
                       v-row
                         v-col
                           v-text-field(v-model="newExperience.from" label="Joining Date")
+                          v-date-picker(v-model="newExperience.from")
                         v-col
                           v-text-field(v-model="newExperience.to" label="end Date")
+                          v-date-picker(v-model="newExperience.to")
                       v-row
                         v-col
                           v-text-field(v-model="newExperience.city" label="city")
@@ -204,6 +206,7 @@ import UserRatingAsSolver from "@/components/User/RatingAsSolver.vue";
 })
 export default class UserProfileComponent extends Vue {
   @Ref() userSkillForm!: HTMLFormElement;
+
   //Editing Form
   editProfile = false;
   editingProfileSection: string | null = null;

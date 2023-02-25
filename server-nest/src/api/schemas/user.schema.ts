@@ -105,7 +105,7 @@ const asFollowingDefaults = {
 };
 
 @Schema()
-class experienceType {
+class experienceType extends Document {
   // @Prop({ type: MongooseSchema.Types.ObjectId, auto: true, required: true })
   // _id: MongooseSchema.Types.ObjectId;
 
@@ -267,15 +267,18 @@ export class User {
   )
   asFollowing: Record<string, any>;
 
-  @Prop(
-    // raw(
-    {
-      type: [Object],
-      default: [],
-    },
-    // ),
-  )
-  experiences: experienceType[] = [];
+  // @Prop(
+  //   // raw(
+  //   {
+  //     type: experienceSchema,
+  //     default: [],
+  //   },
+  //   // ),
+  // )
+  // experiences: experienceType[] = [];
+  // experiences: Record<string, any> = [];
+  @Prop({ type: [experienceSchema], default: [] })
+  experiences: experienceType[];
 
   @Prop({ type: [], default: [] })
   skills: String[]; //as topic data

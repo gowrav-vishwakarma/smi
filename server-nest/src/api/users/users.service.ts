@@ -37,7 +37,6 @@ export class UsersService {
         { _id: updateUserDto.userId },
         updateUserDto,
       );
-
       // const um = await this.userModel.findById(updateUserDto.userId).exec();
       // um.experiences = updateUserDto.experiences;
       // return um.save();

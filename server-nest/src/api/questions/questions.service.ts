@@ -39,7 +39,6 @@ export class QuestionsService {
     user?: any,
     filterMyQuestionsOnly: boolean = false,
   ): Promise<QuestionDocument[] | any> {
-    console.log('searchQuestions', filterOptions);
     const { page = 1, sort = false } = filterOptions;
     const matchCondition = {};
 
@@ -60,7 +59,6 @@ export class QuestionsService {
     }
 
     if (filterMyQuestionsOnly) {
-      console.log('filterMyQuestionsOnly', filterMyQuestionsOnly);
       matchCondition['questionerId'] = user._id;
     }
 
@@ -285,9 +283,7 @@ export class QuestionsService {
 
     pipeline.push({ $unwind: '$User' });
 
-    console.log('user found ??? ', user);
     if (user) {
-      console.log('user found ====== ', user);
       // Include my vote
       pipeline.push({
         $lookup: {
@@ -383,5 +379,14 @@ export class QuestionsService {
     );
 
     return offerDetails;
+  }
+
+  async updateVideoURL(qId: string, videoS3Path: string) {
+    return await this.questionModel.updateOne(
+      { _id: qId },
+      {
+        video: videoS3Path,
+      },
+    );
   }
 }
