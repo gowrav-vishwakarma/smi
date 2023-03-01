@@ -1,6 +1,8 @@
 <template>
-  <v-container grid-list-xs class="d-flex justify-center">
-    <login-component></login-component>
+  <v-container class="text-center mt-4" style="max-width: 500px">
+    <v-card elevation="2" class="pa-4">
+      <login-component></login-component>
+    </v-card>
   </v-container>
 </template>
 

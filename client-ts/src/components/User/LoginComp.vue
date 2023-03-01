@@ -1,14 +1,14 @@
 <template>
-  <div class="d-flex flex-column align-center">
-    <h2 class="head py-5">Login to your Account</h2>
-    <div class="mt-3">
+  <div class="align-center">
+    <h3 class="text-h5 pa-3">Login to your Account</h3>
+    <div class="mt-6">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
           v-model="logForm.emailL"
           :rules="emailRules"
-          placeholder="Enter your email id"
+          placeholder="Email ID"
+          label="Enter your email id"
           outlined
-          dense
           required
           class="field"
         ></v-text-field>
@@ -18,12 +18,12 @@
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           :type="showPassword ? 'text' : 'password'"
           placeholder="Password"
+          label="Password"
           outlined
-          dense
-          class="field mt-2"
+          class="field"
           @click:append="showPassword = !showPassword"
         ></v-text-field>
-        <div class="field mt-2 d-flex align-start justify-space-between">
+        <div class="field mt-4 mb-4 d-flex align-start justify-space-between">
           <span>
             <input type="checkbox" class="mr-1 ml-1" v-model="remember" />
             <label>Remember me</label>
@@ -36,7 +36,13 @@
         </div>
       </v-form>
     </div>
-    <v-btn class="lgnbtn" @click="login" block color="primary" rounded>
+    <v-btn
+      class="lgnbtn mt-4 mb-4"
+      @click="login"
+      block
+      color="primary"
+      rounded
+    >
       Login
     </v-btn>
     <p>
@@ -109,14 +115,14 @@ export default class LoginComponent extends Vue {
 /* @import url("https://fonts.googleapis.com/css? family=Oxygen:300,400,700&display=swap");
 @import url("https://fonts.googleapis.com/css? family=Comfortaa&display=swap"); */
 
-.head {
+/* .head {
   font-family: "Inter", sans-serif;
   font-weight: 400;
   font-size: 24px;
   line-height: 29.05px;
   color: #000000;
-}
-.field {
+} */
+/* .field {
   width: 596px;
   height: 58px;
   border-radius: 12px;
@@ -125,7 +131,7 @@ export default class LoginComponent extends Vue {
   font-size: 15px;
   line-height: 24.2px;
   color: #777777;
-}
+} */
 /* .lgnbtn {
   width: 388px;
   height: 52px;
